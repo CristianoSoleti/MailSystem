@@ -33,6 +33,7 @@ public class Server {
         try {
             while (true) {
                 new MailThread(listener.accept(), clientNumber++).start();
+                System.out.println("here i am!");
             }
         } finally {
             listener.close();
