@@ -6,6 +6,9 @@ import java.awt.event.WindowAdapter;	//for CloseListener()
 import java.lang.Integer;		//int from Model is passed as an Integer
 import java.util.Observable;		//for update();
 import java.awt.event.ActionListener;	//for addController()
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.*;
 
 
@@ -25,6 +28,7 @@ class ClientView implements java.util.Observer {
 		JFrame frame = new JFrame(frameName);
 		frame.add("North", table);
 
+
 		//panel in constructor and not an attribute as doesn't need to be visible to whole class
 		Panel mainPanel 		= new Panel();
 		mainPanel.add(newMailBtn);
@@ -37,11 +41,14 @@ class ClientView implements java.util.Observer {
 		frame.add("South", subPanel);	
 
 		//frame.addWindowListener(new CloseListener());	
-		frame.setSize(400,100);
+		frame.setSize(800,200);
 		frame.setLocation(100,100);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		
+		
+		
 	} //View()
 
 	// Called from the Model
@@ -64,12 +71,15 @@ class ClientView implements java.util.Observer {
 
 	
     	
-	public void addController(ActionListener controller){
+	public void addController(ActionListener controller,MouseListener e){
 		System.out.println("View      : adding controller");
-		//button.addActionListener(controller);	//need instance of controller before can add it as a listener 
-	} //addController()
+		newMailBtn.addActionListener(controller);	//need instance of controller before can add it as a listener 
+		readMailBtn.addActionListener(controller);
+		table.addMouseListener(e);
+	} 
 	
 
+	
 	public JTable getTable()
 	{
 		return table;

@@ -1,59 +1,114 @@
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.*;
 
-class ClientController implements java.awt.event.ActionListener {
+/*
+ * Controller extends action listener cause he needs to perform actions on events like click.
+ */
+class ClientController implements ActionListener, MouseListener {
 
-	//Joe: Controller has Model and View hardwired in
+	public String[] columnNames = { "Type", "Source", "Subject", "Date" };
+	public Object[][] data;
+	/*
+	 * reference to client model
+	 */
 	ClientModel model;
+	/*
+	 * reference to client view
+	 */
 	ClientView view;
 
-	ClientController() {	
-		System.out.println ("Controller()");
-	} //Controller()
+	ClientController() {
+		System.out.println("Controller()");
+	}
 
-	//invoked when a button is pressed
-	public void actionPerformed(java.awt.event.ActionEvent e){
-		//uncomment to see what action happened at view
-		/*
-		System.out.println ("Controller: The " + e.getActionCommand() 
-			+ " button is clicked at " + new java.util.Date(e.getWhen())
-			+ " with e.paramString " + e.paramString() );
-		*/
-		System.out.println("Controller: acting on Model");
-		//model.incrementValue();
-	} //actionPerformed()
+	// invoked when a button is pressed
+	public void actionPerformed(ActionEvent e) {
 
-	//Joe I should be able to add any model/view with the correct API
-	//but here I can only add Model/View
-	public void addModel(ClientModel m){
+		System.out.println("Controller: The " + e.getActionCommand() + " button is clicked");
+		switch(e.getActionCommand())
+		{
+		case "Create":
+			System.out.println("Controller: Open Mail Editor");
+			break;
+			
+		case "Read":
+			System.out.println("Controller: Reading Mail");
+			break;
+			
+		default:
+			break;
+		}
+		// model.incrementValue();
+
+	}
+
+	/*
+	 * mouse listener for clicking events
+	 */
+	public void addMouseListener(MouseEvent e) {
+	}
+
+	public void addModel(ClientModel m) {
 		System.out.println("Controller: adding model");
 		this.model = m;
-	} //addModel()
+	}
 
-	public void addView(ClientView v){
+	public void addView(ClientView v) {
 		System.out.println("Controller: adding view");
 		this.view = v;
-	} //addView()
-
-	public DefaultTableModel initData(){
-		
-		String[] columnNames = {"Type", "Source", "Subject", "Date" };
-		Object[][] data = {
-				
-				{"Received", "Cristiano Soleti", "Porn Pics", new Date(2017, 4, 21).getDate()},
-				{"Received", "Cristiano Soleti", "Porn Pics", "2017/4/21"}
-				
-		};
-		
-		DefaultTableModel model;
-		model = new DefaultTableModel(data, columnNames);
-		return model;
-		
-	}
-	
-	public void refreshViewTableData(){
-		
-		view.getTable().setModel(initData());
-		
 	}
 
-} //Controller
+	/*
+	 * setting datas from method
+	 */
+	public void setData(Object a[][]) {
+		data = a;
+	}
+
+	/*
+	 * making table not editable.(If you click on the table GUI it won't let you
+	 * change anything)
+	 */
+	@SuppressWarnings("serial")
+	public void refreshViewTableData() {
+
+		view.getTable().setModel(new DefaultTableModel(data, columnNames) {
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		});
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		System.out.println("Controller: Opening mail at row " + view.getTable().getSelectedRow());
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

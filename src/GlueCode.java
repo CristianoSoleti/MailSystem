@@ -1,16 +1,17 @@
-//RunMVC.java
-//(C) Joseph Mack 2011, jmack (at) wm7d (dot) net, released under GPL v3 (or any later version)
-
 public class GlueCode {
 
 	//The order of instantiating the objects below will be important for some pairs of commands.
 	//I haven't explored this in any detail, beyond that the order below works.
 
-	private int start_value = 10;	//initialise ClientModel, which in turn initialises ClientView
 
 	public GlueCode() {
-
-		//create ClientModel and ClientView
+		Object[][] data = {
+				
+				{"Received", "Cristiano Soleti", "Porn Pics", new Date(2017, 4, 21).getDate()},
+				{"Received", "Cristiano Soleti", "Porn Pics", "2017/4/21"}
+				
+		};
+		
 		ClientModel myClientModel 	= new ClientModel();
 		ClientView myClientView 	= new ClientView("cristiano.soleti@edu.unito.it");
 
@@ -28,11 +29,12 @@ public class GlueCode {
 		ClientController myClientController = new ClientController();
 		myClientController.addModel(myClientModel);
 		myClientController.addView(myClientView);
+		myClientController.setData(data);
 		myClientController.refreshViewTableData();
 		//myClientController.initModel(start_value);
 
 		//tell ClientView about ClientController 
-		//myClientView.addController(myClientController);
+		myClientView.addController(myClientController,myClientController);
 		//and ClientModel, 
 		//this was only needed when the ClientView inits the ClientModel
 		//myClientView.addClientModel(myClientModel);
