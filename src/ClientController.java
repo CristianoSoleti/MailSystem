@@ -6,8 +6,7 @@ import java.awt.event.*;
  */
 class ClientController implements ActionListener, MouseListener {
 
-	public String[] columnNames = { "Type", "Source", "Subject", "Date" };
-	public Object[][] data;
+	static boolean isMailEditorOpen = false;
 	/*
 	 * reference to client model
 	 */
@@ -28,7 +27,7 @@ class ClientController implements ActionListener, MouseListener {
 		switch(e.getActionCommand())
 		{
 		case "Create":
-			System.out.println("Controller: Open Mail Editor");
+			createMail();
 			break;
 			
 		case "Read":
@@ -42,10 +41,20 @@ class ClientController implements ActionListener, MouseListener {
 
 	}
 
+	public void createMail()
+	{
+		if(isMailEditorOpen){
+			return;
+		}
+		System.out.println("Controller: Open Mail Editor");
+		view.createMailFrame();
+		isMailEditorOpen  = true;
+	}
 	/*
 	 * mouse listener for clicking events
 	 */
 	public void addMouseListener(MouseEvent e) {
+		
 	}
 
 	public void addModel(ClientModel m) {
@@ -62,17 +71,20 @@ class ClientController implements ActionListener, MouseListener {
 	 * setting datas from method
 	 */
 	public void setData(Object a[][]) {
-		data = a;
+		model.data = a;
 	}
 
 	/*
 	 * making table not editable.(If you click on the table GUI it won't let you
 	 * change anything)
 	 */
+	
+	
+	
 	@SuppressWarnings("serial")
 	public void refreshViewTableData() {
 
-		view.getTable().setModel(new DefaultTableModel(data, columnNames) {
+		view.getTable().setModel(new DefaultTableModel(model.data, model.columnNames) {
 
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -84,7 +96,11 @@ class ClientController implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Controller: Opening mail at row " + view.getTable().getSelectedRow());
+
+		int selectedRow = view.getTable().getSelectedRow();
+		System.out.println("Controller: Opening mail at row " + view.getTable().getSelectedRow() );
+		view.readMailFrame(model.data[selectedRow][1].toString(),model.data[selectedRow][2].toString());
+		
 	}
 
 	@Override

@@ -1,17 +1,13 @@
 public class GlueCode {
 
-	//The order of instantiating the objects below will be important for some pairs of commands.
-	//I haven't explored this in any detail, beyond that the order below works.
+	
 
-
+	/*
+	 *  The order of instantiating the objects below will be important for some pairs of commands.
+	 *  I haven't explored this in any detail, beyond that the order below works.
+	 */
 	public GlueCode() {
-		Object[][] data = {
-				
-				{"Received", "Cristiano Soleti", "Porn Pics", new Date(2017, 4, 21).getDate()},
-				{"Received", "Cristiano Soleti", "Porn Pics", "2017/4/21"}
-				
-		};
-		
+
 		ClientModel myClientModel 	= new ClientModel();
 		ClientView myClientView 	= new ClientView("cristiano.soleti@edu.unito.it");
 
@@ -29,7 +25,6 @@ public class GlueCode {
 		ClientController myClientController = new ClientController();
 		myClientController.addModel(myClientModel);
 		myClientController.addView(myClientView);
-		myClientController.setData(data);
 		myClientController.refreshViewTableData();
 		//myClientController.initModel(start_value);
 
@@ -44,7 +39,7 @@ public class GlueCode {
 	public static void main(String[] args){
 
 		GlueCode mainRunMVC = new GlueCode();
-
+		
 	} //main()	
 	
 } //RunMVC

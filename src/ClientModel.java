@@ -3,8 +3,18 @@ import javax.swing.table.DefaultTableModel;
 public class ClientModel extends java.util.Observable {	
 	
 	String[] columnNames = {"Type", "Source", "Subject", "Date" };
-	Object[][] data = {};
+	public Object[][] data = {
+			
+			{"Sent", "Cristiano Soleti", "Send Nudes please", new Date(2017, 4, 21).getDate()},
+			{"Received", "Davide Brunetti", "Wrong destination my friend", "2017/4/21"}
+			
+	};
 	DefaultTableModel tableModel;
+	
+	String receiver = "";
+	String subject = "";
+	String textMessage = "";
+	
 	public ClientModel(){
 
 		System.out.println("Model()");
@@ -46,6 +56,19 @@ public class ClientModel extends java.util.Observable {
 	public void updateModel()
 	{
 		
+	}
+	
+	public void setReceiver(String receiver)
+	{
+		this.receiver = receiver;
+	}
+	public void setSubject(String subject)
+	{
+		this.receiver = subject;
+	}
+	public void setMessage(String message)
+	{
+		this.receiver = message;
 	}
 	
 	//uncomment this if View is using Model Pull to get the counter
