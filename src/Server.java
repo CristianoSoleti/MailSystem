@@ -25,31 +25,32 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Server {
 
-	static ArrayList<Boolean> connectedClient = new ArrayList<Boolean>();
+	private static Server instance = null;
+
+	static ArrayList<Socket> connectedClient = new ArrayList<Socket>();
 	static ArrayList<Integer> numberOfClients = new ArrayList<Integer>();
 
 	static int i = 0;
-	static String[] columnNames = {"Client #", "Connection", "Date" };
+	static String[] columnNames = { "Client #", "Port", "Date" };
 	public static Object[][] data = new Object[5][3];
 	DefaultTableModel tableModel;
-	
-	public JLabel informationLbL  = new JLabel("Mail Server");
+
+	public JLabel informationLbL = new JLabel("Mail Server");
 	private static JTable table = new JTable();
 
-	Server() {
+	protected Server() {
 
 		System.out.println("ClientView Created");
 
 		// frame in constructor and not an attribute as doesn't need to be
 		// visible to whole class
 		JFrame frame = new JFrame("MailServer");
-		
-		
+
 		// panel in constructor and not an attribute as doesn't need to be
 		// visible to whole class
 		Panel mainPanel = new Panel();
-		mainPanel.add("Center",informationLbL);
-		mainPanel.add("South",table);
+		mainPanel.add("Center", informationLbL);
+		mainPanel.add("South", table);
 
 		frame.add("Center", mainPanel);
 
@@ -63,7 +64,14 @@ public class Server {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	} // View()
+
 	
+	 public static Server getInstance() {
+	      if(instance == null) {
+	         instance = new Server();
+	      }
+	      return instance;
+	   }
 	
 	/**
 	 * Application method to run the server runs in an infinite loop listening
@@ -73,7 +81,7 @@ public class Server {
 	 * interesting logging messages. It is certainly not necessary to do this.
 	 */
 	public static void main(String[] args) throws Exception {
-		Server s = new Server();
+		Server.getInstance();
 		System.out.println("Mail Server is running.");
 		int clientNumber = 0;
 		ServerSocket listener = new ServerSocket(9898);
@@ -94,7 +102,7 @@ public class Server {
 	private static class MailThread extends Thread {
 		private Socket socket;
 		private int clientNumber;
-		private boolean close = false;
+
 		public MailThread(Socket socket, int clientNumber) {
 			this.socket = socket;
 			this.clientNumber = clientNumber;
@@ -108,47 +116,44 @@ public class Server {
 		 */
 		public void run() {
 			try {
+				connectedClient.add(socket);
+				System.out.println("Aggiunto il socket"+socket);
 
-				System.out.println("Ma ci entro nella run?");
+				System.out.println(connectedClient.size()+"");
+
 				// Decorate the streams so we can send characters
 				// and not just bytes. Ensure output is flushed
 				// after every newline.
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-				
+
 				// Send a welcome message to the client.
 				out.println("Hello, you are client #" + clientNumber + ".");
 				out.println("Let's send some nudes \n");
-				System.out.println(data.length+"");
-				//numberOfClients.add(clientNumber);
-				//connectedClient.add(true);
-					data[i][0] = clientNumber+"";
-					data[i][1] = "Established";
-					data[i][2] = new Date(8,04,1994).getDate();
-					i++;
 
-				// Get messages from the client, line by line; return them
-				// capitalized
-				while (true) {
-						
-						table.setModel(new DefaultTableModel(data,columnNames) {
+				refreshTable();
+				
+				 while (true) {
+	                    String input = in.readLine();
 
-						@Override
-						public boolean isCellEditable(int row, int column) {
-							return false;
-						}
-					});
-					break;
-				}
+	                    if (input == null) {
+		                    System.out.println("Sto per uscire sfigati");
+
+	                        break;
+	                    }
+	                    System.out.println("Sono ancora nel loop");
+
+	                }
 			} catch (IOException e) {
 				log("Error handling client# " + clientNumber + ": " + e);
 			} finally {
 				try {
 					socket.close();
+					connectedClient.remove(socket);
+					refreshTable();
 				} catch (IOException e) {
 					log("Couldn't close a socket, what's going on?");
 				}
-				close = true;
 				log("Connection with client# " + clientNumber + " closed");
 			}
 		}
@@ -167,5 +172,26 @@ public class Server {
 		Thread.sleep(3000);
 		System.out.println("Connection established");
 		return true;
+	}
+	@SuppressWarnings("serial")
+	public static void refreshTable()
+	{
+		for (int i = 0; i < data.length; i++) {
+			data[i][0] =  "";
+			data[i][1] = "";
+			data[i][2] = "";
+		}
+		for (int k = 0; k < connectedClient.size(); k++) {
+			data[k][0] = k;
+			data[k][1] = connectedClient.get(k).getPort();
+			data[k][2] = new Date(8, 04, 1994).getDate();
+		}
+		table.setModel(new DefaultTableModel(data, columnNames) {
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		});
 	}
 }

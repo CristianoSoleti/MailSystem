@@ -77,7 +77,7 @@ public class Client {
      * client immediately after establishing a connection.
      */
     public void connectToServer() throws IOException {
-    	boolean connected = false;
+    	boolean connected = true;
     	MailAccountDatabase db = new MailAccountDatabase();
         // Get the server address from a dialog box.
         String emailAccount = JOptionPane.showInputDialog(
@@ -87,13 +87,7 @@ public class Client {
             JOptionPane.QUESTION_MESSAGE);
 
         // Make connection and initialize streams
-        for(MailAccount a : db.accountList)
-        {
-        	if(emailAccount.equals(a.getMailAccount()))
-        	{
-        		connected = true;
-        	}
-        }
+ 
         if(connected)
         {
         	Socket socket = new Socket("127.0.0.1", 9898);

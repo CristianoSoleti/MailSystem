@@ -1,9 +1,6 @@
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -11,9 +8,9 @@ import java.net.UnknownHostException;
  * Controller extends action listener cause he needs to perform actions on events like click.
  */
 class ClientController implements ActionListener, MouseListener {
-	private BufferedReader in;
-	private PrintWriter out;
+
 	static boolean isMailEditorOpen = false;
+	private Socket socket;
 	/*
 	 * reference to client model
 	 */
@@ -70,11 +67,10 @@ class ClientController implements ActionListener, MouseListener {
 	}
 
 	public void connectToServer() throws UnknownHostException, IOException {
-		Socket socket = new Socket("127.0.0.1", 9898);
+		socket = new Socket("127.0.0.1", 9898);
 
-		System.out.println("connected");
+		System.out.println("connected"+socket.getPort()+"local port"+socket.getLocalPort());
 	}
-
 	/*
 	 * mouse listener for clicking events
 	 */
@@ -149,5 +145,7 @@ class ClientController implements ActionListener, MouseListener {
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 }

@@ -1,29 +1,18 @@
 import javax.swing.*;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.UndoableEditListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.Element;
-import javax.swing.text.Position;
-import javax.swing.text.Segment;
 
 import java.awt.event.WindowEvent; //for CloseListener()
 import java.awt.event.WindowAdapter; //for CloseListener()
-import java.lang.Integer; //int from Model is passed as an Integer
 import java.util.Observable; //for update();
 import java.awt.event.ActionListener; //for addController()
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.*;
 
 class ClientView implements java.util.Observer {
 
 	// Base Client GUI
+	private JFrame frame = new JFrame();
 	private JTable table = new JTable();
 	private JButton newMailBtn = new JButton("Create");
 	private JButton readMailBtn = new JButton("Read");
@@ -57,9 +46,9 @@ class ClientView implements java.util.Observer {
 
 		System.out.println("ClientView Created");
 
+		frame.setName(frameName);
 		// frame in constructor and not an attribute as doesn't need to be
 		// visible to whole class
-		JFrame frame = new JFrame(frameName);
 		frame.add("North", table);
 
 		// panel in constructor and not an attribute as doesn't need to be
