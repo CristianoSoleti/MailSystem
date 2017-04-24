@@ -1,11 +1,18 @@
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 /*
  * Controller extends action listener cause he needs to perform actions on events like click.
  */
 class ClientController implements ActionListener, MouseListener {
-
+	private BufferedReader in;
+	private PrintWriter out;
 	static boolean isMailEditorOpen = false;
 	/*
 	 * reference to client model
@@ -17,23 +24,29 @@ class ClientController implements ActionListener, MouseListener {
 	ClientView view;
 
 	ClientController() {
-		System.out.println("Controller()");
+		System.out.println("ClientController created");
 	}
 
 	// invoked when a button is pressed
 	public void actionPerformed(ActionEvent e) {
 
 		System.out.println("Controller: The " + e.getActionCommand() + " button is clicked");
-		switch(e.getActionCommand())
-		{
+		switch (e.getActionCommand()) {
 		case "Create":
+			System.out.println(view == null);
+
 			createMail();
 			break;
-			
+
 		case "Read":
 			System.out.println("Controller: Reading Mail");
 			break;
-			
+
+		case "Send":
+			System.out.println("Controller: Send Mail");
+			sendMailRequest();
+			break;
+
 		default:
 			break;
 		}
@@ -41,20 +54,36 @@ class ClientController implements ActionListener, MouseListener {
 
 	}
 
-	public void createMail()
-	{
-		if(isMailEditorOpen){
+	public void sendMailRequest() {
+		// System.out.println(view.receiverTextArea.getName());
+		model.setValue(view.getReceiver(), view.getSubject(), view.getMessage());
+		
+	}
+
+	public void createMail() {
+		if (isMailEditorOpen) {
 			return;
 		}
 		System.out.println("Controller: Open Mail Editor");
-		view.createMailFrame();
-		isMailEditorOpen  = true;
+		view.createMailGUI();
+		isMailEditorOpen = true;
 	}
+
+	public void connectToServer() throws UnknownHostException, IOException {
+		Socket socket = new Socket("127.0.0.1", 9898);
+		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		out = new PrintWriter(socket.getOutputStream(), true);
+		String ciao = "ciao";
+        out.println(ciao);
+
+		System.out.println("connected");
+	}
+
 	/*
 	 * mouse listener for clicking events
 	 */
 	public void addMouseListener(MouseEvent e) {
-		
+
 	}
 
 	public void addModel(ClientModel m) {
@@ -78,9 +107,7 @@ class ClientController implements ActionListener, MouseListener {
 	 * making table not editable.(If you click on the table GUI it won't let you
 	 * change anything)
 	 */
-	
-	
-	
+
 	@SuppressWarnings("serial")
 	public void refreshViewTableData() {
 
@@ -98,9 +125,9 @@ class ClientController implements ActionListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 
 		int selectedRow = view.getTable().getSelectedRow();
-		System.out.println("Controller: Opening mail at row " + view.getTable().getSelectedRow() );
-		view.readMailFrame(model.data[selectedRow][1].toString(),model.data[selectedRow][2].toString());
-		
+		System.out.println("Controller: Opening mail at row " + view.getTable().getSelectedRow());
+		view.readMailFrame(model.data[selectedRow][1].toString(), model.data[selectedRow][2].toString());
+
 	}
 
 	@Override

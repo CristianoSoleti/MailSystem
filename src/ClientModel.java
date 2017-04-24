@@ -14,10 +14,10 @@ public class ClientModel extends java.util.Observable {
 	String receiver = "";
 	String subject = "";
 	String textMessage = "";
-	
+	int n = 1;
 	public ClientModel(){
 
-		System.out.println("Model()");
+		System.out.println("ClientModel created");
 
 		/**
 		Problem initialising both model and view:
@@ -49,6 +49,16 @@ public class ClientModel extends java.util.Observable {
 
 	} //Model()
 
+	
+	public void setValue(String receiverValue,String subjectValue,String messageValue)
+	{
+		receiver = receiverValue;
+		subject = subjectValue;
+		textMessage = messageValue;
+		System.out.println("Model init: receiver = " + receiver + "subject"+subject+"text"+textMessage);
+		setChanged();
+		notifyObservers(n);
+	}
 	public void updateData()
 	{
 		

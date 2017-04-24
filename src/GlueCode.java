@@ -1,46 +1,45 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.UnknownHostException;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+
 public class GlueCode {
 
-	
-
 	/*
-	 *  The order of instantiating the objects below will be important for some pairs of commands.
-	 *  I haven't explored this in any detail, beyond that the order below works.
+	 * The order of instantiating the objects below will be important for some
+	 * pairs of commands. I haven't explored this in any detail, beyond that the
+	 * order below works.
 	 */
-	public GlueCode() {
 
-		ClientModel myClientModel 	= new ClientModel();
-		ClientView myClientView 	= new ClientView("cristiano.soleti@edu.unito.it");
+    private JTextArea messageArea = new JTextArea(8, 60);
 
-		//tell ClientModel about ClientView. 
+    private JFrame frame = new JFrame("Email Login System - Client");
+
+	public GlueCode() throws UnknownHostException, IOException, InterruptedException {
+
+		ClientModel myClientModel = new ClientModel();
+		ClientView myClientView = new ClientView("cristiano.soleti@edu.unito.it");
+
 		myClientModel.addObserver(myClientView);
-		/*	
-			init ClientModel after ClientView is instantiated and can show the status of the ClientModel
-			(I later decided that only the ClientController should talk to the ClientModel
-			and moved initialisation to the ClientController (see below).)
-		*/
-		//uncomment to directly initialise ClientModel
-		//myClientModel.setValue(start_value);	
 
-		//create ClientController. tell it about ClientModel and ClientView, initialise ClientModel
 		ClientController myClientController = new ClientController();
+		if(!Server.requestConnection()){return;}
+		myClientController.connectToServer();
+
 		myClientController.addModel(myClientModel);
 		myClientController.addView(myClientView);
 		myClientController.refreshViewTableData();
-		//myClientController.initModel(start_value);
+		myClientView.addController(myClientController, myClientController);
+		
+	}
 
-		//tell ClientView about ClientController 
-		myClientView.addController(myClientController,myClientController);
-		//and ClientModel, 
-		//this was only needed when the ClientView inits the ClientModel
-		//myClientView.addClientModel(myClientModel);
 
-	} //RunMVC()
-
-	public static void main(String[] args){
-
+	public static void main(String[] args) throws IOException, InterruptedException {
 		GlueCode mainRunMVC = new GlueCode();
 		
-	} //main()	
-	
-} //RunMVC
+	} 
 
+} // RunMVC

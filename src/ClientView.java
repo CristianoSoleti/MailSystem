@@ -23,15 +23,39 @@ import java.awt.*;
 
 class ClientView implements java.util.Observer {
 
+	// Base Client GUI
 	private JTable table = new JTable();
 	private JButton newMailBtn = new JButton("Create");
 	private JButton readMailBtn = new JButton("Read");
 	private JButton forwardMailBtn = new JButton("Forward");
 	private JButton deleteMailBtn = new JButton("Delete");
 
+	// Create Mail GUI
+	private JFrame newMailFrame;
+	private JPanel mainPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+	private JLabel headerLbl = new JLabel("New Message");
+	public JTextArea receiverTextArea = new JTextArea();
+	private JTextArea subjectTextArea = new JTextArea();
+	private JTextArea messageTextArea = new JTextArea();
+	private JButton sendBtn = new JButton("Send");
+
+	public String getMessage() {
+		return messageTextArea.getText();
+	}
+
+	public String getReceiver() {
+		return receiverTextArea.getText();
+	}
+
+	public String getSubject() {
+		return subjectTextArea.getText();
+	}
+	public JTable getTable() {
+		return table;
+	}
 	ClientView(String frameName) {
 
-		System.out.println("View()");
+		System.out.println("ClientView Created");
 
 		// frame in constructor and not an attribute as doesn't need to be
 		// visible to whole class
@@ -58,33 +82,15 @@ class ClientView implements java.util.Observer {
 
 	} // View()
 
-	// Called from the Model
 	public void update(Observable obs, Object obj) {
-
-		// who called us and what did they send?
-		// System.out.println ("View : Observable is " + obs.getClass() + ",
-		// object passed is " + obj.getClass());
-
-		// model Pull
-		// ignore obj and ask model for value,
-		// to do this, the view has to know about the model (which I decided I
-		// didn't want to do)
-		// uncomment next line to do Model Pull
-		// myTextField.setText("" + model.getValue());
-
-		// model Push
-		// parse obj
-		// myTextField.setText("" + ((Integer)obj).intValue()); //obj is an
-		// Object, need to cast to an Integer
-
-	} // update()
+		System.out.println("View : Observable is " + obs.getClass() + ",object passed is " + obj + "");
+	}
 
 	public void addController(ActionListener controller, MouseListener e) {
-		System.out.println("View      : adding controller");
-		newMailBtn.addActionListener(controller); // need instance of controller
-													// before can add it as a
-													// listener
+		System.out.println("View: adding controller");
+		newMailBtn.addActionListener(controller); 													
 		readMailBtn.addActionListener(controller);
+		sendBtn.addActionListener(controller);
 		table.addMouseListener(e);
 	}
 
@@ -108,26 +114,23 @@ class ClientView implements java.util.Observer {
 		newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
-	public void createMailFrame() {
+	public void createMailGUI() {
 		Font headerFont = new Font("Futura", Font.BOLD, 18);
 		Font receiverFontFocus = new Font("Futura", Font.BOLD, 18);
 		Font receiverFontNoFocus = new Font("Futura", Font.ITALIC, 18);
 
-		JFrame newFrame = new JFrame();
+		newMailFrame = new JFrame();
 
-		JPanel mainPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
 		mainPanel.setOpaque(true);
 		mainPanel.setBackground(new Color(66, 66, 66));
 
-		JLabel headerLbl = new JLabel("New Message");
 		headerLbl.setForeground(Color.WHITE);
 		headerLbl.setFont(headerFont);
-
-		JTextArea receiverTextArea = new JTextArea();
 
 		receiverTextArea.setText("Add Receiver");
 		receiverTextArea.setFont(receiverFontNoFocus);
 		receiverTextArea.setForeground(new Color(144, 164, 174));
+
 		receiverTextArea.addFocusListener(new FocusListener() {
 
 			public void focusGained(FocusEvent e) {
@@ -145,13 +148,12 @@ class ClientView implements java.util.Observer {
 					receiverTextArea.setText("Add Receiver");
 					receiverTextArea.setFont(receiverFontNoFocus);
 					receiverTextArea.setForeground(new Color(144, 164, 174));
-
 				}
+
 			}
 
 		});
 
-		JTextArea subjectTextArea = new JTextArea();
 		subjectTextArea.setText("Add Subject");
 		subjectTextArea.setFont(receiverFontNoFocus);
 		subjectTextArea.setForeground(new Color(144, 164, 174));
@@ -176,7 +178,6 @@ class ClientView implements java.util.Observer {
 
 		});
 
-		JButton sendBtn = new JButton("Send");
 		sendBtn.setBackground(new Color(59, 89, 182));
 		sendBtn.setForeground(Color.WHITE);
 		sendBtn.setFocusPainted(false);
@@ -184,7 +185,6 @@ class ClientView implements java.util.Observer {
 
 		Box box = new Box(BoxLayout.Y_AXIS);
 
-		JTextArea messageTextArea = new JTextArea();
 		messageTextArea.setFont(new Font("Serif", Font.ITALIC, 32));
 		messageTextArea.setLineWrap(true);
 		messageTextArea.setWrapStyleWord(true);
@@ -203,27 +203,26 @@ class ClientView implements java.util.Observer {
 		int y = 400;
 		mainPanel.add(headerLbl);
 
-		newFrame.add("North", mainPanel);
-		newFrame.add("Center", box);
-		newFrame.add("South", btnPanel);
-		newFrame.setSize(x, y);
-		newFrame.setLocation(100, 100);
-		newFrame.setVisible(true);
+		newMailFrame.add("North", mainPanel);
+		newMailFrame.add("Center", box);
+		newMailFrame.add("South", btnPanel);
+		newMailFrame.setSize(x, y);
+		newMailFrame.setLocation(100, 100);
+		newMailFrame.setVisible(true);
 		messageTextArea.grabFocus();
 		jScrollPane1.setMinimumSize(new Dimension(x, 200));
 		jScrollPane1.setMaximumSize(new Dimension(x, 200));
 		jScrollPane2.setMinimumSize(new Dimension(x, 200));
 		jScrollPane2.setMaximumSize(new Dimension(x, 200));
-		newFrame.addWindowListener(new WindowAdapter() {
+		newMailFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				ClientController.isMailEditorOpen = false;
-				newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				newMailFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			}
 		});
 	}
 
-	public JTable getTable() {
-		return table;
-	}
+	
+	
 
-} // View
+}
