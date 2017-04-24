@@ -47,14 +47,11 @@ class ClientView implements java.util.Observer {
 		System.out.println("ClientView Created");
 
 		frame.setName(frameName);
-		// frame in constructor and not an attribute as doesn't need to be
-		// visible to whole class
 		frame.add("North", table);
-
-		// panel in constructor and not an attribute as doesn't need to be
-		// visible to whole class
+		
 		Panel mainPanel = new Panel();
 		mainPanel.add(newMailBtn);
+		
 		frame.add("Center", mainPanel);
 
 		Panel subPanel = new Panel();
@@ -63,7 +60,6 @@ class ClientView implements java.util.Observer {
 		subPanel.add(deleteMailBtn);
 		frame.add("South", subPanel);
 
-		// frame.addWindowListener(new CloseListener());
 		frame.setSize(800, 200);
 		frame.setLocation(100, 100);
 		frame.setVisible(true);
@@ -75,12 +71,12 @@ class ClientView implements java.util.Observer {
 		System.out.println("View : Observable is " + obs.getClass() + ",object passed is " + obj + "");
 	}
 
-	public void addController(ActionListener controller, MouseListener e) {
+	public void addController(ActionListener controller) {
 		System.out.println("View: adding controller");
 		newMailBtn.addActionListener(controller); 													
 		readMailBtn.addActionListener(controller);
 		sendBtn.addActionListener(controller);
-		table.addMouseListener(e);
+		table.addMouseListener((MouseListener) controller);
 	}
 
 	public void readMailFrame(String sender, String messageText) {

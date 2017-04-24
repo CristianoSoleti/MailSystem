@@ -40,39 +40,27 @@ public class Server {
 
 	protected Server() {
 
-		System.out.println("ClientView Created");
-
-		// frame in constructor and not an attribute as doesn't need to be
-		// visible to whole class
 		JFrame frame = new JFrame("MailServer");
-
-		// panel in constructor and not an attribute as doesn't need to be
-		// visible to whole class
 		Panel mainPanel = new Panel();
 		mainPanel.add("Center", informationLbL);
 		mainPanel.add("South", table);
-
 		frame.add("Center", mainPanel);
-
 		JPanel subPanel = new JPanel();
 		frame.add("South", subPanel);
-
-		// frame.addWindowListener(new CloseListener());
 		frame.setSize(800, 200);
 		frame.setLocation(100, 100);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	} // View()
+	}
 
-	
-	 public static Server getInstance() {
-	      if(instance == null) {
-	         instance = new Server();
-	      }
-	      return instance;
-	   }
-	
+	public static Server getInstance() {
+		if (instance == null) {
+			instance = new Server();
+		}
+		return instance;
+	}
+
 	/**
 	 * Application method to run the server runs in an infinite loop listening
 	 * on port 9898. When a connection is requested, it spawns a new thread to
@@ -117,9 +105,9 @@ public class Server {
 		public void run() {
 			try {
 				connectedClient.add(socket);
-				System.out.println("Aggiunto il socket"+socket);
+				System.out.println("Aggiunto il socket" + socket);
 
-				System.out.println(connectedClient.size()+"");
+				System.out.println(connectedClient.size() + "");
 
 				// Decorate the streams so we can send characters
 				// and not just bytes. Ensure output is flushed
@@ -132,18 +120,18 @@ public class Server {
 				out.println("Let's send some nudes \n");
 
 				refreshTable();
-				
-				 while (true) {
-	                    String input = in.readLine();
 
-	                    if (input == null) {
-		                    System.out.println("Sto per uscire sfigati");
+				while (true) {
+					String input = in.readLine();
 
-	                        break;
-	                    }
-	                    System.out.println("Sono ancora nel loop");
+					if (input == null) {
+						System.out.println("Sto per uscire sfigati");
 
-	                }
+						break;
+					}
+					System.out.println("Sono ancora nel loop");
+
+				}
 			} catch (IOException e) {
 				log("Error handling client# " + clientNumber + ": " + e);
 			} finally {
@@ -173,11 +161,11 @@ public class Server {
 		System.out.println("Connection established");
 		return true;
 	}
+
 	@SuppressWarnings("serial")
-	public static void refreshTable()
-	{
+	public static void refreshTable() {
 		for (int i = 0; i < data.length; i++) {
-			data[i][0] =  "";
+			data[i][0] = "";
 			data[i][1] = "";
 			data[i][2] = "";
 		}
