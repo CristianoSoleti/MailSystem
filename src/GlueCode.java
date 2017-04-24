@@ -19,7 +19,6 @@ public class GlueCode {
 		ClientController myClientController = new ClientController();
 		if(!Server.requestConnection()){return;}
 		myClientController.connectToServer();
-
 		myClientController.addModel(myClientModel);
 		myClientController.addView(myClientView);
 		myClientController.refreshViewTableData();

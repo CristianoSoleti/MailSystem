@@ -1,2 +1,2 @@
 # MailSystem
-Progetto universtirario del cazzo
+Progetto universtirario per un sistema di mail client/server
