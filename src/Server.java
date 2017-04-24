@@ -1,9 +1,17 @@
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * A server program which accepts requests from clients to capitalize strings.
@@ -17,6 +25,46 @@ import java.net.Socket;
  */
 public class Server {
 
+	static ArrayList<Boolean> connectedClient = new ArrayList<Boolean>();
+	static ArrayList<Integer> numberOfClients = new ArrayList<Integer>();
+
+	static int i = 0;
+	static String[] columnNames = {"Client #", "Connection", "Date" };
+	public static Object[][] data = new Object[5][3];
+	DefaultTableModel tableModel;
+	
+	public JLabel informationLbL  = new JLabel("Mail Server");
+	private static JTable table = new JTable();
+
+	Server() {
+
+		System.out.println("ClientView Created");
+
+		// frame in constructor and not an attribute as doesn't need to be
+		// visible to whole class
+		JFrame frame = new JFrame("MailServer");
+		
+		
+		// panel in constructor and not an attribute as doesn't need to be
+		// visible to whole class
+		Panel mainPanel = new Panel();
+		mainPanel.add("Center",informationLbL);
+		mainPanel.add("South",table);
+
+		frame.add("Center", mainPanel);
+
+		JPanel subPanel = new JPanel();
+		frame.add("South", subPanel);
+
+		// frame.addWindowListener(new CloseListener());
+		frame.setSize(800, 200);
+		frame.setLocation(100, 100);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	} // View()
+	
+	
 	/**
 	 * Application method to run the server runs in an infinite loop listening
 	 * on port 9898. When a connection is requested, it spawns a new thread to
@@ -25,6 +73,7 @@ public class Server {
 	 * interesting logging messages. It is certainly not necessary to do this.
 	 */
 	public static void main(String[] args) throws Exception {
+		Server s = new Server();
 		System.out.println("Mail Server is running.");
 		int clientNumber = 0;
 		ServerSocket listener = new ServerSocket(9898);
@@ -59,23 +108,37 @@ public class Server {
 		 */
 		public void run() {
 			try {
+
 				System.out.println("Ma ci entro nella run?");
 				// Decorate the streams so we can send characters
 				// and not just bytes. Ensure output is flushed
 				// after every newline.
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-
+				
 				// Send a welcome message to the client.
 				out.println("Hello, you are client #" + clientNumber + ".");
 				out.println("Let's send some nudes \n");
-				
+				System.out.println(data.length+"");
+				//numberOfClients.add(clientNumber);
+				//connectedClient.add(true);
+					data[i][0] = clientNumber+"";
+					data[i][1] = "Established";
+					data[i][2] = new Date(8,04,1994).getDate();
+					i++;
+
 				// Get messages from the client, line by line; return them
 				// capitalized
 				while (true) {
-					if(close){break;}
-					System.out.println("Ciaociao");
-					
+						
+						table.setModel(new DefaultTableModel(data,columnNames) {
+
+						@Override
+						public boolean isCellEditable(int row, int column) {
+							return false;
+						}
+					});
+					break;
 				}
 			} catch (IOException e) {
 				log("Error handling client# " + clientNumber + ": " + e);

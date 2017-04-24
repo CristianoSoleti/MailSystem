@@ -71,10 +71,6 @@ class ClientController implements ActionListener, MouseListener {
 
 	public void connectToServer() throws UnknownHostException, IOException {
 		Socket socket = new Socket("127.0.0.1", 9898);
-		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		out = new PrintWriter(socket.getOutputStream(), true);
-		String ciao = "ciao";
-        out.println(ciao);
 
 		System.out.println("connected");
 	}
