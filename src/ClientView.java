@@ -6,16 +6,21 @@ import java.util.Observable; //for update();
 import java.awt.event.ActionListener; //for addController()
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.*;
 
 class ClientView implements java.util.Observer {
 
+	Font headerFont = new Font("Futura", Font.BOLD, 18);
+	Font receiverFontFocus = new Font("Futura", Font.BOLD, 18);
+	Font receiverFontNoFocus = new Font("Futura", Font.ITALIC, 18);
+
 	// Base Client GUI
 	private JFrame frame = new JFrame();
 	private JTable table = new JTable();
 	private JButton newMailBtn = new JButton("Create");
-	private JButton readMailBtn = new JButton("Read");
 	private JButton forwardMailBtn = new JButton("Forward");
 	private JButton deleteMailBtn = new JButton("Delete");
 
@@ -39,31 +44,29 @@ class ClientView implements java.util.Observer {
 	public String getSubject() {
 		return subjectTextArea.getText();
 	}
+
 	public JTable getTable() {
 		return table;
 	}
-	ClientView(String frameName) {
 
+	ClientView(String frameName) {
 		System.out.println("ClientView Created");
 
 		frame.setName(frameName);
-		frame.add("North", table);
-		
-		Panel mainPanel = new Panel();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JScrollPane scrollPane = new JScrollPane(table);
+		table.setDragEnabled(false);
+		frame.add(scrollPane, BorderLayout.CENTER);
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
 		mainPanel.add(newMailBtn);
-		
-		frame.add("Center", mainPanel);
+		mainPanel.add(deleteMailBtn);
+		mainPanel.add(forwardMailBtn);
 
-		Panel subPanel = new Panel();
-		subPanel.add(readMailBtn);
-		subPanel.add(forwardMailBtn);
-		subPanel.add(deleteMailBtn);
-		frame.add("South", subPanel);
-
+		frame.add(mainPanel, BorderLayout.SOUTH);
 		frame.setSize(800, 200);
 		frame.setLocation(100, 100);
 		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	} // View()
 
@@ -73,8 +76,7 @@ class ClientView implements java.util.Observer {
 
 	public void addController(ActionListener controller) {
 		System.out.println("View: adding controller");
-		newMailBtn.addActionListener(controller); 													
-		readMailBtn.addActionListener(controller);
+		newMailBtn.addActionListener(controller);
 		sendBtn.addActionListener(controller);
 		table.addMouseListener((MouseListener) controller);
 	}
@@ -83,7 +85,7 @@ class ClientView implements java.util.Observer {
 
 		JFrame newFrame = new JFrame();
 		JPanel mainPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
-		;
+
 		JLabel dialogueLbl = new JLabel(sender);
 		JTextArea messageTextArea = new JTextArea(messageText);
 		messageTextArea.setEditable(false);
@@ -100,9 +102,6 @@ class ClientView implements java.util.Observer {
 	}
 
 	public void createMailGUI() {
-		Font headerFont = new Font("Futura", Font.BOLD, 18);
-		Font receiverFontFocus = new Font("Futura", Font.BOLD, 18);
-		Font receiverFontNoFocus = new Font("Futura", Font.ITALIC, 18);
 
 		newMailFrame = new JFrame();
 
@@ -112,56 +111,8 @@ class ClientView implements java.util.Observer {
 		headerLbl.setForeground(Color.WHITE);
 		headerLbl.setFont(headerFont);
 
-		receiverTextArea.setText("Add Receiver");
-		receiverTextArea.setFont(receiverFontNoFocus);
-		receiverTextArea.setForeground(new Color(144, 164, 174));
-
-		receiverTextArea.addFocusListener(new FocusListener() {
-
-			public void focusGained(FocusEvent e) {
-				if (receiverTextArea.getText().equals("Add Receiver")) {
-					receiverTextArea.setText("");
-					receiverTextArea.setFont(receiverFontFocus);
-					receiverTextArea.setForeground(Color.BLACK);
-
-				}
-
-			}
-
-			public void focusLost(FocusEvent e) {
-				if (receiverTextArea.getText().equals("")) {
-					receiverTextArea.setText("Add Receiver");
-					receiverTextArea.setFont(receiverFontNoFocus);
-					receiverTextArea.setForeground(new Color(144, 164, 174));
-				}
-
-			}
-
-		});
-
-		subjectTextArea.setText("Add Subject");
-		subjectTextArea.setFont(receiverFontNoFocus);
-		subjectTextArea.setForeground(new Color(144, 164, 174));
-		subjectTextArea.addFocusListener(new FocusListener() {
-
-			public void focusGained(FocusEvent e) {
-				if (subjectTextArea.getText().equals("Add Subject")) {
-					subjectTextArea.setText("");
-					subjectTextArea.setFont(receiverFontFocus);
-					subjectTextArea.setForeground(Color.BLACK);
-				}
-			}
-
-			public void focusLost(FocusEvent e) {
-				if (subjectTextArea.getText().equals("")) {
-					subjectTextArea.setText("Add Subject");
-					subjectTextArea.setFont(receiverFontNoFocus);
-					subjectTextArea.setForeground(new Color(144, 164, 174));
-
-				}
-			}
-
-		});
+		settingReceiverTextArea();
+		settingSubjectTextArea();
 
 		sendBtn.setBackground(new Color(59, 89, 182));
 		sendBtn.setForeground(Color.WHITE);
@@ -207,7 +158,78 @@ class ClientView implements java.util.Observer {
 		});
 	}
 
-	
-	
+	public void resetTextBox(JTextArea txtArea, String value) {
+		txtArea.setText("");
+		txtArea.setText(value);
+		txtArea.setFont(receiverFontNoFocus);
+		txtArea.setForeground(new Color(144, 164, 174));
+	}
+
+	public void addKeyListener(JTextArea txtArea, String value) {
+		txtArea.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_TAB) {
+
+					if (txtArea.getText().equals("")) {
+						resetTextBox(txtArea, value);
+					}
+					txtArea.transferFocus();
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+
+			}
+
+		});
+	}
+
+	public void addFocusListener(JTextArea txtArea, String value) {
+		txtArea.addFocusListener(new FocusListener() {
+
+			public void focusGained(FocusEvent e) {
+				if (txtArea.getText().equals(value) || txtArea.getText().equals(value + "\t")) {
+					txtArea.setText("");
+					txtArea.setFont(receiverFontFocus);
+					txtArea.setForeground(Color.BLACK);
+
+				}
+
+			}
+
+			public void focusLost(FocusEvent e) {
+				if (txtArea.getText().equals("")) {
+					resetTextBox(txtArea, value);
+
+				}
+
+			}
+
+		});
+
+	}
+
+	public void settingReceiverTextArea() {
+		String startingValue = "Add Receiver";
+		resetTextBox(receiverTextArea, startingValue);
+		addKeyListener(receiverTextArea, startingValue);
+		addFocusListener(receiverTextArea, startingValue);
+	}
+
+	public void settingSubjectTextArea() {
+		String startingValue = "Add Subject";
+		resetTextBox(subjectTextArea, startingValue);
+		addKeyListener(subjectTextArea, startingValue);
+		addFocusListener(subjectTextArea, startingValue);
+	}
 
 }

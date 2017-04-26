@@ -1,15 +1,21 @@
 import java.awt.*;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,18 +41,15 @@ public class Server {
 	public static Object[][] data = new Object[5][3];
 	DefaultTableModel tableModel;
 
-	public JLabel informationLbL = new JLabel("Mail Server");
+	public JLabel informationLbL = new JLabel("Connected clients");
 	private static JTable table = new JTable();
 
 	protected Server() {
 
 		JFrame frame = new JFrame("MailServer");
 		Panel mainPanel = new Panel();
-		mainPanel.add("Center", informationLbL);
-		mainPanel.add("South", table);
-		frame.add("Center", mainPanel);
-		JPanel subPanel = new JPanel();
-		frame.add("South", subPanel);
+        JScrollPane scrollPane = new JScrollPane(table);
+        frame.add(scrollPane);
 		frame.setSize(800, 200);
 		frame.setLocation(100, 100);
 		frame.setVisible(true);
@@ -107,33 +110,32 @@ public class Server {
 				connectedClient.add(socket);
 				System.out.println("Aggiunto il socket" + socket);
 
-				System.out.println(connectedClient.size() + "");
+				System.out.println("Number of connected clients" + connectedClient.size() + "");
 
 				// Decorate the streams so we can send characters
 				// and not just bytes. Ensure output is flushed
 				// after every newline.
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
 				// Send a welcome message to the client.
-				out.println("Hello, you are client #" + clientNumber + ".");
-				out.println("Let's send some nudes \n");
-
 				refreshTable();
 
 				while (true) {
-					String input = in.readLine();
+					switch (in.readLine()) {
+					case "Send":
+						JOptionPane.showMessageDialog(null, "Server Authority : Mail Sent");
+						break;
 
-					if (input == null) {
-						System.out.println("Sto per uscire sfigati");
-
+					case "Read":
+						JOptionPane.showMessageDialog(null, "Read");
 						break;
 					}
-					System.out.println("Sono ancora nel loop");
 
 				}
 			} catch (IOException e) {
 				log("Error handling client# " + clientNumber + ": " + e);
+				connectedClient.remove(socket);
+				refreshTable();
 			} finally {
 				try {
 					socket.close();
@@ -172,7 +174,7 @@ public class Server {
 		for (int k = 0; k < connectedClient.size(); k++) {
 			data[k][0] = k;
 			data[k][1] = connectedClient.get(k).getPort();
-			data[k][2] = new Date(8, 04, 1994).getDate();
+			data[k][2] = Calendar.getInstance().getTime();;
 		}
 		table.setModel(new DefaultTableModel(data, columnNames) {
 

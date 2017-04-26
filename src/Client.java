@@ -94,11 +94,16 @@ public class Client {
             in = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
+            out.write("ciao");
+            out.write("");
+            out.flush();
 
             // Consume the initial welcoming messages from the server
             for (int i = 0; i < 3; i++) {
-                messageArea.append(in.readLine() + "\n");
+                messageArea.append(in.readLine() +out+"\n");
             }
+            out.close();
+
         }
         
     }

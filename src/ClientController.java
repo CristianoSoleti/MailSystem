@@ -1,6 +1,10 @@
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -9,7 +13,9 @@ import java.net.UnknownHostException;
  */
 class ClientController implements ActionListener, MouseListener {
 
+	
 	static boolean isMailEditorOpen = false;
+	PrintWriter out;
 	private Socket socket;
 	/*
 	 * reference to client model
@@ -30,33 +36,50 @@ class ClientController implements ActionListener, MouseListener {
 		System.out.println("Controller: The " + e.getActionCommand() + " button is clicked");
 		switch (e.getActionCommand()) {
 		case "Create":
-			System.out.println(view == null);
-
 			createMail();
 			break;
 
 		case "Read":
-			System.out.println("Controller: Reading Mail");
+			System.out.println("Controller: Reading Mail" +socket.isClosed());
+			try {
+				tryThing();
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 			break;
 
 		case "Send":
 			System.out.println("Controller: Send Mail");
-			sendMailRequest();
+			try {
+				sendMailRequest();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			break;
 
 		default:
 			break;
 		}
-		// model.incrementValue();
 
 	}
 
-	public void sendMailRequest() {
-		// System.out.println(view.receiverTextArea.getName());
+	public void sendMailRequest() throws IOException {
+
 		model.setValue(view.getReceiver(), view.getSubject(), view.getMessage());
+		out.flush();
+		out.write("Send");
+		out.println();
 		
 	}
 
+	public void tryThing() throws IOException
+	{
+		out.flush();
+		out.write("Read");
+		out.println();
+	}
 	public void createMail() {
 		if (isMailEditorOpen) {
 			return;
@@ -68,9 +91,11 @@ class ClientController implements ActionListener, MouseListener {
 
 	public void connectToServer() throws UnknownHostException, IOException {
 		socket = new Socket("127.0.0.1", 9898);
+		out = new PrintWriter(socket.getOutputStream(), true);
 
-		System.out.println("connected"+socket.getPort()+"local port"+socket.getLocalPort());
+		System.out.println("connected" + socket.getPort() + "local port" + socket.getLocalPort());
 	}
+
 	/*
 	 * mouse listener for clicking events
 	 */
@@ -145,7 +170,5 @@ class ClientController implements ActionListener, MouseListener {
 		// TODO Auto-generated method stub
 
 	}
-
-
 
 }
