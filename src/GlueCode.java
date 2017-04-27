@@ -9,29 +9,28 @@ public class GlueCode {
 	 * order below works.
 	 */
 
-	public GlueCode() throws UnknownHostException, IOException, InterruptedException {
+	public GlueCode() throws UnknownHostException, IOException, InterruptedException, ClassNotFoundException {
 
 		ClientModel myClientModel = new ClientModel();
-		ClientView myClientView = new ClientView("cristiano.soleti@edu.unito.it");
+		ClientView myClientView = new ClientView();
 
 		myClientModel.addObserver(myClientView);
 
 		ClientController myClientController = new ClientController();
-		if(!Server.requestConnection()){return;}
-		myClientController.connectToServer();
 		myClientController.addModel(myClientModel);
 		myClientController.addView(myClientView);
-		myClientController.refreshViewTableData();
 		myClientView.addController(myClientController);
+		myClientController.connectToServer();
+	
 		
 	}
 
 
 	@SuppressWarnings("unused")
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
 		
 		GlueCode mainRunMVC = new GlueCode();
 		
 	} 
 
-} // RunMVC
+} 

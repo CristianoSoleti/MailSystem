@@ -25,7 +25,7 @@ class ClientView implements java.util.Observer {
 	Font receiverFontNoFocus = new Font("Futura", Font.ITALIC, 18);
 
 	// Base Client GUI
-	private JFrame frame = new JFrame();
+	public JFrame frame = new JFrame();
 	private JTable table = new JTable();
 	private JButton newMailBtn = new JButton("Create");
 	private JButton forwardMailBtn;
@@ -40,23 +40,12 @@ class ClientView implements java.util.Observer {
 	private JTextArea messageTextArea = new JTextArea();
 	private JButton sendBtn = new JButton("Send");
 
-	public String getMessage() {
-		return messageTextArea.getText();
-	}
-
-	public String getReceiver() {
-		return receiverTextArea.getText();
-	}
-
-	public String getSubject() {
-		return subjectTextArea.getText();
-	}
 
 	public JTable getTable() {
 		return table;
 	}
 
-	ClientView(String frameName) {
+	ClientView() {
 		System.out.println("Client View Created Successfully");
 		
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -77,14 +66,13 @@ class ClientView implements java.util.Observer {
 		styleTable(table);
 		frame.add(mainPanel, BorderLayout.SOUTH);
 
-		setFrame(frame,frameName);
+		setFrame(frame);
 
 
 	} 
 
-	private void setFrame(JFrame frame,String frameName)
+	private void setFrame(JFrame frame)
 	{
-		frame.setName(frameName);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 200);
 		frame.setLocation(100, 100);
@@ -142,8 +130,8 @@ class ClientView implements java.util.Observer {
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
 
 		newFrame.add("Center", mainPanel);
-		mainPanel.add(dialogueLbl, mainPanel.BOTTOM_ALIGNMENT);
-		mainPanel.add(messageTextArea, mainPanel.BOTTOM_ALIGNMENT);
+		mainPanel.add(dialogueLbl);
+		mainPanel.add(messageTextArea);
 		newFrame.setVisible(true);
 		newFrame.setSize(800, 200);
 		newFrame.setLocation(100, 100);
@@ -280,6 +268,11 @@ class ClientView implements java.util.Observer {
 		resetTextBox(subjectTextArea, startingValue);
 		addKeyListener(subjectTextArea, startingValue);
 		addFocusListener(subjectTextArea, startingValue);
+	}
+	
+	public void setFrameTitle(String title)
+	{
+		frame.setTitle(title);
 	}
 
 }

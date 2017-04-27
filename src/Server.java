@@ -1,20 +1,17 @@
-import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -31,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Server {
 
+	public static MailAccountDatabase db = MailAccountDatabase.getInstance();
 	private static Server instance = null;
 
 	static ArrayList<Socket> connectedClient = new ArrayList<Socket>();
@@ -47,16 +45,17 @@ public class Server {
 	protected Server() {
 
 		JFrame frame = new JFrame("MailServer");
-		Panel mainPanel = new Panel();
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane);
+		JScrollPane scrollPane = new JScrollPane(table);
+		frame.add(scrollPane);
 		frame.setSize(800, 200);
 		frame.setLocation(100, 100);
 		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
 	}
-
 	public static Server getInstance() {
 		if (instance == null) {
 			instance = new Server();
@@ -116,6 +115,7 @@ public class Server {
 				// and not just bytes. Ensure output is flushed
 				// after every newline.
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
 				// Send a welcome message to the client.
 				refreshTable();
@@ -129,11 +129,19 @@ public class Server {
 					case SYSTEM_CONSTANTS.FORWARD_ACTION:
 						JOptionPane.showMessageDialog(null, "Forwarding");
 						break;
-						
+
 					case SYSTEM_CONSTANTS.LOAD_ACTION:
-						//Carica le mail , le invia
-						
-						JOptionPane.showMessageDialog(null, "Mail Loaded");
+						String socketMailAccount = in.readLine();
+						MailAccount currenSocketAccount = null;
+						for (MailAccount ml : db.getAccountList()) {
+							if (ml.getMailAccount().equals(socketMailAccount)) {
+								JOptionPane.showMessageDialog(null, "Trovata lista di messaggi");
+								currenSocketAccount = ml;
+							}
+						}
+						out.writeObject(currenSocketAccount.getMessageList());
+						out.flush();
+						System.out.println("loaded");
 						break;
 					}
 
@@ -163,11 +171,23 @@ public class Server {
 		}
 	}
 
-	public static boolean requestConnection() throws InterruptedException {
-		System.out.println("Connecting...");
-		Thread.sleep(3000);
-		System.out.println("Connection established");
-		return true;
+	public static boolean requestConnection(String mail) throws InterruptedException {
+		for (MailAccount ml : db.getAccountList()) {
+			if (ml.getMailAccount().equals(mail)) {
+				System.out.println("Connecting...");
+				Thread.sleep(3000);
+				System.out.println("Connection established");
+				return true;
+			}
+		}
+
+		System.out.println("Connection Failed");
+		System.out.println("Closing application");
+		Thread.sleep(1000);
+		System.exit(0);
+
+		return false;
+
 	}
 
 	@SuppressWarnings("serial")

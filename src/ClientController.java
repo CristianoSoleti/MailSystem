@@ -1,29 +1,24 @@
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 /*
  * Controller extends action listener cause he needs to perform actions on events like click.
  */
 class ClientController implements ActionListener, MouseListener {
 
-	
 	static boolean isMailEditorOpen = false;
 	PrintWriter out;
+	ObjectInputStream in;
 	private Socket socket;
-	/*
-	 * reference to client model
-	 */
+
 	ClientModel model;
-	/*
-	 * reference to client view
-	 */
 	ClientView view;
 
 	ClientController() {
@@ -54,11 +49,10 @@ class ClientController implements ActionListener, MouseListener {
 
 	public void sendMailRequest() throws IOException {
 
-		model.setValue(view.getReceiver(), view.getSubject(), view.getMessage());
 		out.flush();
 		out.write(SYSTEM_CONSTANTS.SEND_ACTION);
 		out.println();
-		
+
 	}
 
 	public void createMail() {
@@ -70,12 +64,37 @@ class ClientController implements ActionListener, MouseListener {
 		isMailEditorOpen = true;
 	}
 
-	public void connectToServer() throws UnknownHostException, IOException {
+	public void connectToServer()
+			throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException {
+
+		String emailAccount = JOptionPane.showInputDialog(null, "Enter your email Account", "Account login.",
+				JOptionPane.QUESTION_MESSAGE);
+		if (!Server.requestConnection(emailAccount)) {
+			return;
+		}
+		view.setFrameTitle(emailAccount);
 		socket = new Socket("127.0.0.1", 9898);
+		in = new ObjectInputStream(socket.getInputStream());
+
 		out = new PrintWriter(socket.getOutputStream(), true);
 		out.flush();
 		out.write(SYSTEM_CONSTANTS.LOAD_ACTION);
 		out.println();
+
+		loadMailIntoTable(emailAccount);
+
+	}
+
+	public void loadMailIntoTable(String emailAccount) throws ClassNotFoundException, IOException {
+		out.flush();
+		out.write(emailAccount);
+		out.println();
+		@SuppressWarnings("unchecked")
+		ArrayList<Email> messageList = (ArrayList<Email>) in.readObject();
+		if (messageList == null) {return;}
+		
+		model.setValue(messageList);
+		refreshViewTableData();
 	}
 
 	/*
@@ -95,22 +114,11 @@ class ClientController implements ActionListener, MouseListener {
 		this.view = v;
 	}
 
-	/*
-	 * setting datas from method
-	 */
-	public void setData(Object a[][]) {
-		model.data = a;
-	}
-
-	/*
-	 * making table not editable.(If you click on the table GUI it won't let you
-	 * change anything)
-	 */
 
 	@SuppressWarnings("serial")
-	public void refreshViewTableData() {
+	private void refreshViewTableData() {
 
-		view.getTable().setModel(new DefaultTableModel(model.data, model.columnNames) {
+		view.getTable().setModel(new DefaultTableModel(model.table, model.columnNames) {
 
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -125,7 +133,7 @@ class ClientController implements ActionListener, MouseListener {
 
 		int selectedRow = view.getTable().getSelectedRow();
 		System.out.println("Controller: Opening mail at row " + view.getTable().getSelectedRow());
-		view.readMailFrame(model.data[selectedRow][1].toString(), model.data[selectedRow][2].toString());
+		view.readMailFrame(model.table[selectedRow][1].toString(), model.table[selectedRow][2].toString());
 	}
 
 	@Override

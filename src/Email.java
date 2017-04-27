@@ -1,15 +1,16 @@
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Email {
+public class Email implements Serializable{
 
 	private static final AtomicInteger count = new AtomicInteger(0); 
 	private final int ID;
 	private String sender;
 	private String receiver;
-	private String emailObject;
-	private String emailText;
+	private String subject;
+	private String text;
 	private java.util.Date sendingDate;
 	
 
@@ -27,8 +28,8 @@ public class Email {
 		ID = count.incrementAndGet();
 		this.sender = sender;
 		this.receiver = receiver;
-		emailObject = messageObject;
-		emailText = messageText;
+		subject = messageObject;
+		text = messageText;
 		sendingDate = Calendar.getInstance().getTime();
 	}
 	
@@ -49,16 +50,25 @@ public class Email {
 	
 	public String getEmailObject()
 	{
-		return emailObject;
+		return subject;
 	}
 	
 	public String getEmailText()
 	{
-		return emailText;
+		return text;
 	}
 	
 	public java.util.Date getSendingDate()
 	{
 		return sendingDate;
+	}
+	public String toString()
+	{
+		return "Sender"+sender+"Receiver:"+receiver+"Subject:"+subject+"Text:"+text;
+		
+	}
+	
+	public Object[] toObjectArray() {
+	    return new Object[] { sender, receiver,subject,text};
 	}
 }
