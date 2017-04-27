@@ -35,21 +35,11 @@ class ClientController implements ActionListener, MouseListener {
 
 		System.out.println("Controller: The " + e.getActionCommand() + " button is clicked");
 		switch (e.getActionCommand()) {
-		case "Create":
+		case SYSTEM_CONSTANTS.CREATE_ACTION:
 			createMail();
 			break;
 
-		case "Read":
-			System.out.println("Controller: Reading Mail" +socket.isClosed());
-			try {
-				tryThing();
-			} catch (IOException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-			break;
-
-		case "Send":
+		case SYSTEM_CONSTANTS.SEND_ACTION:
 			System.out.println("Controller: Send Mail");
 			try {
 				sendMailRequest();
@@ -57,9 +47,6 @@ class ClientController implements ActionListener, MouseListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			break;
-
-		default:
 			break;
 		}
 
@@ -69,17 +56,11 @@ class ClientController implements ActionListener, MouseListener {
 
 		model.setValue(view.getReceiver(), view.getSubject(), view.getMessage());
 		out.flush();
-		out.write("Send");
+		out.write(SYSTEM_CONSTANTS.SEND_ACTION);
 		out.println();
 		
 	}
 
-	public void tryThing() throws IOException
-	{
-		out.flush();
-		out.write("Read");
-		out.println();
-	}
 	public void createMail() {
 		if (isMailEditorOpen) {
 			return;
@@ -92,8 +73,9 @@ class ClientController implements ActionListener, MouseListener {
 	public void connectToServer() throws UnknownHostException, IOException {
 		socket = new Socket("127.0.0.1", 9898);
 		out = new PrintWriter(socket.getOutputStream(), true);
-
-		System.out.println("connected" + socket.getPort() + "local port" + socket.getLocalPort());
+		out.flush();
+		out.write(SYSTEM_CONSTANTS.LOAD_ACTION);
+		out.println();
 	}
 
 	/*
@@ -144,7 +126,6 @@ class ClientController implements ActionListener, MouseListener {
 		int selectedRow = view.getTable().getSelectedRow();
 		System.out.println("Controller: Opening mail at row " + view.getTable().getSelectedRow());
 		view.readMailFrame(model.data[selectedRow][1].toString(), model.data[selectedRow][2].toString());
-
 	}
 
 	@Override

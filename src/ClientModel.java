@@ -1,3 +1,5 @@
+import java.util.Calendar;
+
 import javax.swing.table.DefaultTableModel;
 
 public class ClientModel extends java.util.Observable {	
@@ -5,8 +7,8 @@ public class ClientModel extends java.util.Observable {
 	String[] columnNames = {"Type", "Source", "Subject", "Date" };
 	public Object[][] data = {
 			
-			{"Sent", "Cristiano Soleti", "Send Nudes please", new Date(2017, 4, 21).getDate()},
-			{"Received", "Davide Brunetti", "Wrong destination my friend", "2017/4/21"}
+			{"Sent", "Cristiano Soleti", "Send Nudes please", Calendar.getInstance().getTime()},
+			{"Received", "Davide Brunetti", "Wrong destination my friend", Calendar.getInstance().getTime()}
 			
 	};
 	DefaultTableModel tableModel;

@@ -122,12 +122,18 @@ public class Server {
 
 				while (true) {
 					switch (in.readLine()) {
-					case "Send":
+					case SYSTEM_CONSTANTS.SEND_ACTION:
 						JOptionPane.showMessageDialog(null, "Server Authority : Mail Sent");
 						break;
 
-					case "Read":
-						JOptionPane.showMessageDialog(null, "Read");
+					case SYSTEM_CONSTANTS.FORWARD_ACTION:
+						JOptionPane.showMessageDialog(null, "Forwarding");
+						break;
+						
+					case SYSTEM_CONSTANTS.LOAD_ACTION:
+						//Carica le mail , le invia
+						
+						JOptionPane.showMessageDialog(null, "Mail Loaded");
 						break;
 					}
 
@@ -174,7 +180,7 @@ public class Server {
 		for (int k = 0; k < connectedClient.size(); k++) {
 			data[k][0] = k;
 			data[k][1] = connectedClient.get(k).getPort();
-			data[k][2] = Calendar.getInstance().getTime();;
+			data[k][2] = Calendar.getInstance().getTime();
 		}
 		table.setModel(new DefaultTableModel(data, columnNames) {
 

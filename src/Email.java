@@ -1,39 +1,40 @@
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Email {
 
-	private int ID;
-	private int personalID = 0;
+	private static final AtomicInteger count = new AtomicInteger(0); 
+	private final int ID;
 	private String sender;
 	private String receiver;
 	private String emailObject;
 	private String emailText;
-	private Date sendingDate;
+	private java.util.Date sendingDate;
 	
 
 	/**
 	 * 
-	 * @param ID 
 	 * @param sender
 	 * @param receiver
 	 * @param messageObject
 	 * @param messageText
 	 * @param sendingDate
 	 */
-	public Email(int ID , String sender , String receiver , String messageObject , String messageText , Date sendingDate)
+	public Email(String sender , String receiver , String messageObject , String messageText)
 	{
 		
-		personalID = ID;
-		ID++;
+		ID = count.incrementAndGet();
 		this.sender = sender;
 		this.receiver = receiver;
 		emailObject = messageObject;
 		emailText = messageText;
-		this.sendingDate = sendingDate;
+		sendingDate = Calendar.getInstance().getTime();
 	}
 	
 	public int getID()
 	{
-		return personalID;
+		return ID;
 	}
 	
 	public String getSender ()
@@ -56,7 +57,7 @@ public class Email {
 		return emailText;
 	}
 	
-	public Date getSendingDate()
+	public java.util.Date getSendingDate()
 	{
 		return sendingDate;
 	}
