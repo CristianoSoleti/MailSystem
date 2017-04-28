@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete 13 resources" deleteContents="true" description="Delete 13 resources" element1="/04-beeperThread" element10="/13-LockOggettoCondiviso" element11="/14-sincronizzazioneLatoClient-Server" element12="/MailSystem" element13="/workspace" element2="/04-RaceTest-priority" element3="/05-gestioneEccezioni" element4="/06-Runnable" element5="/07-traccia stack" element6="/08-join" element7="/09-scheduling" element8="/10-Daemons" element9="/11-interferenze" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="13" stamp="1492897083465"/>
+</session>
