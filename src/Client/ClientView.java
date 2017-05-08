@@ -7,6 +7,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.JTableHeader;
 
 import java.awt.event.WindowEvent; //for CloseListener()
+import java.io.Serializable;
 import java.awt.event.WindowAdapter; //for CloseListener()
 import java.util.Observable; //for update();
 import java.awt.event.ActionListener; //for addController()
@@ -18,7 +19,7 @@ import java.awt.event.MouseListener;
 import java.awt.*;
 import MailSystemUtilities.SYSTEM_CONSTANTS;
 
-class ClientView implements java.util.Observer {
+class ClientView implements java.util.Observer, Serializable {
 
 	Font inBoxMailFont = new Font("Arial", Font.PLAIN, 14);
 

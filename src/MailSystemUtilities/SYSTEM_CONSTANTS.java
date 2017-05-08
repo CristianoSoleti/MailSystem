@@ -7,6 +7,8 @@ public class SYSTEM_CONSTANTS {
 	public static final String CREATE_ACTION = "CREATE";
 	public static final String SEND_ACTION = "SEND";
 	public static final String LOAD_ACTION = "LOAD";
+	public static final String SERVER = "Server";
+
 
 
 

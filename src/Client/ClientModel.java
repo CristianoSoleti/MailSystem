@@ -1,9 +1,10 @@
 package Client;
+import java.io.Serializable;
 import java.util.ArrayList;
 import MailSystemUtilities.Email;
 
 
-public class ClientModel extends java.util.Observable {	
+public class ClientModel extends java.util.Observable implements Serializable {	
 	
 	String[] columnNames = {"Sender", "Receiver", "Subject", "Text" };
 

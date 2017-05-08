@@ -2,12 +2,7 @@ package Client;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.rmi.Naming;
 
-import java.util.Scanner;
-
-import Remote.RequestsInterface;
-import Remote.Requests;
 
 public class ClientApp {
 

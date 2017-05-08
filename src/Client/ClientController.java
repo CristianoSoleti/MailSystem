@@ -6,9 +6,13 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.*;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.UnknownHostException;
 import java.rmi.Naming;
+import java.rmi.Remote;
+import java.util.ArrayList;
 
+import MailSystemUtilities.Email;
 import MailSystemUtilities.SYSTEM_CONSTANTS;
 import Remote.Requests;
 import Remote.RequestsInterface;
@@ -16,7 +20,7 @@ import Remote.RequestsInterface;
 /*
  * Controller extends action listener cause he needs to perform actions on events like click.
  */
-class ClientController implements ActionListener, MouseListener {
+public class ClientController implements ActionListener, MouseListener, Serializable  {
 
 	static boolean isMailEditorOpen = false;
 
@@ -31,6 +35,10 @@ class ClientController implements ActionListener, MouseListener {
 		System.out.println("ClientController created");
 	}
 
+	public ClientModel getModel(){
+		return model;
+	}
+	
 	// invoked when a button is pressed
 	public void actionPerformed(ActionEvent e) {
 
@@ -57,6 +65,7 @@ class ClientController implements ActionListener, MouseListener {
 
 		System.out.println("Sending");
 		server.send("Il server manda la mail.");
+		client.send("stringa");
 	}
 
 	public void createMail() {
@@ -74,32 +83,33 @@ class ClientController implements ActionListener, MouseListener {
 		String emailAccount = JOptionPane.showInputDialog(null, "Enter your email Account", "Account login.",
 				JOptionPane.QUESTION_MESSAGE);
 
-		view.setFrameTitle(emailAccount);
 
 		try {
 			client = new Requests(emailAccount);
 			server = (RequestsInterface) Naming.lookup("rmi://localhost/Server");
 			
 			
-			System.out.println("[System] Client created and ready to communicate with server.");
+			System.out.println("[System] Client created and ready to communicate with server."+"Nome account "+emailAccount);
 			server.setClient(client);
-			
 			server.clientConnectionWelcome(client);
-			System.out.println("fatto dal server"+"Server name"+server.getName()+"client name"+client.getName());
+			ArrayList<Email> userMailList = server.requestUserMailList(client);
+
+			if(userMailList == null){return;}
+			else
+			{
+				view.setFrameTitle(emailAccount);
+
+				model.setValue(userMailList);
+				refreshViewTableData();
+			}
+			
+			
 		} catch (Exception e) {
-			System.out.println("[System] Server failed: " + e);
+			System.out.println("Server failed to find an account - Disconnecting " + e);
+			JOptionPane.showMessageDialog(null, "Nessun account trovato");
+			server.destroyClient(client);
+			System.exit(0);
 		}
-		
-		
-		
-		
-		loadMailIntoTable(emailAccount);
-
-	}
-
-	public void loadMailIntoTable(String emailAccount) throws ClassNotFoundException, IOException {
-
-		refreshViewTableData();
 	}
 
 	/*
@@ -120,7 +130,7 @@ class ClientController implements ActionListener, MouseListener {
 	}
 
 	@SuppressWarnings("serial")
-	private void refreshViewTableData() {
+	public void refreshViewTableData() {
 
 		view.getTable().setModel(new DefaultTableModel(model.table, model.columnNames) {
 
