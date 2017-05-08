@@ -1,4 +1,6 @@
+package Client;
 import java.util.ArrayList;
+import MailSystemUtilities.Email;
 
 
 public class ClientModel extends java.util.Observable {	

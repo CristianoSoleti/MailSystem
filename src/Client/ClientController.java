@@ -1,12 +1,17 @@
+package Client;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
+
 import java.awt.event.*;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
+import java.rmi.Naming;
+
+import MailSystemUtilities.SYSTEM_CONSTANTS;
+import Remote.Requests;
+import Remote.RequestsInterface;
 
 /*
  * Controller extends action listener cause he needs to perform actions on events like click.
@@ -14,13 +19,14 @@ import java.util.ArrayList;
 class ClientController implements ActionListener, MouseListener {
 
 	static boolean isMailEditorOpen = false;
-	PrintWriter out;
-	ObjectInputStream in;
-	private Socket socket;
 
 	ClientModel model;
 	ClientView view;
 
+	public RequestsInterface server;
+
+	public RequestsInterface client;
+	
 	ClientController() {
 		System.out.println("ClientController created");
 	}
@@ -49,10 +55,8 @@ class ClientController implements ActionListener, MouseListener {
 
 	public void sendMailRequest() throws IOException {
 
-		out.flush();
-		out.write(SYSTEM_CONSTANTS.SEND_ACTION);
-		out.println();
-
+		System.out.println("Sending");
+		server.send("Il server manda la mail.");
 	}
 
 	public void createMail() {
@@ -69,31 +73,32 @@ class ClientController implements ActionListener, MouseListener {
 
 		String emailAccount = JOptionPane.showInputDialog(null, "Enter your email Account", "Account login.",
 				JOptionPane.QUESTION_MESSAGE);
-		if (!Server.requestConnection(emailAccount)) {
-			return;
-		}
+
 		view.setFrameTitle(emailAccount);
-		socket = new Socket("127.0.0.1", 9898);
-		in = new ObjectInputStream(socket.getInputStream());
 
-		out = new PrintWriter(socket.getOutputStream(), true);
-		out.flush();
-		out.write(SYSTEM_CONSTANTS.LOAD_ACTION);
-		out.println();
-
+		try {
+			client = new Requests(emailAccount);
+			server = (RequestsInterface) Naming.lookup("rmi://localhost/Server");
+			
+			
+			System.out.println("[System] Client created and ready to communicate with server.");
+			server.setClient(client);
+			
+			server.clientConnectionWelcome(client);
+			System.out.println("fatto dal server"+"Server name"+server.getName()+"client name"+client.getName());
+		} catch (Exception e) {
+			System.out.println("[System] Server failed: " + e);
+		}
+		
+		
+		
+		
 		loadMailIntoTable(emailAccount);
 
 	}
 
 	public void loadMailIntoTable(String emailAccount) throws ClassNotFoundException, IOException {
-		out.flush();
-		out.write(emailAccount);
-		out.println();
-		@SuppressWarnings("unchecked")
-		ArrayList<Email> messageList = (ArrayList<Email>) in.readObject();
-		if (messageList == null) {return;}
-		
-		model.setValue(messageList);
+
 		refreshViewTableData();
 	}
 
@@ -113,7 +118,6 @@ class ClientController implements ActionListener, MouseListener {
 		System.out.println("Controller: adding view");
 		this.view = v;
 	}
-
 
 	@SuppressWarnings("serial")
 	private void refreshViewTableData() {

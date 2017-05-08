@@ -1,7 +1,15 @@
+package Client;
+
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.rmi.Naming;
 
-public class GlueCode {
+import java.util.Scanner;
+
+import Remote.RequestsInterface;
+import Remote.Requests;
+
+public class ClientApp {
 
 	/*
 	 * The order of instantiating the objects below will be important for some
@@ -9,7 +17,7 @@ public class GlueCode {
 	 * order below works.
 	 */
 
-	public GlueCode() throws UnknownHostException, IOException, InterruptedException, ClassNotFoundException {
+	public ClientApp() throws UnknownHostException, IOException, InterruptedException, ClassNotFoundException {
 
 		ClientModel myClientModel = new ClientModel();
 		ClientView myClientView = new ClientView();
@@ -21,16 +29,15 @@ public class GlueCode {
 		myClientController.addView(myClientView);
 		myClientView.addController(myClientController);
 		myClientController.connectToServer();
-	
+
+	}
+
+	public static void main(String[] args) throws UnknownHostException, ClassNotFoundException, IOException, InterruptedException {
+		ClientApp mainRunMVC = new ClientApp();
+
 		
 	}
 
+	// 
 
-	@SuppressWarnings("unused")
-	public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
-		
-		GlueCode mainRunMVC = new GlueCode();
-		
-	} 
-
-} 
+}

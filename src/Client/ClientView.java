@@ -1,3 +1,4 @@
+package Client;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -15,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.*;
+import MailSystemUtilities.SYSTEM_CONSTANTS;
 
 class ClientView implements java.util.Observer {
 

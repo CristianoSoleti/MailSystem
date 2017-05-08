@@ -1,11 +1,6 @@
-/ClientController$1.class
-/Server$MailThread$1.class
-/ClientView$4.class
+/Remote/
+/Client/
 /Server$1.class
-/ClientView$1.class
-/ClientView$2.class
-/ClientView$3.class
-/ClientView$5.class
-/ClientView$6.class
-/SYSTEM_CONSTANTS.class
-/Server$2.class
+/Requests.class
+/MailThread.class
+/Server$MailThread.class

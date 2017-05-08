@@ -1,20 +1,23 @@
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Calendar;
+
+import java.rmi.Naming;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.server.RemoteServer;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+
+import MailSystemUtilities.MailAccount;
+import MailSystemUtilities.MailAccountDatabase;
+import Remote.Requests;
+import Remote.RequestsInterface;
 
 /**
  * A server program which accepts requests from clients to capitalize strings.
@@ -31,18 +34,14 @@ public class Server {
 	public static MailAccountDatabase db = MailAccountDatabase.getInstance();
 	private static Server instance = null;
 
-	static ArrayList<Socket> connectedClient = new ArrayList<Socket>();
-	static ArrayList<Integer> numberOfClients = new ArrayList<Integer>();
-
-	static int i = 0;
 	static String[] columnNames = { "Client #", "Port", "Date" };
 	public static Object[][] data = new Object[5][3];
-	DefaultTableModel tableModel;
 
 	public JLabel informationLbL = new JLabel("Connected clients");
 	private static JTable table = new JTable();
 
-	protected Server() {
+	public Server() throws RemoteException {
+		super();
 
 		JFrame frame = new JFrame("MailServer");
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -56,7 +55,8 @@ public class Server {
 			}
 		});
 	}
-	public static Server getInstance() {
+
+	public static Server getInstance() throws RemoteException {
 		if (instance == null) {
 			instance = new Server();
 		}
@@ -71,105 +71,26 @@ public class Server {
 	 * interesting logging messages. It is certainly not necessary to do this.
 	 */
 	public static void main(String[] args) throws Exception {
-		Server.getInstance();
-		System.out.println("Mail Server is running.");
-		int clientNumber = 0;
-		ServerSocket listener = new ServerSocket(9898);
+		runRMIRegistry();
 		try {
-			while (true) {
-				new MailThread(listener.accept(), clientNumber++).start();
-			}
-		} finally {
-			listener.close();
+			
+			System.out.println("Creating server..");
+			Requests server = new Requests("Server");
+
+			Naming.rebind("rmi://localhost/Server", server);
+
+			System.out.println("[System] Server Remote Object is ready:");
+			
+			for(int i = 0;i<server.getClients().size();i++)
+				System.err.println("[System]"+server.getClients().get(i));
+			
+
+		} catch (Exception e) {
+			System.out.println("[System] Server failed: " + e);
 		}
 	}
 
-	/**
-	 * A private thread to handle capitalization requests on a particular
-	 * socket. The client terminates the dialogue by sending a single line
-	 * containing only a period.
-	 */
-	private static class MailThread extends Thread {
-		private Socket socket;
-		private int clientNumber;
-
-		public MailThread(Socket socket, int clientNumber) {
-			this.socket = socket;
-			this.clientNumber = clientNumber;
-			log("New connection with client# " + clientNumber + " at " + socket);
-		}
-
-		/**
-		 * Services this thread's client by first sending the client a welcome
-		 * message then repeatedly reading strings and sending back the
-		 * capitalized version of the string.
-		 */
-		public void run() {
-			try {
-				connectedClient.add(socket);
-				System.out.println("Aggiunto il socket" + socket);
-
-				System.out.println("Number of connected clients" + connectedClient.size() + "");
-
-				// Decorate the streams so we can send characters
-				// and not just bytes. Ensure output is flushed
-				// after every newline.
-				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-
-				// Send a welcome message to the client.
-				refreshTable();
-
-				while (true) {
-					switch (in.readLine()) {
-					case SYSTEM_CONSTANTS.SEND_ACTION:
-						JOptionPane.showMessageDialog(null, "Server Authority : Mail Sent");
-						break;
-
-					case SYSTEM_CONSTANTS.FORWARD_ACTION:
-						JOptionPane.showMessageDialog(null, "Forwarding");
-						break;
-
-					case SYSTEM_CONSTANTS.LOAD_ACTION:
-						String socketMailAccount = in.readLine();
-						MailAccount currenSocketAccount = null;
-						for (MailAccount ml : db.getAccountList()) {
-							if (ml.getMailAccount().equals(socketMailAccount)) {
-								JOptionPane.showMessageDialog(null, "Trovata lista di messaggi");
-								currenSocketAccount = ml;
-							}
-						}
-						out.writeObject(currenSocketAccount.getMessageList());
-						out.flush();
-						System.out.println("loaded");
-						break;
-					}
-
-				}
-			} catch (IOException e) {
-				log("Error handling client# " + clientNumber + ": " + e);
-				connectedClient.remove(socket);
-				refreshTable();
-			} finally {
-				try {
-					socket.close();
-					connectedClient.remove(socket);
-					refreshTable();
-				} catch (IOException e) {
-					log("Couldn't close a socket, what's going on?");
-				}
-				log("Connection with client# " + clientNumber + " closed");
-			}
-		}
-
-		/**
-		 * Logs a simple message. In this case we just write the message to the
-		 * server applications standard output.
-		 */
-		private void log(String message) {
-			System.out.println(message);
-		}
-	}
+	
 
 	public static boolean requestConnection(String mail) throws InterruptedException {
 		for (MailAccount ml : db.getAccountList()) {
@@ -190,24 +111,14 @@ public class Server {
 
 	}
 
-	@SuppressWarnings("serial")
-	public static void refreshTable() {
-		for (int i = 0; i < data.length; i++) {
-			data[i][0] = "";
-			data[i][1] = "";
-			data[i][2] = "";
+	public static void runRMIRegistry() {
+		try { // special exception handler for registry creation
+			LocateRegistry.createRegistry(1099);
+			System.out.println("java RMI registry created.");
+		} catch (RemoteException e) {
+			// do nothing, error means registry already exists
+			System.out.println("java RMI registry already exists.");
 		}
-		for (int k = 0; k < connectedClient.size(); k++) {
-			data[k][0] = k;
-			data[k][1] = connectedClient.get(k).getPort();
-			data[k][2] = Calendar.getInstance().getTime();
-		}
-		table.setModel(new DefaultTableModel(data, columnNames) {
-
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		});
 	}
+
 }
