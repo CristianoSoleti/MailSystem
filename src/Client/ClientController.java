@@ -9,13 +9,12 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.UnknownHostException;
 import java.rmi.Naming;
-import java.rmi.Remote;
 import java.util.ArrayList;
 
 import MailSystemUtilities.Email;
 import MailSystemUtilities.SYSTEM_CONSTANTS;
-import Remote.Requests;
-import Remote.RequestsInterface;
+import Remote.*;
+
 
 /*
  * Controller extends action listener cause he needs to perform actions on events like click.
@@ -29,7 +28,7 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 
 	public RequestsInterface server;
 
-	public RequestsInterface client;
+	public ClientImpl client;
 	
 	ClientController() {
 		System.out.println("ClientController created");
@@ -65,7 +64,7 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 
 		System.out.println("Sending");
 		server.send("Il server manda la mail.");
-		client.send("stringa");
+		
 	}
 
 	public void createMail() {
@@ -85,8 +84,9 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 
 
 		try {
-			client = new Requests(emailAccount);
+			client = new ClientImpl(emailAccount);
 			server = (RequestsInterface) Naming.lookup("rmi://localhost/Server");
+			
 			
 			
 			System.out.println("[System] Client created and ready to communicate with server."+"Nome account "+emailAccount);
