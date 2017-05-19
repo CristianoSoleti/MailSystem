@@ -21,6 +21,8 @@ import javax.swing.table.DefaultTableModel;
 import MailSystemUtilities.MailAccount;
 import MailSystemUtilities.MailAccountDatabase;
 import MailSystemUtilities.SYSTEM_CONSTANTS;
+import Remote.Client;
+import Remote.ClientImpl;
 import Remote.Requests;
 import Remote.RequestsInterface;
 
@@ -133,7 +135,7 @@ public class Server {
 		}
 		for (int k = 0; k < connectedClients.size(); k++) {
 			data[k][0] = k;
-			data[k][1] = connectedClients.get(k).toString();
+			data[k][1] = connectedClients.get(k);
 			data[k][2] = date;
 		}
 		table.setModel(new DefaultTableModel(data, columnNames) {

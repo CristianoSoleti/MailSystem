@@ -24,6 +24,7 @@ public class MailAccountDatabase {
 		MailAccount a2 = new MailAccount("davide.brunetti@edu.unito.it");
 		MailAccount a3 = new MailAccount("elio.cometto@edu.unito.it");
 		MailAccount a4 = new MailAccount("1");
+		MailAccount a5 = new MailAccount("2");
 
 		a4.messageList.add(new Email("Cristiano","Davide","Give me food","Please I need food."));
 		a4.messageList.add(new Email("Davide","Cristiano","Wrong receiver","I'm not your ma."));
@@ -34,6 +35,8 @@ public class MailAccountDatabase {
 		accountList.add(a2);
 		accountList.add(a3);
 		accountList.add(a4);
+		accountList.add(a5);
+
 
 	}
 	

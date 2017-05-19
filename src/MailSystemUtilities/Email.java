@@ -17,10 +17,10 @@ public class Email implements Serializable{
 
 	/**
 	 * 
-	 * @param sender
-	 * @param receiver
-	 * @param messageObject
-	 * @param messageText
+	 * @param sender person which is sending
+	 * @param receiver person which will receive
+	 * @param messageObject messageObject
+	 * @param messageText text of the mail
 	 * @param sendingDate
 	 */
 	public Email(String sender , String receiver , String messageObject , String messageText)

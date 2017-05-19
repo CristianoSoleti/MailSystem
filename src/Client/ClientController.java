@@ -1,25 +1,25 @@
 package Client;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
 
 import java.awt.event.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.UnknownHostException;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import MailSystemUtilities.Email;
 import MailSystemUtilities.SYSTEM_CONSTANTS;
 import Remote.*;
 
-
 /*
  * Controller extends action listener cause he needs to perform actions on events like click.
  */
-public class ClientController implements ActionListener, MouseListener, Serializable  {
+public class ClientController implements ActionListener, MouseListener, Serializable , WindowListener {
 
 	static boolean isMailEditorOpen = false;
 
@@ -29,16 +29,17 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 	public RequestsInterface server;
 
 	public ClientImpl client;
-	
+
 	ClientController() {
 		System.out.println("ClientController created");
+
 	}
 
-	public ClientModel getModel(){
+	public ClientModel getModel() {
 		return model;
 	}
-	
-	// invoked when a button is pressed
+
+	// invoked when a button from view is pressed
 	public void actionPerformed(ActionEvent e) {
 
 		System.out.println("Controller: The " + e.getActionCommand() + " button is clicked");
@@ -60,11 +61,18 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 
 	}
 
+	/*
+	 * sends mail request to server if mail isn't null.
+	 */
 	public void sendMailRequest() throws IOException {
-
-		System.out.println("Sending");
-		server.send("Il server manda la mail.");
+		Email newMail = view.createMailFromGUI();
+		if(newMail == null){return;}
+		System.out.println("Sending"+newMail.toString());
 		
+		server.send(newMail);
+		refreshTableData(newMail.getSender());
+		
+
 	}
 
 	public void createMail() {
@@ -82,36 +90,53 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 		String emailAccount = JOptionPane.showInputDialog(null, "Enter your email Account", "Account login.",
 				JOptionPane.QUESTION_MESSAGE);
 
-
 		try {
 			client = new ClientImpl(emailAccount);
 			server = (RequestsInterface) Naming.lookup("rmi://localhost/Server");
-			
-			
-			
-			System.out.println("[System] Client created and ready to communicate with server."+"Nome account "+emailAccount);
+
+			System.out.println(
+					"[System] Client created and ready to communicate with server." + "Nome account " + emailAccount);
 			server.setClient(client);
 			server.clientConnectionWelcome(client);
-			ArrayList<Email> userMailList = server.requestUserMailList(client);
-
-			if(userMailList == null){return;}
-			else
+			refreshTableData(emailAccount);
+			while(true)
 			{
-				view.setFrameTitle(emailAccount);
-
-				model.setValue(userMailList);
-				refreshViewTableData();
+				Thread.sleep(1000);
+				ArrayList<Email> userMailList = server.requestUserMailList(client);
+				int size= model.getMailListSize();
+				//[CRITICAL] Sistemare sistema confronto email
+				if(userMailList.size()>size)
+				{
+					//[CRITICAL]mostarre mittente e titolo
+					System.out.println("new mail arrived");
+					client.showNewMessagePopUp();
+					refreshTableData(emailAccount);
+				}
 			}
-			
+
 			
 		} catch (Exception e) {
 			System.out.println("Server failed to find an account - Disconnecting " + e);
-			JOptionPane.showMessageDialog(null, "Nessun account trovato");
 			server.destroyClient(client);
 			System.exit(0);
 		}
 	}
 
+	public void refreshTableData(String emailAccount) throws RemoteException
+	{
+		ArrayList<Email> userMailList = server.requestUserMailList(client);
+
+		if (userMailList == null) {
+			return;
+		} else {
+			view.setFrameTitle(emailAccount);
+
+			model.setValue(userMailList);
+			updateViewTableData();
+		}
+		model.setUserAccountValue(emailAccount);
+	}
+	
 	/*
 	 * mouse listener for clicking events
 	 */
@@ -130,7 +155,7 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 	}
 
 	@SuppressWarnings("serial")
-	public void refreshViewTableData() {
+	public void updateViewTableData() {
 
 		view.getTable().setModel(new DefaultTableModel(model.table, model.columnNames) {
 
@@ -172,6 +197,54 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void windowActivated(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent arg0) {
+		try {
+			server.destroyClient(client);
+			System.exit(0);
+
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowOpened(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

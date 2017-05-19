@@ -1,4 +1,5 @@
 package Client;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -7,6 +8,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.JTableHeader;
 
 import java.awt.event.WindowEvent; //for CloseListener()
+import java.awt.event.WindowListener;
 import java.io.Serializable;
 import java.awt.event.WindowAdapter; //for CloseListener()
 import java.util.Observable; //for update();
@@ -17,6 +19,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.*;
+
+import MailSystemUtilities.Email;
 import MailSystemUtilities.SYSTEM_CONSTANTS;
 
 class ClientView implements java.util.Observer, Serializable {
@@ -43,74 +47,75 @@ class ClientView implements java.util.Observer, Serializable {
 	private JTextArea messageTextArea = new JTextArea();
 	private JButton sendBtn = new JButton("Send");
 
-
 	public JTable getTable() {
 		return table;
 	}
 
+	String emailAccount;
+
 	ClientView() {
 		System.out.println("Client View Created Successfully");
-		
+
 		JScrollPane scrollPane = new JScrollPane(table);
 		frame.add(scrollPane, BorderLayout.CENTER);
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
-		
-		restyleButton(newMailBtn,Color.WHITE,Color.decode("#E44C41"),Color.BLACK);
+
+		restyleButton(newMailBtn, Color.WHITE, Color.decode("#E44C41"), Color.BLACK);
 		newMailBtn.setFont(new Font("Arial", Font.BOLD, 14));
 		newMailBtn.setActionCommand(SYSTEM_CONSTANTS.CREATE_ACTION);
 		mainPanel.add(newMailBtn);
-		
-	    deleteMailBtn = createBtnWithImage("deleteMail.png",SYSTEM_CONSTANTS.DELETE_ACTION);
+
+		deleteMailBtn = createBtnWithImage("deleteMail.png", SYSTEM_CONSTANTS.DELETE_ACTION);
 		mainPanel.add(deleteMailBtn);
-	
-	    forwardMailBtn = createBtnWithImage("forwardMail.png",SYSTEM_CONSTANTS.FORWARD_ACTION);
+
+		forwardMailBtn = createBtnWithImage("forwardMail.png", SYSTEM_CONSTANTS.FORWARD_ACTION);
 		mainPanel.add(forwardMailBtn);
 		styleTable(table);
 		frame.add(mainPanel, BorderLayout.SOUTH);
 
 		setFrame(frame);
 
+	}
 
-	} 
-
-	private void setFrame(JFrame frame)
-	{
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	private void setFrame(JFrame frame) {
 		frame.setSize(800, 200);
 		frame.setLocation(100, 100);
 		frame.setVisible(true);
 	}
-	
-	private void styleTable(JTable table)
-	{
+
+	private void styleTable(JTable table) {
 		JTableHeader anHeader = table.getTableHeader();
 		table.setFont(inBoxMailFont);
 		anHeader.setForeground(Color.black);
 		anHeader.setFont(headerFont);
 	}
-	
-	private JButton createBtnWithImage(String imageIcon,String actionCommand)
-	{
+
+	private JButton createBtnWithImage(String imageIcon, String actionCommand) {
 		Icon icon = new ImageIcon(imageIcon);
-	    JButton button = new JButton(icon);
-	    button.setActionCommand(actionCommand);
-		restyleButton(button,Color.WHITE,Color.decode("#ecf0f1"),Color.BLACK);
+		JButton button = new JButton(icon);
+		button.setActionCommand(actionCommand);
+		restyleButton(button, Color.WHITE, Color.decode("#ecf0f1"), Color.BLACK);
 		return button;
 	}
-	
-	private void restyleButton(JButton button,Color foreground,Color background,Color border) {
-		  button.setForeground(foreground);
-		  button.setBackground(background);
-		  Border line = new LineBorder(border);
-		  Border margin = new EmptyBorder(5, 15, 5, 15);
-		  Border compound = new CompoundBorder(line, margin);
-		  button.setBorder(compound);
-		  button.setPreferredSize(new Dimension(80, 30));
 
-		}
+	private void restyleButton(JButton button, Color foreground, Color background, Color border) {
+		button.setForeground(foreground);
+		button.setBackground(background);
+		Border line = new LineBorder(border);
+		Border margin = new EmptyBorder(5, 15, 5, 15);
+		Border compound = new CompoundBorder(line, margin);
+		button.setBorder(compound);
+		button.setPreferredSize(new Dimension(80, 30));
+
+	}
+
 	public void update(Observable obs, Object obj) {
 		System.out.println("View : Observable is " + obs.getClass() + ",object passed is " + obj + "");
+		// String emailAccount = ((String)obj).toString(); //obj is an Object,
+		// need to cast to an Integer
+		emailAccount = obj + "";
+		// System.out.println(emailAccount);
 	}
 
 	public void addController(ActionListener controller) {
@@ -120,6 +125,8 @@ class ClientView implements java.util.Observer, Serializable {
 		deleteMailBtn.addActionListener(controller);
 		forwardMailBtn.addActionListener(controller);
 		table.addMouseListener((MouseListener) controller);
+		frame.addWindowListener((WindowListener)controller);
+
 	}
 
 	public void readMailFrame(String sender, String messageText) {
@@ -272,10 +279,17 @@ class ClientView implements java.util.Observer, Serializable {
 		addKeyListener(subjectTextArea, startingValue);
 		addFocusListener(subjectTextArea, startingValue);
 	}
-	
-	public void setFrameTitle(String title)
-	{
+
+	public void setFrameTitle(String title) {
 		frame.setTitle(title);
 	}
 
+	public Email createMailFromGUI() {
+
+		if(receiverTextArea.getText().equals("")||receiverTextArea.getText().equals("Add Receiver")){return null;}
+		if(subjectTextArea.getText().equals("")||subjectTextArea.getText().equals("Add Subject")){return null;}
+		
+		Email newMail = new Email(emailAccount,receiverTextArea.getText(),subjectTextArea.getText(),messageTextArea.getText());
+		return newMail;
+	}
 }
