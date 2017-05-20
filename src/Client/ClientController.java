@@ -22,7 +22,8 @@ import Remote.*;
 public class ClientController implements ActionListener, MouseListener, Serializable, WindowListener {
 
 	static boolean isMailEditorOpen = false;
-
+	int currentMailIndexOpened;
+	
 	ClientModel model;
 	ClientView view;
 
@@ -30,6 +31,8 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 
 	public ClientImpl client;
 
+	
+	
 	ClientController() {
 		System.out.println("ClientController created");
 
@@ -47,7 +50,14 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 		case SYSTEM_CONSTANTS.CREATE_ACTION:
 			createMail();
 			break;
-
+		case SYSTEM_CONSTANTS.DELETE_ACTION:
+			try {
+				deleteMail();
+			} catch (RemoteException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			break;
 		case SYSTEM_CONSTANTS.SEND_ACTION:
 			System.out.println("Controller: Send Mail");
 			try {
@@ -61,6 +71,16 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 
 	}
 
+	public void deleteMail() throws RemoteException
+	{
+		System.out.println("Removing mail at index"+currentMailIndexOpened);
+		server.delete(client, currentMailIndexOpened);
+		model.getMailList().remove(currentMailIndexOpened);
+		refreshTableData(model.userEmailAccount);
+		view.readMailFrame.setVisible(false);
+	}
+	
+	
 	/*
 	 * sends mail request to server if mail isn't null.
 	 */
@@ -102,6 +122,8 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 			server.clientConnectionWelcome(client);
 			refreshTableData(emailAccount);
 			model.setUserAccountValue(emailAccount);
+			view.setFrameTitle(emailAccount);
+
 
 			while (true) {
 				Thread.sleep(1000);
@@ -133,8 +155,6 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 		if (userMailList == null) {
 			return;
 		} else {
-			view.setFrameTitle(emailAccount);
-
 			model.setValue(userMailList);
 			updateViewTableData();
 		}
@@ -175,7 +195,8 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 
 		int selectedRow = view.getTable().getSelectedRow();
 		System.out.println("Controller: Opening mail at row " + view.getTable().getSelectedRow());
-		view.readMailFrame(model.table[selectedRow][1].toString(), model.table[selectedRow][2].toString());
+		view.createReadMailGUI(model.table[selectedRow][1].toString(), model.table[selectedRow][2].toString());
+		currentMailIndexOpened = selectedRow;
 	}
 
 	@Override

@@ -1,4 +1,8 @@
 package Server;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -14,8 +18,10 @@ import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 import MailSystemUtilities.MailAccount;
@@ -47,14 +53,20 @@ public class Server {
 	public JLabel informationLbL = new JLabel("Connected clients");
 	private static JTable table = new JTable();
 	public static ArrayList<String> connectedClients = new ArrayList<String>();
-
+	static public JTextArea logArea = new JTextArea(20,10);
 	Server() throws RemoteException {
-		super();
-
+	
 		JFrame frame = new JFrame("MailServer");
 		JScrollPane scrollPane = new JScrollPane(table);
-		frame.add(scrollPane);
-		frame.setSize(800, 200);
+		JScrollPane scrollPane1 = new JScrollPane(logArea);
+		logArea.setFont(new Font("Serif", Font.ITALIC, 18));
+		logArea.setLineWrap(true);
+		logArea.setWrapStyleWord(true);
+
+		frame.add(scrollPane, BorderLayout.CENTER);
+		frame.add(scrollPane1, BorderLayout.SOUTH);
+		
+		frame.setSize(800, 800);
 		frame.setLocation(100, 100);
 		frame.setVisible(true);
 		frame.addWindowListener(new WindowAdapter() {

@@ -6,6 +6,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import javax.swing.text.html.HTML;
+
 import MailSystemUtilities.Email;
 import MailSystemUtilities.MailAccount;
 import MailSystemUtilities.MailAccountDatabase;
@@ -47,7 +49,23 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 		Server.refreshTable(Calendar.getInstance().getTime());
 	}
 
+	public void delete(ClientImpl c,int index) throws RemoteException
+	{
+		
+		String sender = c.getClientName();
 
+		MailAccount senderAccount = null;
+
+		for (MailAccount ml : db.getAccountList()) {
+			if (ml.getMailAccount().equals(sender)) {
+				senderAccount = ml;
+			}
+
+		}
+		
+		senderAccount.getMessageList().remove(index);
+	}
+	
 	public void send(Email s) throws RemoteException {
 		if (name.equals(SYSTEM_CONSTANTS.SERVER)) {
 
@@ -74,7 +92,8 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 				receiverAccount = ml;
 			}
 		}
-
+		
+		Server.logArea.append(sender+"sent a message to"+receiver+"\n");
 
 		senderAccount.getMessageList().add(s);
 

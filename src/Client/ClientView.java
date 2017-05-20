@@ -47,6 +47,10 @@ class ClientView implements java.util.Observer, Serializable {
 	private JTextArea messageTextArea = new JTextArea();
 	private JButton sendBtn = new JButton("Send");
 
+	//Read Mail GUI
+	public JFrame readMailFrame = new JFrame();
+
+	
 	public JTable getTable() {
 		return table;
 	}
@@ -67,10 +71,10 @@ class ClientView implements java.util.Observer, Serializable {
 		mainPanel.add(newMailBtn);
 
 		deleteMailBtn = createBtnWithImage("deleteMail.png", SYSTEM_CONSTANTS.DELETE_ACTION);
-		mainPanel.add(deleteMailBtn);
+		//mainPanel.add(deleteMailBtn);
 
 		forwardMailBtn = createBtnWithImage("forwardMail.png", SYSTEM_CONSTANTS.FORWARD_ACTION);
-		mainPanel.add(forwardMailBtn);
+		//mainPanel.add(forwardMailBtn);
 		styleTable(table);
 		frame.add(mainPanel, BorderLayout.SOUTH);
 
@@ -131,24 +135,39 @@ class ClientView implements java.util.Observer, Serializable {
 
 	}
 
-	public void readMailFrame(String sender, String messageText) {
+	public void createReadMailGUI(String sender, String messageText) {
 
-		JFrame newFrame = new JFrame();
-		JPanel mainPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
-
+		
 		JLabel dialogueLbl = new JLabel(sender);
-		JTextArea messageTextArea = new JTextArea(messageText);
-		messageTextArea.setEditable(false);
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+		JScrollPane scrollPane = new JScrollPane(dialogueLbl);
 
-		newFrame.add("Center", mainPanel);
-		mainPanel.add(dialogueLbl);
-		mainPanel.add(messageTextArea);
-		newFrame.setVisible(true);
-		newFrame.setSize(800, 200);
-		newFrame.setLocation(100, 100);
-		newFrame.setVisible(true);
-		newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		JTextArea messageTextArea = new JTextArea(messageText);
+		JScrollPane scrollPane1 = new JScrollPane(messageTextArea);
+
+		JPanel mainPanel = new JPanel();
+		dialogueLbl.setFont(new Font("Tahoma", Font.BOLD, 20));
+		messageTextArea.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
+		mainPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+
+		mainPanel.add(deleteMailBtn);
+		mainPanel.add(forwardMailBtn);
+		
+		messageTextArea.setEditable(false);
+
+		readMailFrame.add(scrollPane,BorderLayout.NORTH);
+		readMailFrame.add(scrollPane1,BorderLayout.CENTER);
+		readMailFrame.add(mainPanel, BorderLayout.SOUTH);
+
+		readMailFrame.setVisible(true);
+		readMailFrame.setSize(800, 200);
+		readMailFrame.setLocation(100, 100);
+		readMailFrame.setVisible(true);
+		readMailFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		
+
+		
 	}
 
 	public void createMailGUI() {
@@ -195,7 +214,7 @@ class ClientView implements java.util.Observer, Serializable {
 		newMailFrame.setSize(x, y);
 		newMailFrame.setLocation(100, 100);
 		newMailFrame.setVisible(true);
-		messageTextArea.grabFocus();
+		receiverTextArea.grabFocus();
 		jScrollPane1.setMinimumSize(new Dimension(x, 200));
 		jScrollPane1.setMaximumSize(new Dimension(x, 200));
 		jScrollPane2.setMinimumSize(new Dimension(x, 200));
