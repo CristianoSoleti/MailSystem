@@ -64,6 +64,8 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 		}
 		
 		senderAccount.getMessageList().remove(index);
+		Server.logArea.append(sender+" deleted a message\n");
+
 	}
 	
 	public void send(Email s) throws RemoteException {
@@ -93,7 +95,7 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 			}
 		}
 		
-		Server.logArea.append(sender+"sent a message to"+receiver+"\n");
+		Server.logArea.append(sender+" sent a message to "+receiver+"\n");
 
 		senderAccount.getMessageList().add(s);
 

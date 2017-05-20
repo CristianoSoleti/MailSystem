@@ -35,8 +35,8 @@ class ClientView implements java.util.Observer, Serializable {
 	public JFrame frame = new JFrame();
 	private JTable table = new JTable();
 	private JButton newMailBtn = new JButton("Create");
-	private JButton forwardMailBtn;
-	private JButton deleteMailBtn;
+	//private JButton forwardMailBtn;
+	//private JButton deleteMailBtn;
 
 	// Create Mail GUI
 	private JFrame newMailFrame;
@@ -47,15 +47,16 @@ class ClientView implements java.util.Observer, Serializable {
 	private JTextArea messageTextArea = new JTextArea();
 	private JButton sendBtn = new JButton("Send");
 
-	//Read Mail GUI
+	// Read Mail GUI
 	public JFrame readMailFrame = new JFrame();
+	//public JButton replyBtn;
 
-	
 	public JTable getTable() {
 		return table;
 	}
 
 	String emailAccount = "";
+	ActionListener controller;
 
 	ClientView() {
 		System.out.println("Client View Created Successfully");
@@ -69,12 +70,13 @@ class ClientView implements java.util.Observer, Serializable {
 		newMailBtn.setFont(new Font("Arial", Font.BOLD, 14));
 		newMailBtn.setActionCommand(SYSTEM_CONSTANTS.CREATE_ACTION);
 		mainPanel.add(newMailBtn);
+		// deleteMailBtn = createBtnWithImage("deleteMail.png",
+		// SYSTEM_CONSTANTS.DELETE_ACTION);
+		// forwardMailBtn = createBtnWithImage("forwardMail.png",
+		// SYSTEM_CONSTANTS.FORWARD_ACTION);
+		// mainPanel.add(deleteMailBtn);
 
-		deleteMailBtn = createBtnWithImage("deleteMail.png", SYSTEM_CONSTANTS.DELETE_ACTION);
-		//mainPanel.add(deleteMailBtn);
-
-		forwardMailBtn = createBtnWithImage("forwardMail.png", SYSTEM_CONSTANTS.FORWARD_ACTION);
-		//mainPanel.add(forwardMailBtn);
+		// mainPanel.add(forwardMailBtn);
 		styleTable(table);
 		frame.add(mainPanel, BorderLayout.SOUTH);
 
@@ -118,7 +120,9 @@ class ClientView implements java.util.Observer, Serializable {
 		System.out.println("View : Observable is " + obs.getClass() + ",object passed is " + obj + "");
 		// String emailAccount = ((String)obj).toString(); //obj is an Object,
 		// need to cast to an Integer
-		if(!emailAccount.equals("")){return;}
+		if (!emailAccount.equals("")) {
+			return;
+		}
 		emailAccount = obj + "";
 
 		// System.out.println(emailAccount);
@@ -126,10 +130,10 @@ class ClientView implements java.util.Observer, Serializable {
 
 	public void addController(ActionListener controller) {
 		System.out.println("View: adding controller");
+
+		this.controller = controller;
 		newMailBtn.addActionListener(controller);
 		sendBtn.addActionListener(controller);
-		deleteMailBtn.addActionListener(controller);
-		forwardMailBtn.addActionListener(controller);
 		table.addMouseListener((MouseListener) controller);
 		frame.addWindowListener((WindowListener) controller);
 
@@ -137,7 +141,6 @@ class ClientView implements java.util.Observer, Serializable {
 
 	public void createReadMailGUI(String sender, String messageText) {
 
-		
 		JLabel dialogueLbl = new JLabel(sender);
 		JScrollPane scrollPane = new JScrollPane(dialogueLbl);
 
@@ -145,18 +148,29 @@ class ClientView implements java.util.Observer, Serializable {
 		JScrollPane scrollPane1 = new JScrollPane(messageTextArea);
 
 		JPanel mainPanel = new JPanel();
+		JButton replyBtn = createBtnWithImage("replyMail.png", SYSTEM_CONSTANTS.REPLY_ACTION);
+
 		dialogueLbl.setFont(new Font("Tahoma", Font.BOLD, 20));
 		messageTextArea.setFont(new Font("Tahoma", Font.PLAIN, 18));
 
 		mainPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
-
-		mainPanel.add(deleteMailBtn);
-		mainPanel.add(forwardMailBtn);
+		JButton deleteMailBtn = createBtnWithImage("deleteMail.png", SYSTEM_CONSTANTS.DELETE_ACTION);
+		JButton forwardMailBtn = createBtnWithImage("forwardMail.png", SYSTEM_CONSTANTS.FORWARD_ACTION);
 		
+		//Son qua, perchè qua vengono inizializzati (potevo farlo nel costruttore però c'era un bug con la renderizzazione
+		//delle immagini
+		deleteMailBtn.addActionListener(controller);
+		forwardMailBtn.addActionListener(controller);
+		replyBtn.addActionListener(controller);
+		
+		mainPanel.add(deleteMailBtn);
+		mainPanel.add(replyBtn);
+		mainPanel.add(forwardMailBtn);
+
 		messageTextArea.setEditable(false);
 
-		readMailFrame.add(scrollPane,BorderLayout.NORTH);
-		readMailFrame.add(scrollPane1,BorderLayout.CENTER);
+		readMailFrame.add(scrollPane, BorderLayout.NORTH);
+		readMailFrame.add(scrollPane1, BorderLayout.CENTER);
 		readMailFrame.add(mainPanel, BorderLayout.SOUTH);
 
 		readMailFrame.setVisible(true);
@@ -164,10 +178,7 @@ class ClientView implements java.util.Observer, Serializable {
 		readMailFrame.setLocation(100, 100);
 		readMailFrame.setVisible(true);
 		readMailFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
-		
 
-		
 	}
 
 	public void createMailGUI() {
