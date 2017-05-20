@@ -51,7 +51,7 @@ class ClientView implements java.util.Observer, Serializable {
 		return table;
 	}
 
-	String emailAccount;
+	String emailAccount = "";
 
 	ClientView() {
 		System.out.println("Client View Created Successfully");
@@ -114,7 +114,9 @@ class ClientView implements java.util.Observer, Serializable {
 		System.out.println("View : Observable is " + obs.getClass() + ",object passed is " + obj + "");
 		// String emailAccount = ((String)obj).toString(); //obj is an Object,
 		// need to cast to an Integer
+		if(!emailAccount.equals("")){return;}
 		emailAccount = obj + "";
+
 		// System.out.println(emailAccount);
 	}
 
@@ -125,7 +127,7 @@ class ClientView implements java.util.Observer, Serializable {
 		deleteMailBtn.addActionListener(controller);
 		forwardMailBtn.addActionListener(controller);
 		table.addMouseListener((MouseListener) controller);
-		frame.addWindowListener((WindowListener)controller);
+		frame.addWindowListener((WindowListener) controller);
 
 	}
 
@@ -286,10 +288,15 @@ class ClientView implements java.util.Observer, Serializable {
 
 	public Email createMailFromGUI() {
 
-		if(receiverTextArea.getText().equals("")||receiverTextArea.getText().equals("Add Receiver")){return null;}
-		if(subjectTextArea.getText().equals("")||subjectTextArea.getText().equals("Add Subject")){return null;}
-		
-		Email newMail = new Email(emailAccount,receiverTextArea.getText(),subjectTextArea.getText(),messageTextArea.getText());
+		if (receiverTextArea.getText().equals("") || receiverTextArea.getText().equals("Add Receiver")) {
+			return null;
+		}
+		if (subjectTextArea.getText().equals("") || subjectTextArea.getText().equals("Add Subject")) {
+			return null;
+		}
+
+		Email newMail = new Email(emailAccount, receiverTextArea.getText(), subjectTextArea.getText(),
+				messageTextArea.getText());
 		return newMail;
 	}
 }

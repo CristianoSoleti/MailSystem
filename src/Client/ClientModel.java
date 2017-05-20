@@ -23,7 +23,7 @@ public class ClientModel extends Observable implements Serializable {
 		System.out.println("Model is changing mail name to" + account);
 		userEmailAccount = account;
 		setChanged();
-		notifyObservers(account);
+		notifyObservers(userEmailAccount);
 	}
 
 	public void setValue(ArrayList<Email> newMailList) {
@@ -32,8 +32,6 @@ public class ClientModel extends Observable implements Serializable {
 		for (int i = 0; i < mailList.size(); i++) {
 			table[i] = mailList.get(i).toObjectArray();
 		}
-		setChanged();
-		notifyObservers(mailList);
 	}
 
 	public int getMailListSize() {

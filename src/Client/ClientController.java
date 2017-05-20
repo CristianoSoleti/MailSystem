@@ -19,7 +19,7 @@ import Remote.*;
 /*
  * Controller extends action listener cause he needs to perform actions on events like click.
  */
-public class ClientController implements ActionListener, MouseListener, Serializable , WindowListener {
+public class ClientController implements ActionListener, MouseListener, Serializable, WindowListener {
 
 	static boolean isMailEditorOpen = false;
 
@@ -66,12 +66,14 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 	 */
 	public void sendMailRequest() throws IOException {
 		Email newMail = view.createMailFromGUI();
-		if(newMail == null){return;}
-		System.out.println("Sending"+newMail.toString());
-		
+		if (newMail == null) {
+			return;
+		}
+		System.out.println("Controller: Sending" + newMail.getSender());
+		System.out.println("Controller >sender is" +newMail.getSender().toString());
+
 		server.send(newMail);
-		refreshTableData(newMail.getSender());
-		
+		refreshTableData(model.userEmailAccount);
 
 	}
 
@@ -99,22 +101,25 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 			server.setClient(client);
 			server.clientConnectionWelcome(client);
 			refreshTableData(emailAccount);
-			while(true)
-			{
+			model.setUserAccountValue(emailAccount);
+
+			while (true) {
 				Thread.sleep(1000);
-				ArrayList<Email> userMailList = server.requestUserMailList(client);
-				int size= model.getMailListSize();
-				//[CRITICAL] Sistemare sistema confronto email
-				if(userMailList.size()>size)
-				{
-					//[CRITICAL]mostarre mittente e titolo
+				
+				ArrayList<Email> serverMailList = server.requestUserMailList(client);
+				System.out.println("Server list size"+serverMailList.size()+"Local size"+model.getMailListSize());
+
+				if (serverMailList.size() > model.getMailListSize()) {
+					String sender = serverMailList.get(serverMailList.size()-1).getSender();
+					String title = serverMailList.get(serverMailList.size()-1).getEmailObject();
+					// [CRITICAL]mostarre mittente e titolo
 					System.out.println("new mail arrived");
-					client.showNewMessagePopUp();
+					client.showNewMessagePopUp(sender,title);
 					refreshTableData(emailAccount);
 				}
+
 			}
 
-			
 		} catch (Exception e) {
 			System.out.println("Server failed to find an account - Disconnecting " + e);
 			server.destroyClient(client);
@@ -122,8 +127,7 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 		}
 	}
 
-	public void refreshTableData(String emailAccount) throws RemoteException
-	{
+	public void refreshTableData(String emailAccount) throws RemoteException {
 		ArrayList<Email> userMailList = server.requestUserMailList(client);
 
 		if (userMailList == null) {
@@ -134,9 +138,8 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 			model.setValue(userMailList);
 			updateViewTableData();
 		}
-		model.setUserAccountValue(emailAccount);
 	}
-	
+
 	/*
 	 * mouse listener for clicking events
 	 */
@@ -202,13 +205,13 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 	@Override
 	public void windowActivated(WindowEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowClosed(WindowEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -226,25 +229,25 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 	@Override
 	public void windowDeactivated(WindowEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowIconified(WindowEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowOpened(WindowEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
