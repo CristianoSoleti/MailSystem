@@ -35,21 +35,19 @@ class ClientView implements java.util.Observer, Serializable {
 	public JFrame frame = new JFrame();
 	private JTable table = new JTable();
 	private JButton newMailBtn = new JButton("Create");
-	//private JButton forwardMailBtn;
-	//private JButton deleteMailBtn;
 
 	// Create Mail GUI
 	private JFrame newMailFrame;
 	private JPanel mainPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
 	private JLabel headerLbl = new JLabel("New Message");
 	public JTextArea receiverTextArea = new JTextArea();
-	private JTextArea subjectTextArea = new JTextArea();
+	public JTextArea subjectTextArea = new JTextArea();
 	private JTextArea messageTextArea = new JTextArea();
 	private JButton sendBtn = new JButton("Send");
 
 	// Read Mail GUI
 	public JFrame readMailFrame = new JFrame();
-	//public JButton replyBtn;
+	// public JButton replyBtn;
 
 	public JTable getTable() {
 		return table;
@@ -70,13 +68,7 @@ class ClientView implements java.util.Observer, Serializable {
 		newMailBtn.setFont(new Font("Arial", Font.BOLD, 14));
 		newMailBtn.setActionCommand(SYSTEM_CONSTANTS.CREATE_ACTION);
 		mainPanel.add(newMailBtn);
-		// deleteMailBtn = createBtnWithImage("deleteMail.png",
-		// SYSTEM_CONSTANTS.DELETE_ACTION);
-		// forwardMailBtn = createBtnWithImage("forwardMail.png",
-		// SYSTEM_CONSTANTS.FORWARD_ACTION);
-		// mainPanel.add(deleteMailBtn);
 
-		// mainPanel.add(forwardMailBtn);
 		styleTable(table);
 		frame.add(mainPanel, BorderLayout.SOUTH);
 
@@ -84,12 +76,18 @@ class ClientView implements java.util.Observer, Serializable {
 
 	}
 
+	/*
+	 * gives basic behaviour and attributes to the frame
+	 */
 	private void setFrame(JFrame frame) {
 		frame.setSize(800, 200);
 		frame.setLocation(100, 100);
 		frame.setVisible(true);
 	}
 
+	/*
+	 * Styles the table
+	 */
 	private void styleTable(JTable table) {
 		JTableHeader anHeader = table.getTableHeader();
 		table.setFont(inBoxMailFont);
@@ -97,6 +95,9 @@ class ClientView implements java.util.Observer, Serializable {
 		anHeader.setFont(headerFont);
 	}
 
+	/*
+	 * creates a button with an image background
+	 */
 	private JButton createBtnWithImage(String imageIcon, String actionCommand) {
 		Icon icon = new ImageIcon(imageIcon);
 		JButton button = new JButton(icon);
@@ -104,7 +105,9 @@ class ClientView implements java.util.Observer, Serializable {
 		restyleButton(button, Color.WHITE, Color.decode("#ecf0f1"), Color.BLACK);
 		return button;
 	}
-
+	/*
+	 * Styles button with margin and size
+	 */
 	private void restyleButton(JButton button, Color foreground, Color background, Color border) {
 		button.setForeground(foreground);
 		button.setBackground(background);
@@ -124,10 +127,13 @@ class ClientView implements java.util.Observer, Serializable {
 			return;
 		}
 		emailAccount = obj + "";
-
-		// System.out.println(emailAccount);
 	}
 
+	/*
+	 * linking view to controller
+	 * N.B not all buttons have their listener here , since not every widget is not necessarily instantiaed
+	 * at view start
+	 */
 	public void addController(ActionListener controller) {
 		System.out.println("View: adding controller");
 
@@ -139,6 +145,9 @@ class ClientView implements java.util.Observer, Serializable {
 
 	}
 
+	/*
+	 * creates a GUI for reading a mail
+	 */
 	public void createReadMailGUI(String sender, String messageText) {
 
 		JLabel dialogueLbl = new JLabel(sender);
@@ -156,13 +165,14 @@ class ClientView implements java.util.Observer, Serializable {
 		mainPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
 		JButton deleteMailBtn = createBtnWithImage("deleteMail.png", SYSTEM_CONSTANTS.DELETE_ACTION);
 		JButton forwardMailBtn = createBtnWithImage("forwardMail.png", SYSTEM_CONSTANTS.FORWARD_ACTION);
-		
-		//Son qua, perchè qua vengono inizializzati (potevo farlo nel costruttore però c'era un bug con la renderizzazione
-		//delle immagini
+
+		// Son qua, perchè qua vengono inizializzati (potevo farlo nel
+		// costruttore però c'era un bug con la renderizzazione
+		// delle immagini
 		deleteMailBtn.addActionListener(controller);
 		forwardMailBtn.addActionListener(controller);
 		replyBtn.addActionListener(controller);
-		
+
 		mainPanel.add(deleteMailBtn);
 		mainPanel.add(replyBtn);
 		mainPanel.add(forwardMailBtn);
@@ -181,6 +191,9 @@ class ClientView implements java.util.Observer, Serializable {
 
 	}
 
+	/*
+	 * creates GUI for CREATING a mail
+	 */
 	public void createMailGUI() {
 
 		newMailFrame = new JFrame();
@@ -201,6 +214,7 @@ class ClientView implements java.util.Observer, Serializable {
 		sendBtn.setActionCommand(SYSTEM_CONSTANTS.SEND_ACTION);
 		Box box = new Box(BoxLayout.Y_AXIS);
 
+		messageTextArea.setText("");
 		messageTextArea.setFont(new Font("Serif", Font.ITALIC, 32));
 		messageTextArea.setLineWrap(true);
 		messageTextArea.setWrapStyleWord(true);
@@ -238,6 +252,7 @@ class ClientView implements java.util.Observer, Serializable {
 		});
 	}
 
+	
 	public void resetTextBox(JTextArea txtArea, String value) {
 		txtArea.setText("");
 		txtArea.setText(value);

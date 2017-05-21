@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+import java.awt.Color;
 import java.awt.event.*;
 import java.io.IOException;
 import java.io.Serializable;
@@ -50,6 +51,14 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 		case SYSTEM_CONSTANTS.CREATE_ACTION:
 			createMail();
 			break;
+		case SYSTEM_CONSTANTS.REPLY_ACTION:
+			try {
+				replyMail();
+			} catch (IOException e3) {
+				// TODO Auto-generated catch block
+				e3.printStackTrace();
+			}
+			break;
 		case SYSTEM_CONSTANTS.DELETE_ACTION:
 			try {
 				deleteMail();
@@ -71,6 +80,27 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 
 	}
 
+	public void replyMail() throws IOException
+	{
+		if (isMailEditorOpen) {
+			return;
+		}
+		System.out.println("Controller: Open Mail Editor");
+		view.createMailGUI();
+		isMailEditorOpen = true;
+		setReplyMailInfo();
+		
+
+	}
+	
+	public void setReplyMailInfo()
+	{
+		view.resetTextBox(view.receiverTextArea,model.getMailList().get(currentMailIndexOpened).getSender());
+		view.resetTextBox(view.subjectTextArea,"RE: "+model.getMailList().get(currentMailIndexOpened).getEmailObject());
+		view.receiverTextArea.setForeground(Color.BLACK);
+		view.subjectTextArea.setForeground(Color.BLACK);
+	}
+	
 	public void deleteMail() throws RemoteException
 	{
 		System.out.println("Removing mail at index"+currentMailIndexOpened);
