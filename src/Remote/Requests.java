@@ -27,10 +27,8 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 
 	public Requests(String n) throws RemoteException {
 		this.name = n;
-		
-		
-	}
 
+	}
 
 	public String getName() throws RemoteException {
 		return this.name;
@@ -49,9 +47,8 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 		Server.refreshTable(Calendar.getInstance().getTime());
 	}
 
-	public void delete(ClientImpl c,int index) throws RemoteException
-	{
-		
+	public void delete(ClientImpl c, int index) throws RemoteException {
+
 		String sender = c.getClientName();
 
 		MailAccount senderAccount = null;
@@ -62,16 +59,16 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 			}
 
 		}
-		
+
 		senderAccount.getMessageList().remove(index);
-		Server.logArea.append(sender+" deleted a message\n");
+		Server.logArea.append(sender + " deleted a message\n");
 
 	}
-	
-	public void send(Email s) throws RemoteException {
+
+	public void send(ArrayList<Email> m) throws RemoteException {
 		if (name.equals(SYSTEM_CONSTANTS.SERVER)) {
 
-			sendMail(s);
+			sendMail(m);
 			System.out.println("Server authority sending mail");
 		} else {
 			System.out.println("No server authority");
@@ -79,46 +76,47 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 		}
 	}
 
-	void sendMail(Email s) {
-		String sender = s.getSender();
-		String receiver = s.getReceiver();
+	void sendMail(ArrayList<Email> list) {
+		for (Email m : list) {
+			String sender = m.getSender();
+			String receiver = m.getReceiver();
 
-		MailAccount senderAccount = null;
-		MailAccount receiverAccount = null;
+			MailAccount senderAccount = null;
+			MailAccount receiverAccount = null;
 
-		for (MailAccount ml : db.getAccountList()) {
-			if (ml.getMailAccount().equals(sender)) {
-				senderAccount = ml;
+			for (MailAccount ml : db.getAccountList()) {
+				if (ml.getMailAccount().equals(sender)) {
+					senderAccount = ml;
+				}
+				if (ml.getMailAccount().equals(receiver)) {
+					receiverAccount = ml;
+				}
 			}
-			if (ml.getMailAccount().equals(receiver)) {
-				receiverAccount = ml;
+			Server.logArea.append(sender + " sent a message to " + receiver + "\n");
+
+			senderAccount.getMessageList().add(m);
+			//If you forward a mail to yourself it may occur twice in your inbox
+			if (sender.equals(receiver)) {
+				return;
 			}
+			receiverAccount.getMessageList().add(m);
 		}
-		
-		Server.logArea.append(sender+" sent a message to "+receiver+"\n");
-
-		senderAccount.getMessageList().add(s);
-
-		receiverAccount.getMessageList().add(s);
 
 	}
 
-
-	ClientImpl findClient(String clientName)
-	{
-		for(ClientImpl c : clientsList)
-		{
-			if(c.getClientName().equals(clientName))
-			{
+	ClientImpl findClient(String clientName) {
+		for (ClientImpl c : clientsList) {
+			if (c.getClientName().equals(clientName)) {
 				return c;
 			}
 		}
 		return null;
 	}
-	public boolean notifyChanges()
-	{
+
+	public boolean notifyChanges() {
 		return true;
 	}
+
 	public ArrayList<String> getClients() {
 		return clientList;
 	}
@@ -131,9 +129,6 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 		MailAccount currentAccount = null;
 		for (MailAccount ml : db.getAccountList()) {
 			if (ml.getMailAccount().equals(c.getClientName())) {
-				// JOptionPane.showMessageDialog(null, "Trovata lista di
-				// messaggi");
-				System.err.println("loaded");
 				currentAccount = ml;
 			}
 		}
@@ -141,14 +136,11 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 	}
 
 	public void destroyClient(ClientImpl c) throws RemoteException {
-		System.out.println("Oggetto passato "+ c.getClientName()+"la lista ha :"+clientList.size()+"oggetti");
+		System.out.println("Oggetto passato " + c.getClientName() + "la lista ha :" + clientList.size() + "oggetti");
 
 		clientList.remove(c.getClientName());
 
 		refreshServerList();
 	}
-
-
-
 
 }

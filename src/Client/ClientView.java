@@ -11,6 +11,8 @@ import java.awt.event.WindowEvent; //for CloseListener()
 import java.awt.event.WindowListener;
 import java.io.Serializable;
 import java.awt.event.WindowAdapter; //for CloseListener()
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Observable; //for update();
 import java.awt.event.ActionListener; //for addController()
 import java.awt.event.FocusEvent;
@@ -105,6 +107,7 @@ class ClientView implements java.util.Observer, Serializable {
 		restyleButton(button, Color.WHITE, Color.decode("#ecf0f1"), Color.BLACK);
 		return button;
 	}
+
 	/*
 	 * Styles button with margin and size
 	 */
@@ -130,9 +133,8 @@ class ClientView implements java.util.Observer, Serializable {
 	}
 
 	/*
-	 * linking view to controller
-	 * N.B not all buttons have their listener here , since not every widget is not necessarily instantiaed
-	 * at view start
+	 * linking view to controller N.B not all buttons have their listener here ,
+	 * since not every widget is not necessarily instantiaed at view start
 	 */
 	public void addController(ActionListener controller) {
 		System.out.println("View: adding controller");
@@ -150,12 +152,13 @@ class ClientView implements java.util.Observer, Serializable {
 	 */
 	public void createReadMailGUI(String sender, String messageText) {
 
-		JLabel dialogueLbl = new JLabel(sender);
+		JLabel dialogueLbl = new JLabel("");
 		JScrollPane scrollPane = new JScrollPane(dialogueLbl);
 
-		JTextArea messageTextArea = new JTextArea(messageText);
+		JTextArea messageTextArea = new JTextArea("");
 		JScrollPane scrollPane1 = new JScrollPane(messageTextArea);
-
+		dialogueLbl.setText(sender);
+		messageTextArea.setText(messageText);
 		JPanel mainPanel = new JPanel();
 		JButton replyBtn = createBtnWithImage("replyMail.png", SYSTEM_CONSTANTS.REPLY_ACTION);
 
@@ -252,7 +255,6 @@ class ClientView implements java.util.Observer, Serializable {
 		});
 	}
 
-	
 	public void resetTextBox(JTextArea txtArea, String value) {
 		txtArea.setText("");
 		txtArea.setText(value);
@@ -331,7 +333,7 @@ class ClientView implements java.util.Observer, Serializable {
 		frame.setTitle(title);
 	}
 
-	public Email createMailFromGUI() {
+	public ArrayList<Email> createMailFromGUI() {
 
 		if (receiverTextArea.getText().equals("") || receiverTextArea.getText().equals("Add Receiver")) {
 			return null;
@@ -340,8 +342,30 @@ class ClientView implements java.util.Observer, Serializable {
 			return null;
 		}
 
-		Email newMail = new Email(emailAccount, receiverTextArea.getText(), subjectTextArea.getText(),
+		String[] listOfReceiver = getListOfReceiver();
+		ArrayList<Email> newMailList = new ArrayList<Email>();
+		for(int i = 0;i< listOfReceiver.length;i++)
+		{
+			Email newMail = new Email (emailAccount,listOfReceiver[i],subjectTextArea.getText(),
 				messageTextArea.getText());
-		return newMail;
+			newMailList.add(newMail);
+		}
+		//Email newMail = new Email(emailAccount, receiverTextArea.getText(), subjectTextArea.getText(),
+		//		messageTextArea.getText());
+		
+		return newMailList;
+	}
+
+	public String[] getListOfReceiver() {
+		if (receiverTextArea.getText().equals("") || receiverTextArea.getText().equals("Add Receiver")) {
+			return null;
+		}
+
+		String receiversString = receiverTextArea.getText();
+		String[] array = receiversString.split(",");
+		for (int i = 0; i < array.length; i++) {
+			System.out.println(array[i]);
+		}
+		return array;
 	}
 }

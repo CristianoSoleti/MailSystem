@@ -8,7 +8,7 @@ import MailSystemUtilities.Email;
 
 public interface RequestsInterface extends Remote {
 	public String getName() throws RemoteException;
-	public void send(Email msg) throws RemoteException;
+	public void send(ArrayList<Email> msg) throws RemoteException;
 	public void delete(ClientImpl c,int index) throws RemoteException;
 
 	public void setClient(ClientImpl c)throws RemoteException;

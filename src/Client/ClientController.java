@@ -52,12 +52,10 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 			createMail();
 			break;
 		case SYSTEM_CONSTANTS.REPLY_ACTION:
-			try {
-				replyMail();
-			} catch (IOException e3) {
-				// TODO Auto-generated catch block
-				e3.printStackTrace();
-			}
+			replyMail();
+			break;
+		case SYSTEM_CONSTANTS.FORWARD_ACTION:
+			forwardMail();
 			break;
 		case SYSTEM_CONSTANTS.DELETE_ACTION:
 			try {
@@ -80,12 +78,33 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 
 	}
 
-	public void replyMail() throws IOException
+	public void forwardMail()
 	{
 		if (isMailEditorOpen) {
 			return;
 		}
-		System.out.println("Controller: Open Mail Editor");
+		System.out.println("Controller: -FORWARD- Open Mail Editor");
+		view.createMailGUI();
+		isMailEditorOpen = true;
+		setForwardMailInfo();
+		
+	}
+	
+	public void setForwardMailInfo()
+	{
+		view.resetTextBox(view.receiverTextArea,model.getMailList().get(currentMailIndexOpened).getSender());
+		view.resetTextBox(view.subjectTextArea,model.getMailList().get(currentMailIndexOpened).getEmailObject());
+		view.receiverTextArea.setForeground(Color.BLACK);
+		view.subjectTextArea.setForeground(Color.BLACK);
+	}
+	
+	
+	public void replyMail()
+	{
+		if (isMailEditorOpen) {
+			return;
+		}
+		System.out.println("Controller: -REPLY- Open Mail Editor");
 		view.createMailGUI();
 		isMailEditorOpen = true;
 		setReplyMailInfo();
@@ -115,14 +134,13 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 	 * sends mail request to server if mail isn't null.
 	 */
 	public void sendMailRequest() throws IOException {
-		Email newMail = view.createMailFromGUI();
-		if (newMail == null) {
+		view.getListOfReceiver();
+		
+		ArrayList<Email> newMailList = view.createMailFromGUI();
+		if (newMailList == null) {
 			return;
 		}
-		System.out.println("Controller: Sending" + newMail.getSender());
-		System.out.println("Controller >sender is" +newMail.getSender().toString());
-
-		server.send(newMail);
+		server.send(newMailList);
 		refreshTableData(model.userEmailAccount);
 
 	}
@@ -159,12 +177,11 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 				Thread.sleep(1000);
 				
 				ArrayList<Email> serverMailList = server.requestUserMailList(client);
-				System.out.println("Server list size"+serverMailList.size()+"Local size"+model.getMailListSize());
+				//System.out.println("Server list size"+serverMailList.size()+"Local size"+model.getMailListSize());
 
 				if (serverMailList.size() > model.getMailListSize()) {
 					String sender = serverMailList.get(serverMailList.size()-1).getSender();
 					String title = serverMailList.get(serverMailList.size()-1).getEmailObject();
-					// [CRITICAL]mostarre mittente e titolo
 					System.out.println("new mail arrived");
 					client.showNewMessagePopUp(sender,title);
 					refreshTableData(emailAccount);
@@ -225,7 +242,7 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 
 		int selectedRow = view.getTable().getSelectedRow();
 		System.out.println("Controller: Opening mail at row " + view.getTable().getSelectedRow());
-		view.createReadMailGUI(model.table[selectedRow][1].toString(), model.table[selectedRow][2].toString());
+		view.createReadMailGUI(model.table[selectedRow][0].toString(), model.table[selectedRow][2].toString());
 		currentMailIndexOpened = selectedRow;
 	}
 
