@@ -23,8 +23,6 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 	public String name;
 	public static final ArrayList<String> clientList = new ArrayList<String>();
 	public static MailAccountDatabase db = MailAccountDatabase.getInstance();
-	public static final ArrayList<ClientImpl> clientsList = new ArrayList<ClientImpl>();
-
 	public Requests(String n) throws RemoteException {
 		this.name = n;
 
@@ -36,8 +34,6 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 
 	public void setClient(ClientImpl c) throws RemoteException {
 		clientList.add(c.getClientName());
-		clientsList.add(c);
-
 		refreshServerList();
 
 	}
@@ -47,7 +43,7 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 		Server.refreshTable(Calendar.getInstance().getTime());
 	}
 
-	public void delete(ClientImpl c, int index) throws RemoteException {
+	public synchronized void delete(Client c, int index) throws RemoteException {
 
 		String sender = c.getClientName();
 
@@ -65,7 +61,7 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 
 	}
 
-	public void send(ArrayList<Email> m) throws RemoteException {
+	public synchronized void send(ArrayList<Email> m) throws RemoteException {
 		if (name.equals(SYSTEM_CONSTANTS.SERVER)) {
 
 			sendMail(m);
@@ -104,14 +100,6 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 
 	}
 
-	ClientImpl findClient(String clientName) {
-		for (ClientImpl c : clientsList) {
-			if (c.getClientName().equals(clientName)) {
-				return c;
-			}
-		}
-		return null;
-	}
 
 	public boolean notifyChanges() {
 		return true;
