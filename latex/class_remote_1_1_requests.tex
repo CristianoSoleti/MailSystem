@@ -1,0 +1,209 @@
+\section{Remote.\+Requests Class Reference}
+\label{class_remote_1_1_requests}\index{Remote.\+Requests@{Remote.\+Requests}}
+Inheritance diagram for Remote.\+Requests\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_remote_1_1_requests}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Requests} (String n)  throws Remote\+Exception 
+\item 
+String \textbf{ get\+Name} ()  throws Remote\+Exception 
+\item 
+void \textbf{ set\+Client} (\textbf{ Client\+Impl} c)  throws Remote\+Exception 
+\item 
+void \textbf{ delete} (\textbf{ Client\+Impl} c, int index)  throws Remote\+Exception 
+\item 
+void \textbf{ send} (Array\+List$<$ \textbf{ Email} $>$ m)  throws Remote\+Exception 
+\item 
+boolean \textbf{ notify\+Changes} ()
+\item 
+Array\+List$<$ String $>$ \textbf{ get\+Clients} ()
+\item 
+void \textbf{ client\+Connection\+Welcome} (\textbf{ Client\+Impl} c)  throws Remote\+Exception 
+\item 
+Array\+List$<$ \textbf{ Email} $>$ \textbf{ request\+User\+Mail\+List} (\textbf{ Client\+Impl} c)  throws Headless\+Exception, Remote\+Exception 
+\item 
+void \textbf{ destroy\+Client} (\textbf{ Client\+Impl} c)  throws Remote\+Exception 
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+String \textbf{ name}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static final Array\+List$<$ String $>$ \textbf{ client\+List} = new Array\+List$<$String$>$()
+\item 
+static \textbf{ Mail\+Account\+Database} \textbf{ db} = \textbf{ Mail\+Account\+Database.\+get\+Instance}()
+\item 
+static final Array\+List$<$ \textbf{ Client\+Impl} $>$ \textbf{ clients\+List} = new Array\+List$<$\textbf{ Client\+Impl}$>$()
+\end{DoxyCompactItemize}
+\subsection*{Package Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ refresh\+Server\+List} ()
+\item 
+void \textbf{ send\+Mail} (Array\+List$<$ \textbf{ Email} $>$ list)
+\item 
+\textbf{ Client\+Impl} \textbf{ find\+Client} (String client\+Name)
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static final long \textbf{ serial\+Version\+U\+ID} = 1L
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\label{class_remote_1_1_requests_a89f0234ec78a48325b9be51fe2f9e37d}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!Requests@{Requests}}
+\index{Requests@{Requests}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{Requests()}
+{\footnotesize\ttfamily Remote.\+Requests.\+Requests (\begin{DoxyParamCaption}\item[{String}]{n }\end{DoxyParamCaption}) throws Remote\+Exception}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\label{class_remote_1_1_requests_a2dc2707b9842fe36135786a8549ef562}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!client\+Connection\+Welcome@{client\+Connection\+Welcome}}
+\index{client\+Connection\+Welcome@{client\+Connection\+Welcome}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{client\+Connection\+Welcome()}
+{\footnotesize\ttfamily void Remote.\+Requests.\+client\+Connection\+Welcome (\begin{DoxyParamCaption}\item[{\textbf{ Client\+Impl}}]{c }\end{DoxyParamCaption}) throws Remote\+Exception}
+
+
+
+Implements \textbf{ Remote.\+Requests\+Interface} \doxyref{}{p.}{interface_remote_1_1_requests_interface_a5475a40f92da1155e6466c60d01f8673}.
+
+\mbox{\label{class_remote_1_1_requests_a7e9759a81ab3da4f00e4ad11bd7df1ee}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!delete@{delete}}
+\index{delete@{delete}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{delete()}
+{\footnotesize\ttfamily void Remote.\+Requests.\+delete (\begin{DoxyParamCaption}\item[{\textbf{ Client\+Impl}}]{c,  }\item[{int}]{index }\end{DoxyParamCaption}) throws Remote\+Exception}
+
+
+
+Implements \textbf{ Remote.\+Requests\+Interface} \doxyref{}{p.}{interface_remote_1_1_requests_interface_a57dd7dc3a7cd7e793ddebca7cf62ae93}.
+
+\mbox{\label{class_remote_1_1_requests_ae288fc34a55ea927690612c1b2d17632}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!destroy\+Client@{destroy\+Client}}
+\index{destroy\+Client@{destroy\+Client}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{destroy\+Client()}
+{\footnotesize\ttfamily void Remote.\+Requests.\+destroy\+Client (\begin{DoxyParamCaption}\item[{\textbf{ Client\+Impl}}]{c }\end{DoxyParamCaption}) throws Remote\+Exception}
+
+
+
+Implements \textbf{ Remote.\+Requests\+Interface} \doxyref{}{p.}{interface_remote_1_1_requests_interface_a91351df1b2bad9ff47a672fa83ad5a87}.
+
+\mbox{\label{class_remote_1_1_requests_a85623e590d0603f84d0f9a46f16c02d0}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!find\+Client@{find\+Client}}
+\index{find\+Client@{find\+Client}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{find\+Client()}
+{\footnotesize\ttfamily \textbf{ Client\+Impl} Remote.\+Requests.\+find\+Client (\begin{DoxyParamCaption}\item[{String}]{client\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [package]}}
+
+\mbox{\label{class_remote_1_1_requests_afe61ceae0b569ad4814b73636e7ed5b9}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!get\+Clients@{get\+Clients}}
+\index{get\+Clients@{get\+Clients}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{get\+Clients()}
+{\footnotesize\ttfamily Array\+List$<$String$>$ Remote.\+Requests.\+get\+Clients (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_remote_1_1_requests_ae8af14f5a2f991f2d6aab2585e84277c}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!get\+Name@{get\+Name}}
+\index{get\+Name@{get\+Name}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{get\+Name()}
+{\footnotesize\ttfamily String Remote.\+Requests.\+get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) throws Remote\+Exception}
+
+
+
+Implements \textbf{ Remote.\+Requests\+Interface} \doxyref{}{p.}{interface_remote_1_1_requests_interface_a290eaa48ffcf85d1cd3a460a84bc4e1e}.
+
+\mbox{\label{class_remote_1_1_requests_a769d3854034c7f59614c323543e13f17}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!notify\+Changes@{notify\+Changes}}
+\index{notify\+Changes@{notify\+Changes}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{notify\+Changes()}
+{\footnotesize\ttfamily boolean Remote.\+Requests.\+notify\+Changes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_remote_1_1_requests_a0677462e2e23315291b4b766e311c610}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!refresh\+Server\+List@{refresh\+Server\+List}}
+\index{refresh\+Server\+List@{refresh\+Server\+List}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{refresh\+Server\+List()}
+{\footnotesize\ttfamily void Remote.\+Requests.\+refresh\+Server\+List (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [package]}}
+
+\mbox{\label{class_remote_1_1_requests_a685d42b91c134013cf962d56a83adaa1}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!request\+User\+Mail\+List@{request\+User\+Mail\+List}}
+\index{request\+User\+Mail\+List@{request\+User\+Mail\+List}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{request\+User\+Mail\+List()}
+{\footnotesize\ttfamily Array\+List$<$\textbf{ Email}$>$ Remote.\+Requests.\+request\+User\+Mail\+List (\begin{DoxyParamCaption}\item[{\textbf{ Client\+Impl}}]{c }\end{DoxyParamCaption}) throws Headless\+Exception, Remote\+Exception}
+
+
+
+Implements \textbf{ Remote.\+Requests\+Interface} \doxyref{}{p.}{interface_remote_1_1_requests_interface_ae4fa1b7015282fe1777cc15ccf5fe95c}.
+
+\mbox{\label{class_remote_1_1_requests_acb91a9fd15d2034c8b35aff15a5d8705}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!send@{send}}
+\index{send@{send}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{send()}
+{\footnotesize\ttfamily void Remote.\+Requests.\+send (\begin{DoxyParamCaption}\item[{Array\+List$<$ \textbf{ Email} $>$}]{m }\end{DoxyParamCaption}) throws Remote\+Exception}
+
+
+
+Implements \textbf{ Remote.\+Requests\+Interface} \doxyref{}{p.}{interface_remote_1_1_requests_interface_adcdc9e7f41cc21454de41899e1a68376}.
+
+\mbox{\label{class_remote_1_1_requests_ac6147f1b9eabc18999107934f6e27cdc}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!send\+Mail@{send\+Mail}}
+\index{send\+Mail@{send\+Mail}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{send\+Mail()}
+{\footnotesize\ttfamily void Remote.\+Requests.\+send\+Mail (\begin{DoxyParamCaption}\item[{Array\+List$<$ \textbf{ Email} $>$}]{list }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [package]}}
+
+\mbox{\label{class_remote_1_1_requests_ab1179d473483f9192cd1c92eccca3654}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!set\+Client@{set\+Client}}
+\index{set\+Client@{set\+Client}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{set\+Client()}
+{\footnotesize\ttfamily void Remote.\+Requests.\+set\+Client (\begin{DoxyParamCaption}\item[{\textbf{ Client\+Impl}}]{c }\end{DoxyParamCaption}) throws Remote\+Exception}
+
+
+
+Implements \textbf{ Remote.\+Requests\+Interface} \doxyref{}{p.}{interface_remote_1_1_requests_interface_a95fec2fc28a8d29fbe38d19c7ae9fec9}.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\label{class_remote_1_1_requests_a2c26a8c5e2caa7b4d487ebdb87f8a363}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!client\+List@{client\+List}}
+\index{client\+List@{client\+List}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{client\+List}
+{\footnotesize\ttfamily final Array\+List$<$String$>$ Remote.\+Requests.\+client\+List = new Array\+List$<$String$>$()\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\label{class_remote_1_1_requests_a11fb60a61481e41f212599c37d69ab53}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!clients\+List@{clients\+List}}
+\index{clients\+List@{clients\+List}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{clients\+List}
+{\footnotesize\ttfamily final Array\+List$<$\textbf{ Client\+Impl}$>$ Remote.\+Requests.\+clients\+List = new Array\+List$<$\textbf{ Client\+Impl}$>$()\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\label{class_remote_1_1_requests_a29236d7d6031524ec42a99d5b3d3547e}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!db@{db}}
+\index{db@{db}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{db}
+{\footnotesize\ttfamily \textbf{ Mail\+Account\+Database} Remote.\+Requests.\+db = \textbf{ Mail\+Account\+Database.\+get\+Instance}()\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\label{class_remote_1_1_requests_a865e8066c240a37130609ac3f65a848d}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!name@{name}}
+\index{name@{name}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{name}
+{\footnotesize\ttfamily String Remote.\+Requests.\+name}
+
+\mbox{\label{class_remote_1_1_requests_ab177ae85447d148b0c8d295aed97a2d3}} 
+\index{Remote\+::\+Requests@{Remote\+::\+Requests}!serial\+Version\+U\+ID@{serial\+Version\+U\+ID}}
+\index{serial\+Version\+U\+ID@{serial\+Version\+U\+ID}!Remote\+::\+Requests@{Remote\+::\+Requests}}
+\subsubsection{serial\+Version\+U\+ID}
+{\footnotesize\ttfamily final long Remote.\+Requests.\+serial\+Version\+U\+ID = 1L\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Università/workspace/\+Mail\+System/src/\+Remote/\textbf{ Requests.\+java}\end{DoxyCompactItemize}

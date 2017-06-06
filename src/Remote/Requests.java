@@ -6,12 +6,10 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import javax.swing.text.html.HTML;
 
 import MailSystemUtilities.Email;
 import MailSystemUtilities.MailAccount;
 import MailSystemUtilities.MailAccountDatabase;
-import MailSystemUtilities.SYSTEM_CONSTANTS;
 import Server.Server;
 
 public class Requests extends UnicastRemoteObject implements RequestsInterface {
@@ -23,6 +21,7 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 	public String name;
 	public static final ArrayList<String> clientList = new ArrayList<String>();
 	public static MailAccountDatabase db = MailAccountDatabase.getInstance();
+
 	public Requests(String n) throws RemoteException {
 		this.name = n;
 
@@ -32,15 +31,15 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 		return this.name;
 	}
 
-	public void setClient(ClientImpl c) throws RemoteException {
+	public void setClient(Client c) throws RemoteException {
 		clientList.add(c.getClientName());
 		refreshServerList();
 
 	}
 
 	void refreshServerList() {
-		Server.connectedClients = getClients();
-		Server.refreshTable(Calendar.getInstance().getTime());
+		//Server.connectedClients = getClients();
+		Server.refreshTable(getClients(),Calendar.getInstance().getTime());
 	}
 
 	public synchronized void delete(Client c, int index) throws RemoteException {
@@ -62,14 +61,7 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 	}
 
 	public synchronized void send(ArrayList<Email> m) throws RemoteException {
-		if (name.equals(SYSTEM_CONSTANTS.SERVER)) {
-
-			sendMail(m);
-			System.out.println("Server authority sending mail");
-		} else {
-			System.out.println("No server authority");
-
-		}
+		sendMail(m);
 	}
 
 	void sendMail(ArrayList<Email> list) {
@@ -91,7 +83,8 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 			Server.logArea.append(sender + " sent a message to " + receiver + "\n");
 
 			senderAccount.getMessageList().add(m);
-			//If you forward a mail to yourself it may occur twice in your inbox
+			// If you forward a mail to yourself it may occur twice in your
+			// inbox
 			if (sender.equals(receiver)) {
 				return;
 			}
@@ -100,20 +93,15 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 
 	}
 
-
-	public boolean notifyChanges() {
-		return true;
-	}
-
 	public ArrayList<String> getClients() {
 		return clientList;
 	}
 
-	public void clientConnectionWelcome(ClientImpl c) throws RemoteException {
+	public void clientConnectionWelcome(Client c) throws RemoteException {
 		System.out.println(name + " ha accettato il client di " + c.getClientName());
 	}
 
-	public ArrayList<Email> requestUserMailList(ClientImpl c) throws HeadlessException, RemoteException {
+	public ArrayList<Email> requestUserMailList(Client c) throws HeadlessException, RemoteException {
 		MailAccount currentAccount = null;
 		for (MailAccount ml : db.getAccountList()) {
 			if (ml.getMailAccount().equals(c.getClientName())) {
@@ -123,7 +111,7 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 		return currentAccount.getMessageList();
 	}
 
-	public void destroyClient(ClientImpl c) throws RemoteException {
+	public void destroyClient(Client c) throws RemoteException {
 		System.out.println("Oggetto passato " + c.getClientName() + "la lista ha :" + clientList.size() + "oggetti");
 
 		clientList.remove(c.getClientName());

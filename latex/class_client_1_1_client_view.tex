@@ -1,0 +1,334 @@
+\section{Client.\+Client\+View Class Reference}
+\label{class_client_1_1_client_view}\index{Client.\+Client\+View@{Client.\+Client\+View}}
+
+
+\doxyref{Client}{p.}{namespace_client} View is the class which stores all the viewable elements,such as widgets built with swing library.  
+
+
+Inheritance diagram for Client.\+Client\+View\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_client_1_1_client_view}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+J\+Table \textbf{ get\+Table} ()
+\item 
+void \textbf{ update} (Observable obs, Object obj)
+\item 
+void \textbf{ add\+Controller} (Action\+Listener \textbf{ controller})
+\item 
+void \textbf{ create\+Read\+Mail\+G\+UI} (String sender, String message\+Text)
+\item 
+void \textbf{ create\+Mail\+G\+UI} ()
+\item 
+void \textbf{ reset\+Text\+Box} (J\+Text\+Area txt\+Area, String value)
+\item 
+void \textbf{ add\+Key\+Listener} (J\+Text\+Area txt\+Area, String value)
+\item 
+void \textbf{ add\+Focus\+Listener} (J\+Text\+Area txt\+Area, String value)
+\item 
+void \textbf{ setting\+Receiver\+Text\+Area} ()
+\item 
+void \textbf{ setting\+Subject\+Text\+Area} ()
+\item 
+void \textbf{ set\+Frame\+Title} (String title)
+\item 
+Array\+List$<$ \textbf{ Email} $>$ \textbf{ create\+Mail\+From\+G\+UI} ()
+\item 
+String [$\,$] \textbf{ get\+List\+Of\+Receiver} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+J\+Frame \textbf{ frame} = new J\+Frame()
+\item 
+J\+Text\+Area \textbf{ receiver\+Text\+Area} = new J\+Text\+Area()
+\item 
+J\+Text\+Area \textbf{ subject\+Text\+Area} = new J\+Text\+Area()
+\item 
+J\+Frame \textbf{ read\+Mail\+Frame} = new J\+Frame()
+\end{DoxyCompactItemize}
+\subsection*{Package Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Client\+View} ()
+\begin{DoxyCompactList}\small\item\em Constructor which makes the base client view. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Package Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Font \textbf{ in\+Box\+Mail\+Font} = new Font(\char`\"{}Arial\char`\"{}, Font.\+P\+L\+A\+IN, 14)
+\item 
+Font \textbf{ header\+Font} = new Font(\char`\"{}Futura\char`\"{}, Font.\+B\+O\+LD, 18)
+\item 
+Font \textbf{ receiver\+Font\+Focus} = new Font(\char`\"{}Futura\char`\"{}, Font.\+B\+O\+LD, 18)
+\item 
+Font \textbf{ receiver\+Font\+No\+Focus} = new Font(\char`\"{}Futura\char`\"{}, Font.\+I\+T\+A\+L\+IC, 18)
+\item 
+String \textbf{ email\+Account} = \char`\"{}\char`\"{}
+\item 
+Action\+Listener \textbf{ controller}
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ set\+Frame} (J\+Frame \textbf{ frame})
+\item 
+void \textbf{ style\+Table} (J\+Table \textbf{ table})
+\item 
+J\+Button \textbf{ create\+Btn\+With\+Image} (String image\+Icon, String action\+Command)
+\item 
+void \textbf{ restyle\+Button} (J\+Button button, Color foreground, Color background, Color border)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+J\+Table \textbf{ table} = new J\+Table()
+\item 
+J\+Button \textbf{ new\+Mail\+Btn} = new J\+Button(\char`\"{}Create\char`\"{})
+\item 
+J\+Frame \textbf{ new\+Mail\+Frame} = new J\+Frame()
+\item 
+J\+Panel \textbf{ main\+Panel} = new J\+Panel(new Flow\+Layout(Flow\+Layout.\+L\+E\+A\+D\+I\+NG))
+\item 
+J\+Label \textbf{ header\+Lbl} = new J\+Label(\char`\"{}New Message\char`\"{})
+\item 
+J\+Text\+Area \textbf{ message\+Text\+Area} = new J\+Text\+Area()
+\item 
+J\+Button \textbf{ send\+Btn} = new J\+Button(\char`\"{}Send\char`\"{})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\doxyref{Client}{p.}{namespace_client} View is the class which stores all the viewable elements,such as widgets built with swing library. 
+
+It\textquotesingle{}s linked with model through the observer/observable pattern. It also includes some methods for the controller. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\label{class_client_1_1_client_view_a10aca0a905375121f16ca976eaaa6751}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!Client\+View@{Client\+View}}
+\index{Client\+View@{Client\+View}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{Client\+View()}
+{\footnotesize\ttfamily Client.\+Client\+View.\+Client\+View (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [package]}}
+
+
+
+Constructor which makes the base client view. 
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\label{class_client_1_1_client_view_a4edc31cedcce78be8260fbf9bfbb3c89}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!add\+Controller@{add\+Controller}}
+\index{add\+Controller@{add\+Controller}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{add\+Controller()}
+{\footnotesize\ttfamily void Client.\+Client\+View.\+add\+Controller (\begin{DoxyParamCaption}\item[{Action\+Listener}]{controller }\end{DoxyParamCaption})}
+
+\mbox{\label{class_client_1_1_client_view_a993eaf95af17a2f87d67d690abbecba2}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!add\+Focus\+Listener@{add\+Focus\+Listener}}
+\index{add\+Focus\+Listener@{add\+Focus\+Listener}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{add\+Focus\+Listener()}
+{\footnotesize\ttfamily void Client.\+Client\+View.\+add\+Focus\+Listener (\begin{DoxyParamCaption}\item[{J\+Text\+Area}]{txt\+Area,  }\item[{String}]{value }\end{DoxyParamCaption})}
+
+\mbox{\label{class_client_1_1_client_view_af969df1cb19c92f3e9912479a5f505ef}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!add\+Key\+Listener@{add\+Key\+Listener}}
+\index{add\+Key\+Listener@{add\+Key\+Listener}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{add\+Key\+Listener()}
+{\footnotesize\ttfamily void Client.\+Client\+View.\+add\+Key\+Listener (\begin{DoxyParamCaption}\item[{J\+Text\+Area}]{txt\+Area,  }\item[{String}]{value }\end{DoxyParamCaption})}
+
+\mbox{\label{class_client_1_1_client_view_ad0ddbecfc0a50aeff07b1affd4572c81}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!create\+Btn\+With\+Image@{create\+Btn\+With\+Image}}
+\index{create\+Btn\+With\+Image@{create\+Btn\+With\+Image}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{create\+Btn\+With\+Image()}
+{\footnotesize\ttfamily J\+Button Client.\+Client\+View.\+create\+Btn\+With\+Image (\begin{DoxyParamCaption}\item[{String}]{image\+Icon,  }\item[{String}]{action\+Command }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_client_1_1_client_view_a7779a043a9b82dcb99752a83f09e0e1a}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!create\+Mail\+From\+G\+UI@{create\+Mail\+From\+G\+UI}}
+\index{create\+Mail\+From\+G\+UI@{create\+Mail\+From\+G\+UI}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{create\+Mail\+From\+G\+U\+I()}
+{\footnotesize\ttfamily Array\+List$<$\textbf{ Email}$>$ Client.\+Client\+View.\+create\+Mail\+From\+G\+UI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_client_1_1_client_view_a81abfbc058173e883e0491c4d9f1c744}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!create\+Mail\+G\+UI@{create\+Mail\+G\+UI}}
+\index{create\+Mail\+G\+UI@{create\+Mail\+G\+UI}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{create\+Mail\+G\+U\+I()}
+{\footnotesize\ttfamily void Client.\+Client\+View.\+create\+Mail\+G\+UI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_client_1_1_client_view_a710a765044dc5acce888c70bfa2a15ec}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!create\+Read\+Mail\+G\+UI@{create\+Read\+Mail\+G\+UI}}
+\index{create\+Read\+Mail\+G\+UI@{create\+Read\+Mail\+G\+UI}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{create\+Read\+Mail\+G\+U\+I()}
+{\footnotesize\ttfamily void Client.\+Client\+View.\+create\+Read\+Mail\+G\+UI (\begin{DoxyParamCaption}\item[{String}]{sender,  }\item[{String}]{message\+Text }\end{DoxyParamCaption})}
+
+\mbox{\label{class_client_1_1_client_view_a129e041b1a590bb1dbc391142a0485dc}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!get\+List\+Of\+Receiver@{get\+List\+Of\+Receiver}}
+\index{get\+List\+Of\+Receiver@{get\+List\+Of\+Receiver}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{get\+List\+Of\+Receiver()}
+{\footnotesize\ttfamily String [$\,$] Client.\+Client\+View.\+get\+List\+Of\+Receiver (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_client_1_1_client_view_a471cd2814abd835aa24086ea52179daf}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!get\+Table@{get\+Table}}
+\index{get\+Table@{get\+Table}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{get\+Table()}
+{\footnotesize\ttfamily J\+Table Client.\+Client\+View.\+get\+Table (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_client_1_1_client_view_a7144932697ad27856ab78bf8a9886556}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!reset\+Text\+Box@{reset\+Text\+Box}}
+\index{reset\+Text\+Box@{reset\+Text\+Box}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{reset\+Text\+Box()}
+{\footnotesize\ttfamily void Client.\+Client\+View.\+reset\+Text\+Box (\begin{DoxyParamCaption}\item[{J\+Text\+Area}]{txt\+Area,  }\item[{String}]{value }\end{DoxyParamCaption})}
+
+\mbox{\label{class_client_1_1_client_view_a9a9703f230debe68e504d56244d477f9}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!restyle\+Button@{restyle\+Button}}
+\index{restyle\+Button@{restyle\+Button}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{restyle\+Button()}
+{\footnotesize\ttfamily void Client.\+Client\+View.\+restyle\+Button (\begin{DoxyParamCaption}\item[{J\+Button}]{button,  }\item[{Color}]{foreground,  }\item[{Color}]{background,  }\item[{Color}]{border }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_client_1_1_client_view_a21f29ce73fb505306efee06702d39a00}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!set\+Frame@{set\+Frame}}
+\index{set\+Frame@{set\+Frame}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{set\+Frame()}
+{\footnotesize\ttfamily void Client.\+Client\+View.\+set\+Frame (\begin{DoxyParamCaption}\item[{J\+Frame}]{frame }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_client_1_1_client_view_a4cdccc655be5efcf00d7dd9a19dec7ab}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!set\+Frame\+Title@{set\+Frame\+Title}}
+\index{set\+Frame\+Title@{set\+Frame\+Title}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{set\+Frame\+Title()}
+{\footnotesize\ttfamily void Client.\+Client\+View.\+set\+Frame\+Title (\begin{DoxyParamCaption}\item[{String}]{title }\end{DoxyParamCaption})}
+
+\mbox{\label{class_client_1_1_client_view_a0d8a162157aa989f10990479899ae125}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!setting\+Receiver\+Text\+Area@{setting\+Receiver\+Text\+Area}}
+\index{setting\+Receiver\+Text\+Area@{setting\+Receiver\+Text\+Area}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{setting\+Receiver\+Text\+Area()}
+{\footnotesize\ttfamily void Client.\+Client\+View.\+setting\+Receiver\+Text\+Area (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_client_1_1_client_view_aac6886dbddca463a049f7dbbc1279108}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!setting\+Subject\+Text\+Area@{setting\+Subject\+Text\+Area}}
+\index{setting\+Subject\+Text\+Area@{setting\+Subject\+Text\+Area}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{setting\+Subject\+Text\+Area()}
+{\footnotesize\ttfamily void Client.\+Client\+View.\+setting\+Subject\+Text\+Area (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_client_1_1_client_view_a365d134237f9de96491b4bd2d7f297fa}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!style\+Table@{style\+Table}}
+\index{style\+Table@{style\+Table}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{style\+Table()}
+{\footnotesize\ttfamily void Client.\+Client\+View.\+style\+Table (\begin{DoxyParamCaption}\item[{J\+Table}]{table }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_client_1_1_client_view_a720cdb01deb9efbbc6349d54a756ab85}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!update@{update}}
+\index{update@{update}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{update()}
+{\footnotesize\ttfamily void Client.\+Client\+View.\+update (\begin{DoxyParamCaption}\item[{Observable}]{obs,  }\item[{Object}]{obj }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\label{class_client_1_1_client_view_a47ee529c010091da371346f2014a5f7b}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!controller@{controller}}
+\index{controller@{controller}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{controller}
+{\footnotesize\ttfamily Action\+Listener Client.\+Client\+View.\+controller\hspace{0.3cm}{\ttfamily [package]}}
+
+\mbox{\label{class_client_1_1_client_view_a71cd3b48f6c532b9b5ff08d4b15b35ea}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!email\+Account@{email\+Account}}
+\index{email\+Account@{email\+Account}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{email\+Account}
+{\footnotesize\ttfamily String Client.\+Client\+View.\+email\+Account = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [package]}}
+
+\mbox{\label{class_client_1_1_client_view_a7a36892d7c8645cc38ba0b339945dadf}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!frame@{frame}}
+\index{frame@{frame}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{frame}
+{\footnotesize\ttfamily J\+Frame Client.\+Client\+View.\+frame = new J\+Frame()}
+
+\mbox{\label{class_client_1_1_client_view_ad6ef3c7da20e61a1874c1a9cf4fddd6e}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!header\+Font@{header\+Font}}
+\index{header\+Font@{header\+Font}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{header\+Font}
+{\footnotesize\ttfamily Font Client.\+Client\+View.\+header\+Font = new Font(\char`\"{}Futura\char`\"{}, Font.\+B\+O\+LD, 18)\hspace{0.3cm}{\ttfamily [package]}}
+
+\mbox{\label{class_client_1_1_client_view_a17cf71b4786be1933ddda6283061c752}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!header\+Lbl@{header\+Lbl}}
+\index{header\+Lbl@{header\+Lbl}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{header\+Lbl}
+{\footnotesize\ttfamily J\+Label Client.\+Client\+View.\+header\+Lbl = new J\+Label(\char`\"{}New Message\char`\"{})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_client_1_1_client_view_a4ed0ab7b8fcec5fe7c535c2ae0843dc4}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!in\+Box\+Mail\+Font@{in\+Box\+Mail\+Font}}
+\index{in\+Box\+Mail\+Font@{in\+Box\+Mail\+Font}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{in\+Box\+Mail\+Font}
+{\footnotesize\ttfamily Font Client.\+Client\+View.\+in\+Box\+Mail\+Font = new Font(\char`\"{}Arial\char`\"{}, Font.\+P\+L\+A\+IN, 14)\hspace{0.3cm}{\ttfamily [package]}}
+
+\mbox{\label{class_client_1_1_client_view_ab4cf54676cfb608f35bd9768e3d44d3c}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!main\+Panel@{main\+Panel}}
+\index{main\+Panel@{main\+Panel}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{main\+Panel}
+{\footnotesize\ttfamily J\+Panel Client.\+Client\+View.\+main\+Panel = new J\+Panel(new Flow\+Layout(Flow\+Layout.\+L\+E\+A\+D\+I\+NG))\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_client_1_1_client_view_a9518e7a5ed62d93816d6f71fed84c053}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!message\+Text\+Area@{message\+Text\+Area}}
+\index{message\+Text\+Area@{message\+Text\+Area}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{message\+Text\+Area}
+{\footnotesize\ttfamily J\+Text\+Area Client.\+Client\+View.\+message\+Text\+Area = new J\+Text\+Area()\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_client_1_1_client_view_a6eaa3332c7a9ebe467bc9d9725d6da6d}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!new\+Mail\+Btn@{new\+Mail\+Btn}}
+\index{new\+Mail\+Btn@{new\+Mail\+Btn}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{new\+Mail\+Btn}
+{\footnotesize\ttfamily J\+Button Client.\+Client\+View.\+new\+Mail\+Btn = new J\+Button(\char`\"{}Create\char`\"{})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_client_1_1_client_view_a6f6fd4f28d256b4f00c10683a7b46cda}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!new\+Mail\+Frame@{new\+Mail\+Frame}}
+\index{new\+Mail\+Frame@{new\+Mail\+Frame}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{new\+Mail\+Frame}
+{\footnotesize\ttfamily J\+Frame Client.\+Client\+View.\+new\+Mail\+Frame = new J\+Frame()\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_client_1_1_client_view_a57b13fe7323d968266554ffe56a32777}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!read\+Mail\+Frame@{read\+Mail\+Frame}}
+\index{read\+Mail\+Frame@{read\+Mail\+Frame}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{read\+Mail\+Frame}
+{\footnotesize\ttfamily J\+Frame Client.\+Client\+View.\+read\+Mail\+Frame = new J\+Frame()}
+
+\mbox{\label{class_client_1_1_client_view_acf1048eea35829c8599134f5f363e074}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!receiver\+Font\+Focus@{receiver\+Font\+Focus}}
+\index{receiver\+Font\+Focus@{receiver\+Font\+Focus}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{receiver\+Font\+Focus}
+{\footnotesize\ttfamily Font Client.\+Client\+View.\+receiver\+Font\+Focus = new Font(\char`\"{}Futura\char`\"{}, Font.\+B\+O\+LD, 18)\hspace{0.3cm}{\ttfamily [package]}}
+
+\mbox{\label{class_client_1_1_client_view_a962bbb995f7bdc4c41681aa3f3f1ff06}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!receiver\+Font\+No\+Focus@{receiver\+Font\+No\+Focus}}
+\index{receiver\+Font\+No\+Focus@{receiver\+Font\+No\+Focus}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{receiver\+Font\+No\+Focus}
+{\footnotesize\ttfamily Font Client.\+Client\+View.\+receiver\+Font\+No\+Focus = new Font(\char`\"{}Futura\char`\"{}, Font.\+I\+T\+A\+L\+IC, 18)\hspace{0.3cm}{\ttfamily [package]}}
+
+\mbox{\label{class_client_1_1_client_view_a5871c00c73ab5a7ec6481d29dbc631f6}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!receiver\+Text\+Area@{receiver\+Text\+Area}}
+\index{receiver\+Text\+Area@{receiver\+Text\+Area}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{receiver\+Text\+Area}
+{\footnotesize\ttfamily J\+Text\+Area Client.\+Client\+View.\+receiver\+Text\+Area = new J\+Text\+Area()}
+
+\mbox{\label{class_client_1_1_client_view_a9befd1f7124ca5410fc954261c7aad35}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!send\+Btn@{send\+Btn}}
+\index{send\+Btn@{send\+Btn}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{send\+Btn}
+{\footnotesize\ttfamily J\+Button Client.\+Client\+View.\+send\+Btn = new J\+Button(\char`\"{}Send\char`\"{})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_client_1_1_client_view_af1c4c82f8e8a0074856679282310045a}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!subject\+Text\+Area@{subject\+Text\+Area}}
+\index{subject\+Text\+Area@{subject\+Text\+Area}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{subject\+Text\+Area}
+{\footnotesize\ttfamily J\+Text\+Area Client.\+Client\+View.\+subject\+Text\+Area = new J\+Text\+Area()}
+
+\mbox{\label{class_client_1_1_client_view_a8f98c882f703e5565b91012386c86121}} 
+\index{Client\+::\+Client\+View@{Client\+::\+Client\+View}!table@{table}}
+\index{table@{table}!Client\+::\+Client\+View@{Client\+::\+Client\+View}}
+\subsubsection{table}
+{\footnotesize\ttfamily J\+Table Client.\+Client\+View.\+table = new J\+Table()\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Università/workspace/\+Mail\+System/src/\+Client/\textbf{ Client\+View.\+java}\end{DoxyCompactItemize}

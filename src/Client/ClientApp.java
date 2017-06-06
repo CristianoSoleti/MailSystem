@@ -29,10 +29,7 @@ public class ClientApp {
 
 	public static void main(String[] args) throws UnknownHostException, ClassNotFoundException, IOException, InterruptedException {
 		ClientApp mainRunMVC = new ClientApp();
-
-		
+	
 	}
-
-	// 
 
 }

@@ -1,47 +1,27 @@
 package Server;
+
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import java.rmi.Naming;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.server.RemoteServer;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
-import MailSystemUtilities.MailAccount;
 import MailSystemUtilities.MailAccountDatabase;
 import MailSystemUtilities.SYSTEM_CONSTANTS;
-import Remote.Client;
-import Remote.ClientImpl;
 import Remote.Requests;
-import Remote.RequestsInterface;
 
-/**
- * A server program which accepts requests from clients to capitalize strings.
- * When clients connect, a new thread is started to handle an interactive dialog
- * in which the client sends in a string and the server thread sends back the
- * capitalized version of the string.
- *
- * The program is runs in an infinite loop, so shutdown in platform dependent.
- * If you ran it from a console window with the "java" interpreter, Ctrl+C
- * generally will shut it down.
- */
 public class Server {
 
 	public static MailAccountDatabase db = MailAccountDatabase.getInstance();
@@ -52,10 +32,10 @@ public class Server {
 
 	public JLabel informationLbL = new JLabel("Connected clients");
 	private static JTable table = new JTable();
-	public static ArrayList<String> connectedClients = new ArrayList<String>();
-	static public JTextArea logArea = new JTextArea(20,10);
+	static public JTextArea logArea = new JTextArea(20, 10);
+
 	Server() throws RemoteException {
-	
+
 		JFrame frame = new JFrame("MailServer");
 		JScrollPane scrollPane = new JScrollPane(table);
 		JScrollPane scrollPane1 = new JScrollPane(logArea);
@@ -65,7 +45,7 @@ public class Server {
 
 		frame.add(scrollPane, BorderLayout.CENTER);
 		frame.add(scrollPane1, BorderLayout.SOUTH);
-		
+
 		frame.setSize(800, 800);
 		frame.setLocation(100, 100);
 		frame.setVisible(true);
@@ -103,43 +83,22 @@ public class Server {
 
 			getInstance();
 
-
 		} catch (Exception e) {
 			System.out.println("[System] Server failed: " + e);
 		}
 	}
 
-	public static boolean requestConnection(String mail) throws InterruptedException {
-		for (MailAccount ml : db.getAccountList()) {
-			if (ml.getMailAccount().equals(mail)) {
-				System.out.println("Connecting...");
-				Thread.sleep(3000);
-				System.out.println("Connection established");
-				return true;
-			}
-		}
-
-		System.out.println("Connection Failed");
-		System.out.println("Closing application");
-		Thread.sleep(1000);
-		System.exit(0);
-
-		return false;
-
-	}
-
 	public static void runRMIRegistry() {
-		try { // special exception handler for registry creation
+		try {
 			LocateRegistry.createRegistry(1099);
 			System.out.println("java RMI registry created.");
 		} catch (RemoteException e) {
-			// do nothing, error means registry already exists
 			System.out.println("java RMI registry already exists.");
 		}
 	}
 
 	@SuppressWarnings("serial")
-	public static void refreshTable(Date date) {
+	public static void refreshTable(ArrayList<String> connectedClients, Date date) {
 		for (int i = 0; i < data.length; i++) {
 			data[i][0] = "";
 			data[i][1] = "";

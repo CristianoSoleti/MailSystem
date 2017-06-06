@@ -1,5 +1,10 @@
 package Remote;
 
+/** 
+ * Client interface which will be serializable.
+ * 
+ */
+
 public interface Client {
 
 	String getClientName();

@@ -1,0 +1,162 @@
+\section{Server.\+Server Class Reference}
+\label{class_server_1_1_server}\index{Server.\+Server@{Server.\+Server}}
+
+
+A server program which accepts requests from clients to capitalize strings.  
+
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \textbf{ Server} \textbf{ get\+Instance} ()  throws Remote\+Exception 
+\item 
+static void \textbf{ main} (String[$\,$] args)  throws Exception 
+\begin{DoxyCompactList}\small\item\em Application method to run the server runs in an infinite loop listening on port 9898. \end{DoxyCompactList}\item 
+static boolean \textbf{ request\+Connection} (String mail)  throws Interrupted\+Exception 
+\item 
+static void \textbf{ run\+R\+M\+I\+Registry} ()
+\item 
+static void \textbf{ refresh\+Table} (Date date)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+J\+Label \textbf{ information\+LbL} = new J\+Label(\char`\"{}Connected clients\char`\"{})
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \textbf{ Mail\+Account\+Database} \textbf{ db} = \textbf{ Mail\+Account\+Database.\+get\+Instance}()
+\item 
+static Object [$\,$][$\,$] \textbf{ data} = new Object[5][3]
+\item 
+static Array\+List$<$ String $>$ \textbf{ connected\+Clients} = new Array\+List$<$String$>$()
+\item 
+static J\+Text\+Area \textbf{ log\+Area} = new J\+Text\+Area(20,10)
+\end{DoxyCompactItemize}
+\subsection*{Package Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Server} ()  throws Remote\+Exception 
+\end{DoxyCompactItemize}
+\subsection*{Static Package Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static String [$\,$] \textbf{ column\+Names} = \{ \char`\"{}Client \#\char`\"{}, \char`\"{}Account\char`\"{}, \char`\"{}Date\char`\"{} \}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \textbf{ Server} \textbf{ instance} = null
+\item 
+static J\+Table \textbf{ table} = new J\+Table()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A server program which accepts requests from clients to capitalize strings. 
+
+When clients connect, a new thread is started to handle an interactive dialog in which the client sends in a string and the server thread sends back the capitalized version of the string.
+
+The program is runs in an infinite loop, so shutdown in platform dependent. If you ran it from a console window with the \char`\"{}java\char`\"{} interpreter, Ctrl+C generally will shut it down. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\label{class_server_1_1_server_a77c4d462bec0f11da1fff5166c54b521}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!Server@{Server}}
+\index{Server@{Server}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{Server()}
+{\footnotesize\ttfamily Server.\+Server.\+Server (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) throws Remote\+Exception\hspace{0.3cm}{\ttfamily [package]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\label{class_server_1_1_server_a56fe649edc414c3ae70b4fbc1f0ba755}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!get\+Instance@{get\+Instance}}
+\index{get\+Instance@{get\+Instance}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{get\+Instance()}
+{\footnotesize\ttfamily static \textbf{ Server} Server.\+Server.\+get\+Instance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) throws Remote\+Exception\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\label{class_server_1_1_server_ab692a877dac277cf3c8276cd610fd6f3}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!main@{main}}
+\index{main@{main}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{main()}
+{\footnotesize\ttfamily static void Server.\+Server.\+main (\begin{DoxyParamCaption}\item[{String [$\,$]}]{args }\end{DoxyParamCaption}) throws Exception\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Application method to run the server runs in an infinite loop listening on port 9898. 
+
+When a connection is requested, it spawns a new thread to do the servicing and immediately returns to listening. The server keeps a unique client number for each client that connects just to show interesting logging messages. It is certainly not necessary to do this. \mbox{\label{class_server_1_1_server_a101c9ad2973f6348d03017a13e230def}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!refresh\+Table@{refresh\+Table}}
+\index{refresh\+Table@{refresh\+Table}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{refresh\+Table()}
+{\footnotesize\ttfamily static void Server.\+Server.\+refresh\+Table (\begin{DoxyParamCaption}\item[{Date}]{date }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\label{class_server_1_1_server_a33cac3bfc04d6df935863735bc37bef0}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!request\+Connection@{request\+Connection}}
+\index{request\+Connection@{request\+Connection}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{request\+Connection()}
+{\footnotesize\ttfamily static boolean Server.\+Server.\+request\+Connection (\begin{DoxyParamCaption}\item[{String}]{mail }\end{DoxyParamCaption}) throws Interrupted\+Exception\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\label{class_server_1_1_server_a8ea50583e41c4ca2ebce7cf7f3ca01f6}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!run\+R\+M\+I\+Registry@{run\+R\+M\+I\+Registry}}
+\index{run\+R\+M\+I\+Registry@{run\+R\+M\+I\+Registry}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{run\+R\+M\+I\+Registry()}
+{\footnotesize\ttfamily static void Server.\+Server.\+run\+R\+M\+I\+Registry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\label{class_server_1_1_server_ab198ffe1451eba7351d790a12deb5199}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!column\+Names@{column\+Names}}
+\index{column\+Names@{column\+Names}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{column\+Names}
+{\footnotesize\ttfamily String [$\,$] Server.\+Server.\+column\+Names = \{ \char`\"{}Client \#\char`\"{}, \char`\"{}Account\char`\"{}, \char`\"{}Date\char`\"{} \}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [package]}}
+
+\mbox{\label{class_server_1_1_server_a2684f5e5a2c95c6fd8204976e9fe5622}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!connected\+Clients@{connected\+Clients}}
+\index{connected\+Clients@{connected\+Clients}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{connected\+Clients}
+{\footnotesize\ttfamily Array\+List$<$String$>$ Server.\+Server.\+connected\+Clients = new Array\+List$<$String$>$()\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\label{class_server_1_1_server_af7d4799bec30f3458413978a69478709}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!data@{data}}
+\index{data@{data}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{data}
+{\footnotesize\ttfamily Object [$\,$][$\,$] Server.\+Server.\+data = new Object[5][3]\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\label{class_server_1_1_server_af900d61239ceb2b759ba255c1184df24}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!db@{db}}
+\index{db@{db}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{db}
+{\footnotesize\ttfamily \textbf{ Mail\+Account\+Database} Server.\+Server.\+db = \textbf{ Mail\+Account\+Database.\+get\+Instance}()\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\label{class_server_1_1_server_a88837412ac2c805ab1cc75ad7fe37ac6}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!information\+LbL@{information\+LbL}}
+\index{information\+LbL@{information\+LbL}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{information\+LbL}
+{\footnotesize\ttfamily J\+Label Server.\+Server.\+information\+LbL = new J\+Label(\char`\"{}Connected clients\char`\"{})}
+
+\mbox{\label{class_server_1_1_server_ab41e1d79d9a27265e07799617bf0e938}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!instance@{instance}}
+\index{instance@{instance}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{instance}
+{\footnotesize\ttfamily \textbf{ Server} Server.\+Server.\+instance = null\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\label{class_server_1_1_server_a6025e5088253b48b18de11fb4d517f67}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!log\+Area@{log\+Area}}
+\index{log\+Area@{log\+Area}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{log\+Area}
+{\footnotesize\ttfamily J\+Text\+Area Server.\+Server.\+log\+Area = new J\+Text\+Area(20,10)\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\label{class_server_1_1_server_afcc2d7b41035345575e927dbef123e8f}} 
+\index{Server\+::\+Server@{Server\+::\+Server}!table@{table}}
+\index{table@{table}!Server\+::\+Server@{Server\+::\+Server}}
+\subsubsection{table}
+{\footnotesize\ttfamily J\+Table Server.\+Server.\+table = new J\+Table()\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Università/workspace/\+Mail\+System/src/\+Server/\textbf{ Server.\+java}\end{DoxyCompactItemize}

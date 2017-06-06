@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['send',['send',['../class_remote_1_1_requests.html#acb91a9fd15d2034c8b35aff15a5d8705',1,'Remote.Requests.send()'],['../interface_remote_1_1_requests_interface.html#adcdc9e7f41cc21454de41899e1a68376',1,'Remote.RequestsInterface.send()']]],
+  ['send_5faction',['SEND_ACTION',['../class_mail_system_utilities_1_1_s_y_s_t_e_m___c_o_n_s_t_a_n_t_s.html#a1f621cde9a0b3ff81f13d0e9348068b5',1,'MailSystemUtilities::SYSTEM_CONSTANTS']]],
+  ['sendbtn',['sendBtn',['../class_client_1_1_client_view.html#a9befd1f7124ca5410fc954261c7aad35',1,'Client::ClientView']]],
+  ['sender',['sender',['../class_mail_system_utilities_1_1_email.html#a17ac950f4b134dee1e87ee1a509a8c81',1,'MailSystemUtilities::Email']]],
+  ['sendingdate',['sendingDate',['../class_mail_system_utilities_1_1_email.html#a8e5dc8674aef76dd3b0ebe1bf6ed01c4',1,'MailSystemUtilities::Email']]],
+  ['sendmail',['sendMail',['../class_remote_1_1_requests.html#ac6147f1b9eabc18999107934f6e27cdc',1,'Remote::Requests']]],
+  ['sendmailrequest',['sendMailRequest',['../class_client_1_1_client_controller.html#a9699a83b77c82de38286a0ef6518465e',1,'Client::ClientController']]],
+  ['serialversionuid',['serialVersionUID',['../class_remote_1_1_client_impl.html#af2655d23280ef91666ab3fdb6b015ca0',1,'Remote.ClientImpl.serialVersionUID()'],['../class_remote_1_1_requests.html#ab177ae85447d148b0c8d295aed97a2d3',1,'Remote.Requests.serialVersionUID()']]],
+  ['server',['Server',['../class_server_1_1_server.html',1,'Server.Server'],['../namespace_server.html',1,'Server'],['../class_server_1_1_server.html#a77c4d462bec0f11da1fff5166c54b521',1,'Server.Server.Server()'],['../class_client_1_1_client_controller.html#a504d4cc9763eff0d5740ed3311442915',1,'Client.ClientController.server()'],['../class_mail_system_utilities_1_1_s_y_s_t_e_m___c_o_n_s_t_a_n_t_s.html#a0e7119ce39444b043aa7f5395a3819ef',1,'MailSystemUtilities.SYSTEM_CONSTANTS.SERVER()']]],
+  ['server_2ejava',['Server.java',['../_server_8java.html',1,'']]],
+  ['setclient',['setClient',['../class_remote_1_1_requests.html#ab1179d473483f9192cd1c92eccca3654',1,'Remote.Requests.setClient()'],['../interface_remote_1_1_requests_interface.html#a95fec2fc28a8d29fbe38d19c7ae9fec9',1,'Remote.RequestsInterface.setClient()']]],
+  ['setforwardmailinfo',['setForwardMailInfo',['../class_client_1_1_client_controller.html#a6cc9f69054ab5f680b38389e4836b1d2',1,'Client::ClientController']]],
+  ['setframe',['setFrame',['../class_client_1_1_client_view.html#a21f29ce73fb505306efee06702d39a00',1,'Client::ClientView']]],
+  ['setframetitle',['setFrameTitle',['../class_client_1_1_client_view.html#a4cdccc655be5efcf00d7dd9a19dec7ab',1,'Client::ClientView']]],
+  ['setreplymailinfo',['setReplyMailInfo',['../class_client_1_1_client_controller.html#aca15f770458558275cf1e073675ac099',1,'Client::ClientController']]],
+  ['settingreceivertextarea',['settingReceiverTextArea',['../class_client_1_1_client_view.html#a0d8a162157aa989f10990479899ae125',1,'Client::ClientView']]],
+  ['settingsubjecttextarea',['settingSubjectTextArea',['../class_client_1_1_client_view.html#aac6886dbddca463a049f7dbbc1279108',1,'Client::ClientView']]],
+  ['setuseraccountvalue',['setUserAccountValue',['../class_client_1_1_client_model.html#a417b22b272dfe3a83370ba8eeb445fe6',1,'Client::ClientModel']]],
+  ['setvalue',['setValue',['../class_client_1_1_client_model.html#a13b1b7845bc73c20779a15c3ad6df326',1,'Client::ClientModel']]],
+  ['shownewmessagepopup',['showNewMessagePopUp',['../interface_remote_1_1_client.html#ad3f07bf6cfcba61af03358ebac1cb02e',1,'Remote.Client.showNewMessagePopUp()'],['../class_remote_1_1_client_impl.html#a2261a9a00f2a1c0b1b3539975360d957',1,'Remote.ClientImpl.showNewMessagePopUp()']]],
+  ['styletable',['styleTable',['../class_client_1_1_client_view.html#a365d134237f9de96491b4bd2d7f297fa',1,'Client::ClientView']]],
+  ['subject',['subject',['../class_mail_system_utilities_1_1_email.html#acae8d0ca6320e85d9b3bbb6746fe176b',1,'MailSystemUtilities::Email']]],
+  ['subjecttextarea',['subjectTextArea',['../class_client_1_1_client_view.html#af1c4c82f8e8a0074856679282310045a',1,'Client::ClientView']]],
+  ['system_5fconstants',['SYSTEM_CONSTANTS',['../class_mail_system_utilities_1_1_s_y_s_t_e_m___c_o_n_s_t_a_n_t_s.html',1,'MailSystemUtilities']]],
+  ['system_5fconstants_2ejava',['SYSTEM_CONSTANTS.java',['../_s_y_s_t_e_m___c_o_n_s_t_a_n_t_s_8java.html',1,'']]]
+];

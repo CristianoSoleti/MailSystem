@@ -1,0 +1,172 @@
+\section{Mail\+System\+Utilities.\+Email Class Reference}
+\label{class_mail_system_utilities_1_1_email}\index{Mail\+System\+Utilities.\+Email@{Mail\+System\+Utilities.\+Email}}
+Inheritance diagram for Mail\+System\+Utilities.\+Email\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_mail_system_utilities_1_1_email}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Email} (String \textbf{ sender}, String \textbf{ receiver}, String message\+Object, String message\+Text)
+\item 
+int \textbf{ get\+ID} ()
+\item 
+String \textbf{ get\+Sender} ()
+\item 
+String \textbf{ get\+Receiver} ()
+\item 
+String \textbf{ get\+Email\+Object} ()
+\item 
+String \textbf{ get\+Email\+Text} ()
+\item 
+java.\+util.\+Date \textbf{ get\+Sending\+Date} ()
+\item 
+String \textbf{ to\+String} ()
+\item 
+Object [$\,$] \textbf{ to\+Object\+Array} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+final int \textbf{ ID}
+\item 
+String \textbf{ sender}
+\item 
+String \textbf{ receiver}
+\item 
+String \textbf{ subject}
+\item 
+String \textbf{ text}
+\item 
+java.\+util.\+Date \textbf{ sending\+Date}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static final Atomic\+Integer \textbf{ count} = new Atomic\+Integer(0)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\label{class_mail_system_utilities_1_1_email_ab7754c1f590f35d664c69c5de2cc98be}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!Email@{Email}}
+\index{Email@{Email}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{Email()}
+{\footnotesize\ttfamily Mail\+System\+Utilities.\+Email.\+Email (\begin{DoxyParamCaption}\item[{String}]{sender,  }\item[{String}]{receiver,  }\item[{String}]{message\+Object,  }\item[{String}]{message\+Text }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & person which is sending \\
+\hline
+{\em receiver} & person which will receive \\
+\hline
+{\em message\+Object} & message\+Object \\
+\hline
+{\em message\+Text} & text of the mail \\
+\hline
+{\em sending\+Date} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\label{class_mail_system_utilities_1_1_email_a3a7ae4731771b014f3a6d4112be50ead}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!get\+Email\+Object@{get\+Email\+Object}}
+\index{get\+Email\+Object@{get\+Email\+Object}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{get\+Email\+Object()}
+{\footnotesize\ttfamily String Mail\+System\+Utilities.\+Email.\+get\+Email\+Object (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_mail_system_utilities_1_1_email_afb5c1fa6f76c3b82a8b38b3163a8b58a}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!get\+Email\+Text@{get\+Email\+Text}}
+\index{get\+Email\+Text@{get\+Email\+Text}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{get\+Email\+Text()}
+{\footnotesize\ttfamily String Mail\+System\+Utilities.\+Email.\+get\+Email\+Text (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_mail_system_utilities_1_1_email_a30038ac74a18d1e0cbf1889d25b8fb2e}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!get\+ID@{get\+ID}}
+\index{get\+ID@{get\+ID}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{get\+I\+D()}
+{\footnotesize\ttfamily int Mail\+System\+Utilities.\+Email.\+get\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_mail_system_utilities_1_1_email_a8d8f44421e292e599c825970783cba92}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!get\+Receiver@{get\+Receiver}}
+\index{get\+Receiver@{get\+Receiver}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{get\+Receiver()}
+{\footnotesize\ttfamily String Mail\+System\+Utilities.\+Email.\+get\+Receiver (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_mail_system_utilities_1_1_email_acae263653f399c3cccaabda73e99fc55}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!get\+Sender@{get\+Sender}}
+\index{get\+Sender@{get\+Sender}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{get\+Sender()}
+{\footnotesize\ttfamily String Mail\+System\+Utilities.\+Email.\+get\+Sender (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_mail_system_utilities_1_1_email_a6fb485a63ced70c1758fa89884681bea}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!get\+Sending\+Date@{get\+Sending\+Date}}
+\index{get\+Sending\+Date@{get\+Sending\+Date}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{get\+Sending\+Date()}
+{\footnotesize\ttfamily java.\+util.\+Date Mail\+System\+Utilities.\+Email.\+get\+Sending\+Date (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_mail_system_utilities_1_1_email_a95378672071250542d90ee4027b96fe9}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!to\+Object\+Array@{to\+Object\+Array}}
+\index{to\+Object\+Array@{to\+Object\+Array}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{to\+Object\+Array()}
+{\footnotesize\ttfamily Object [$\,$] Mail\+System\+Utilities.\+Email.\+to\+Object\+Array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\label{class_mail_system_utilities_1_1_email_ae1d29f7137ed33672b479939ebffad6a}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!to\+String@{to\+String}}
+\index{to\+String@{to\+String}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{to\+String()}
+{\footnotesize\ttfamily String Mail\+System\+Utilities.\+Email.\+to\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\label{class_mail_system_utilities_1_1_email_a7679cf99ae6ae21af63c2a9c508da84b}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!count@{count}}
+\index{count@{count}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{count}
+{\footnotesize\ttfamily final Atomic\+Integer Mail\+System\+Utilities.\+Email.\+count = new Atomic\+Integer(0)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\label{class_mail_system_utilities_1_1_email_a69756ccca12f16b21cc1861cfedb48b8}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!ID@{ID}}
+\index{ID@{ID}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{ID}
+{\footnotesize\ttfamily final int Mail\+System\+Utilities.\+Email.\+ID\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_mail_system_utilities_1_1_email_a3b1b7a9738c8cc1fa79b88a32d07020a}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!receiver@{receiver}}
+\index{receiver@{receiver}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{receiver}
+{\footnotesize\ttfamily String Mail\+System\+Utilities.\+Email.\+receiver\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_mail_system_utilities_1_1_email_a17ac950f4b134dee1e87ee1a509a8c81}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!sender@{sender}}
+\index{sender@{sender}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{sender}
+{\footnotesize\ttfamily String Mail\+System\+Utilities.\+Email.\+sender\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_mail_system_utilities_1_1_email_a8e5dc8674aef76dd3b0ebe1bf6ed01c4}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!sending\+Date@{sending\+Date}}
+\index{sending\+Date@{sending\+Date}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{sending\+Date}
+{\footnotesize\ttfamily java.\+util.\+Date Mail\+System\+Utilities.\+Email.\+sending\+Date\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_mail_system_utilities_1_1_email_acae8d0ca6320e85d9b3bbb6746fe176b}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!subject@{subject}}
+\index{subject@{subject}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{subject}
+{\footnotesize\ttfamily String Mail\+System\+Utilities.\+Email.\+subject\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\label{class_mail_system_utilities_1_1_email_ae5f7db5c106787f7a7bcc439a278f0b2}} 
+\index{Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}!text@{text}}
+\index{text@{text}!Mail\+System\+Utilities\+::\+Email@{Mail\+System\+Utilities\+::\+Email}}
+\subsubsection{text}
+{\footnotesize\ttfamily String Mail\+System\+Utilities.\+Email.\+text\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Università/workspace/\+Mail\+System/src/\+Mail\+System\+Utilities/\textbf{ Email.\+java}\end{DoxyCompactItemize}
