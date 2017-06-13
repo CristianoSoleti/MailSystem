@@ -337,8 +337,11 @@ class ClientView implements java.util.Observer, Serializable {
 
 		if (receiverTextArea.getText().equals("") || receiverTextArea.getText().equals("Add Receiver")) {
 			return null;
+			
 		}
 		if (subjectTextArea.getText().equals("") || subjectTextArea.getText().equals("Add Subject")) {
+			JOptionPane.showMessageDialog(null, "Please submit a subject");		
+			subjectTextArea.grabFocus();
 			return null;
 		}
 

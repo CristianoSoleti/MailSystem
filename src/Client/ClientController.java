@@ -144,9 +144,9 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 		{
 			client.showErrorMessage("Please , send to an existing mail account");
 			view.receiverTextArea.grabFocus();
-
 			return;
 		}
+		
 		server.send(newMailList,client);
 		refreshTableData(model.userEmailAccount);
 
