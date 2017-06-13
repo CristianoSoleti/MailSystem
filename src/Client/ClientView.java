@@ -360,9 +360,9 @@ class ClientView implements java.util.Observer, Serializable {
 
 		String receiversString = receiverTextArea.getText();
 		String[] array = receiversString.split(",");
-		for (int i = 0; i < array.length; i++) {
+		/*for (int i = 0; i < array.length; i++) {
 			System.out.println(array[i]);
-		}
+		}*/
 		return array;
 	}
 }

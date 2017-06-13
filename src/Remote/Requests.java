@@ -10,6 +10,7 @@ import MailSystemUtilities.Email;
 import MailSystemUtilities.MailAccount;
 import MailSystemUtilities.MailAccountDatabase;
 import Server.Server;
+import Server.ServerController;
 
 public class Requests extends UnicastRemoteObject implements RequestsInterface {
 
@@ -29,7 +30,7 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 
 	void refreshServerList() {
 		// Server.connectedClients = getClients();
-		Server.refreshTable(getClients(), Calendar.getInstance().getTime());
+		ServerController.refreshTable(getClients(), Calendar.getInstance().getTime());
 	}
 
 	public synchronized void delete(Client c, int index) throws RemoteException {
@@ -46,15 +47,15 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 		}
 
 		senderAccount.getMessageList().remove(index);
-		Server.logArea.append(sender + " deleted a message\n");
+		ServerController.logActions( sender + " deleted a message\n" );
 
 	}
 
-	public synchronized void send(ArrayList<Email> m,ClientImpl c) throws RemoteException {
-		sendMail(m,c);
+	public synchronized void send(ArrayList<Email> m, ClientImpl c) throws RemoteException {
+		sendMail(m, c);
 	}
 
-	void sendMail(ArrayList<Email> list,ClientImpl c) {
+	void sendMail(ArrayList<Email> list, ClientImpl c) {
 		for (Email m : list) {
 			String sender = m.getSender();
 			String receiver = m.getReceiver();
@@ -69,15 +70,8 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 				if (ml.getMailAccount().equals(receiver)) {
 					receiverAccount = ml;
 				}
-				else
-				{
-					//checking integrity
-					c.trythis();
-					c.showErrorMessage("Nessun utente con questo nome");
-					return;
-				}
 			}
-			Server.logArea.append(sender + " sent a message to " + receiver + "\n");
+			ServerController.logActions(sender + " sent a message to " + receiver + "\n");
 
 			senderAccount.getMessageList().add(m);
 			// If you forward a mail to yourself it may occur twice in your
@@ -116,10 +110,18 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 		refreshServerList();
 	}
 
-
-
-
-
-
+	@Override
+	public boolean checkError(String [] input) throws RemoteException {
+		for (MailAccount ml : db.getAccountList()) {
+			int i = 0;
+			if (ml.getMailAccount().equals(input[i])) {
+				i++;
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
 
 }
