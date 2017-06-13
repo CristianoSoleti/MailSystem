@@ -27,5 +27,13 @@ public class ClientImpl implements Client, Serializable {
 		 JOptionPane.showMessageDialog(null, "Nuovo messaggio da :"+sender+"\n"+title);
 		
 	}
+
+	@Override
+	public void showErrorMessage(String error) {
+		JOptionPane.showMessageDialog(null, error+"");		
+	}
 	
+	public void trythis(){
+		System.out.println("Boh prova");
+	}
 }

@@ -350,9 +350,6 @@ class ClientView implements java.util.Observer, Serializable {
 				messageTextArea.getText());
 			newMailList.add(newMail);
 		}
-		//Email newMail = new Email(emailAccount, receiverTextArea.getText(), subjectTextArea.getText(),
-		//		messageTextArea.getText());
-		
 		return newMailList;
 	}
 

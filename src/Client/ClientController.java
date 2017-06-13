@@ -140,7 +140,7 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 		if (newMailList == null) {
 			return;
 		}
-		server.send(newMailList);
+		server.send(newMailList,client);
 		refreshTableData(model.userEmailAccount);
 
 	}

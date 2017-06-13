@@ -6,7 +6,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-
 import MailSystemUtilities.Email;
 import MailSystemUtilities.MailAccount;
 import MailSystemUtilities.MailAccountDatabase;
@@ -14,9 +13,6 @@ import Server.Server;
 
 public class Requests extends UnicastRemoteObject implements RequestsInterface {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	public String name;
 	public static final ArrayList<String> clientList = new ArrayList<String>();
@@ -24,22 +20,16 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 
 	public Requests(String n) throws RemoteException {
 		this.name = n;
-
-	}
-
-	public String getName() throws RemoteException {
-		return this.name;
 	}
 
 	public void setClient(Client c) throws RemoteException {
 		clientList.add(c.getClientName());
 		refreshServerList();
-
 	}
 
 	void refreshServerList() {
-		//Server.connectedClients = getClients();
-		Server.refreshTable(getClients(),Calendar.getInstance().getTime());
+		// Server.connectedClients = getClients();
+		Server.refreshTable(getClients(), Calendar.getInstance().getTime());
 	}
 
 	public synchronized void delete(Client c, int index) throws RemoteException {
@@ -60,11 +50,11 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 
 	}
 
-	public synchronized void send(ArrayList<Email> m) throws RemoteException {
-		sendMail(m);
+	public synchronized void send(ArrayList<Email> m,ClientImpl c) throws RemoteException {
+		sendMail(m,c);
 	}
 
-	void sendMail(ArrayList<Email> list) {
+	void sendMail(ArrayList<Email> list,ClientImpl c) {
 		for (Email m : list) {
 			String sender = m.getSender();
 			String receiver = m.getReceiver();
@@ -78,6 +68,13 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 				}
 				if (ml.getMailAccount().equals(receiver)) {
 					receiverAccount = ml;
+				}
+				else
+				{
+					//checking integrity
+					c.trythis();
+					c.showErrorMessage("Nessun utente con questo nome");
+					return;
 				}
 			}
 			Server.logArea.append(sender + " sent a message to " + receiver + "\n");
@@ -118,5 +115,11 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 
 		refreshServerList();
 	}
+
+
+
+
+
+
 
 }
