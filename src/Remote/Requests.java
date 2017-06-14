@@ -9,7 +9,6 @@ import java.util.Calendar;
 import MailSystemUtilities.Email;
 import MailSystemUtilities.MailAccount;
 import MailSystemUtilities.MailAccountDatabase;
-import Server.Server;
 import Server.ServerController;
 
 public class Requests extends UnicastRemoteObject implements RequestsInterface {
@@ -47,7 +46,7 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 		}
 
 		senderAccount.getMessageList().remove(index);
-		ServerController.logActions( sender + " deleted a message\n" );
+		ServerController.logActions(sender + " deleted a message");
 
 	}
 
@@ -71,7 +70,7 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 					receiverAccount = ml;
 				}
 			}
-			ServerController.logActions(sender + " sent a message to " + receiver + "\n");
+			ServerController.logActions(sender + " sent a message to " + receiver);
 
 			senderAccount.getMessageList().add(m);
 			// If you forward a mail to yourself it may occur twice in your
@@ -80,6 +79,8 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 				return;
 			}
 			receiverAccount.getMessageList().add(m);
+			ServerController.logActions(receiver + " received a message from " + sender);
+
 		}
 
 	}
@@ -89,7 +90,7 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 	}
 
 	public void clientConnectionWelcome(Client c) throws RemoteException {
-		System.out.println(name + " ha accettato il client di " + c.getClientName());
+		ServerController.logActions(c.getClientName() + "Just logged in\n");
 	}
 
 	public ArrayList<Email> requestUserMailList(Client c) throws HeadlessException, RemoteException {
@@ -103,25 +104,27 @@ public class Requests extends UnicastRemoteObject implements RequestsInterface {
 	}
 
 	public void destroyClient(Client c) throws RemoteException {
-		System.out.println("Oggetto passato " + c.getClientName() + "la lista ha :" + clientList.size() + "oggetti");
+		ServerController.logActions(c.getClientName() + "Just disconnected");
 
 		clientList.remove(c.getClientName());
-
 		refreshServerList();
 	}
 
 	@Override
-	public boolean checkError(String [] input) throws RemoteException {
+	public boolean checkError(String input) throws RemoteException {
+
+		boolean found = true;
 		for (MailAccount ml : db.getAccountList()) {
-			int i = 0;
-			if (ml.getMailAccount().equals(input[i])) {
-				i++;
-				continue;
+			if (ml.getMailAccount().equals(input)) {
+				found = true;
+				break;
 			} else {
-				return false;
+				found = false;
 			}
 		}
-		return true;
+		if (!found) {
+			ServerController.logActions("Someone just tried to send to an illegal mail");
+		}
+		return !found;
 	}
-
 }

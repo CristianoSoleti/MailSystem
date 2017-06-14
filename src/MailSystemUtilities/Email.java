@@ -1,17 +1,21 @@
 package MailSystemUtilities;
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Email implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final AtomicInteger count = new AtomicInteger(0); 
 	private final int ID;
 	private String sender;
 	private String receiver;
 	private String subject;
 	private String text;
+	private String[] allReceivers;
 	private java.util.Date sendingDate;
 	
 
@@ -23,7 +27,7 @@ public class Email implements Serializable{
 	 * @param messageText text of the mail
 	 * @param sendingDate
 	 */
-	public Email(String sender , String receiver , String messageObject , String messageText)
+	public Email(String sender , String receiver , String messageObject , String messageText, String[] receivers)
 	{
 		
 		ID = count.incrementAndGet();
@@ -31,6 +35,7 @@ public class Email implements Serializable{
 		this.receiver = receiver;
 		subject = messageObject;
 		text = messageText;
+		allReceivers = receivers;
 		sendingDate = Calendar.getInstance().getTime();
 	}
 	
@@ -62,6 +67,10 @@ public class Email implements Serializable{
 	public java.util.Date getSendingDate()
 	{
 		return sendingDate;
+	}
+	public String[] getAllReceivers()
+	{
+		return allReceivers;
 	}
 	public String toString()
 	{

@@ -24,10 +24,10 @@ public class ClientApp {
 		myClientController.addView(myClientView);
 		myClientView.addController(myClientController);
 		myClientController.connectToServer();
-
 	}
 
 	public static void main(String[] args) throws UnknownHostException, ClassNotFoundException, IOException, InterruptedException {
+		@SuppressWarnings("unused")
 		ClientApp mainRunMVC = new ClientApp();
 	
 	}

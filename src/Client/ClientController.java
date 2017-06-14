@@ -1,6 +1,5 @@
 package Client;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,9 +21,13 @@ import Remote.*;
  */
 public class ClientController implements ActionListener, MouseListener, Serializable, WindowListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static boolean isMailEditorOpen = false;
 	int currentMailIndexOpened;
-	
+
 	ClientModel model;
 	ClientView view;
 
@@ -32,8 +35,6 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 
 	public ClientImpl client;
 
-	
-	
 	ClientController() {
 		System.out.println("ClientController created");
 
@@ -49,7 +50,7 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 		System.out.println("Controller: The " + e.getActionCommand() + " button is clicked");
 		switch (e.getActionCommand()) {
 		case SYSTEM_CONSTANTS.CREATE_ACTION:
-			createMail();
+			openNewMailEditor();
 			break;
 		case SYSTEM_CONSTANTS.REPLY_ACTION:
 			replyMail();
@@ -78,8 +79,7 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 
 	}
 
-	public void forwardMail()
-	{
+	public void forwardMail() {
 		if (isMailEditorOpen) {
 			return;
 		}
@@ -87,20 +87,17 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 		view.createMailGUI();
 		isMailEditorOpen = true;
 		setForwardMailInfo();
-		
+
 	}
-	
-	public void setForwardMailInfo()
-	{
-		view.resetTextBox(view.receiverTextArea,model.getMailList().get(currentMailIndexOpened).getSender());
-		view.resetTextBox(view.subjectTextArea,model.getMailList().get(currentMailIndexOpened).getEmailObject());
-		view.receiverTextArea.setForeground(Color.BLACK);
-		view.subjectTextArea.setForeground(Color.BLACK);
+
+	public void setForwardMailInfo() {
+		view.resetTextBox(view.getReceiverField(), model.getMailList().get(currentMailIndexOpened).getSender());
+		view.resetTextBox(view.getSubjectField(), model.getMailList().get(currentMailIndexOpened).getEmailObject());
+		view.getReceiverField().setForeground(Color.BLACK);
+		view.getSubjectField().setForeground(Color.BLACK);
 	}
-	
-	
-	public void replyMail()
-	{
+
+	public void replyMail() {
 		if (isMailEditorOpen) {
 			return;
 		}
@@ -108,51 +105,104 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 		view.createMailGUI();
 		isMailEditorOpen = true;
 		setReplyMailInfo();
-		
 
 	}
-	
-	public void setReplyMailInfo()
-	{
-		view.resetTextBox(view.receiverTextArea,model.getMailList().get(currentMailIndexOpened).getSender());
-		view.resetTextBox(view.subjectTextArea,"RE: "+model.getMailList().get(currentMailIndexOpened).getEmailObject());
-		view.receiverTextArea.setForeground(Color.BLACK);
-		view.subjectTextArea.setForeground(Color.BLACK);
+
+	/*
+	 * Set reply information in GUI N.B If receiver is just one , it will reply
+	 * to him , if receivers are more than 1 , it will reply to all
+	 */
+	public void setReplyMailInfo() {
+		String[] mailReceivers = model.getMailList().get(currentMailIndexOpened).getAllReceivers();
+
+		String splittedReceivers = "";
+		int i = 1;
+
+		for (String s : mailReceivers) {
+			if (mailReceivers.length == 1) {
+				splittedReceivers += s;
+			} else {
+				if (i++ == mailReceivers.length) {
+					splittedReceivers += s;
+				} else {
+					splittedReceivers += s + ",";
+
+				}
+
+			}
+
+		}
+		view.resetTextBox(view.getReceiverField(), splittedReceivers);
+		view.resetTextBox(view.getSubjectField(),
+				"RE: " + model.getMailList().get(currentMailIndexOpened).getEmailObject());
+		view.getReceiverField().setForeground(Color.BLACK);
+		view.getSubjectField().setForeground(Color.BLACK);
 	}
-	
-	public void deleteMail() throws RemoteException
-	{
-		System.out.println("Removing mail at index"+currentMailIndexOpened);
+
+	public void deleteMail() throws RemoteException {
+		System.out.println("Removing mail at index" + currentMailIndexOpened);
 		server.delete(client, currentMailIndexOpened);
 		model.getMailList().remove(currentMailIndexOpened);
 		refreshTableData(model.userEmailAccount);
-		view.readMailFrame.setVisible(false);
+		view.getReadMailFrame().setVisible(false);
 	}
-	
-	
+
 	/*
 	 * sends mail request to server if mail isn't null.
 	 */
 	public void sendMailRequest() throws IOException {
-		view.getListOfReceiver();
-		
-		ArrayList<Email> newMailList = view.createMailFromGUI();
+		ArrayList<Email> newMailList = createMail();
 		if (newMailList == null) {
 			return;
 		}
-		if(!server.checkError(view.getListOfReceiver()))
-		{
-			client.showErrorMessage("Please , send to an existing mail account");
-			view.receiverTextArea.grabFocus();
-			return;
-		}
-		
-		server.send(newMailList,client);
-		refreshTableData(model.userEmailAccount);
+		for (Email m : newMailList)
+			if (server.checkError(m.getReceiver())) {
+				client.showErrorMessage("Please , send to an existing mail account");
+				view.getReceiverField().grabFocus();
+				return;
+			}
 
+		server.send(newMailList, client);
+		refreshTableData(model.userEmailAccount);
+		// Close frame after succesfully sending a message
+		view.getNewMailFrameView()
+				.dispatchEvent(new WindowEvent(view.getNewMailFrameView(), WindowEvent.WINDOW_CLOSING));
 	}
 
-	public void createMail() {
+	public ArrayList<Email> createMail() {
+		if (view.getReceiverData().equals("") || view.getReceiverData().equals("Add Receiver")) {
+			return null;
+
+		}
+		if (view.getSubjectData().equals("") || view.getSubjectData().equals("Add Subject")) {
+			JOptionPane.showMessageDialog(null, "Please submit a subject");
+			view.getSubjectField().grabFocus();
+			return null;
+		}
+
+		String[] listOfReceiver = getListOfReceiver();
+		ArrayList<Email> newMailList = new ArrayList<Email>();
+		for (int i = 0; i < listOfReceiver.length; i++) {
+			Email newMail = new Email(model.userEmailAccount, listOfReceiver[i], view.getSubjectData(),
+					view.getMessageData(), listOfReceiver);
+			newMailList.add(newMail);
+		}
+		return newMailList;
+	}
+
+	public String[] getListOfReceiver() {
+		if (view.getReceiverData().equals("") || view.getReceiverData().equals("Add Receiver")) {
+			return null;
+		}
+		String receiversString = view.getReceiverData();
+		String[] array = receiversString.split(",");
+		for (int i = 0; i < array.length; i++) {
+			System.out.println("Destinatario numero" + i + array[i]);
+		}
+		return array;
+	}
+
+	public void openNewMailEditor() {
 		if (isMailEditorOpen) {
 			return;
 		}
@@ -179,18 +229,19 @@ public class ClientController implements ActionListener, MouseListener, Serializ
 			model.setUserAccountValue(emailAccount);
 			view.setFrameTitle(emailAccount);
 
-
 			while (true) {
 				Thread.sleep(1000);
-				
+
 				ArrayList<Email> serverMailList = server.requestUserMailList(client);
-				//System.out.println("Server list size"+serverMailList.size()+"Local size"+model.getMailListSize());
+				// System.out.println("Server list
+				// size"+serverMailList.size()+"Local
+				// size"+model.getMailListSize());
 
 				if (serverMailList.size() > model.getMailListSize()) {
-					String sender = serverMailList.get(serverMailList.size()-1).getSender();
-					String title = serverMailList.get(serverMailList.size()-1).getEmailObject();
+					String sender = serverMailList.get(serverMailList.size() - 1).getSender();
+					String title = serverMailList.get(serverMailList.size() - 1).getEmailObject();
 					System.out.println("new mail arrived");
-					client.showNewMessagePopUp(sender,title);
+					client.showNewMessagePopUp(sender, title);
 					refreshTableData(emailAccount);
 				}
 

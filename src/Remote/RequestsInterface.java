@@ -11,5 +11,5 @@ public interface RequestsInterface extends Remote {
 	public void clientConnectionWelcome(Client c) throws RemoteException;
 	public ArrayList<Email> requestUserMailList(Client c) throws RemoteException;
 	public void destroyClient(Client c) throws RemoteException;
-	public boolean checkError(String [] input)throws RemoteException;;
+	public boolean checkError(String input)throws RemoteException;;
 }

@@ -11,8 +11,7 @@ import java.awt.event.WindowEvent; //for CloseListener()
 import java.awt.event.WindowListener;
 import java.io.Serializable;
 import java.awt.event.WindowAdapter; //for CloseListener()
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Observable; //for update();
 import java.awt.event.ActionListener; //for addController()
 import java.awt.event.FocusEvent;
@@ -22,10 +21,14 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.*;
 
-import MailSystemUtilities.Email;
 import MailSystemUtilities.SYSTEM_CONSTANTS;
 
 class ClientView implements java.util.Observer, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	Font inBoxMailFont = new Font("Arial", Font.PLAIN, 14);
 
@@ -42,21 +45,36 @@ class ClientView implements java.util.Observer, Serializable {
 	private JFrame newMailFrame;
 	private JPanel mainPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
 	private JLabel headerLbl = new JLabel("New Message");
-	public JTextArea receiverTextArea = new JTextArea();
-	public JTextArea subjectTextArea = new JTextArea();
+	private JTextArea receiverTextArea = new JTextArea();
+	private JTextArea subjectTextArea = new JTextArea();
 	private JTextArea messageTextArea = new JTextArea();
 	private JButton sendBtn = new JButton("Send");
 
 	// Read Mail GUI
-	public JFrame readMailFrame = new JFrame();
+	private JFrame readMailFrame = new JFrame();
 	// public JButton replyBtn;
 
 	public JTable getTable() {
 		return table;
 	}
 
-	String emailAccount = "";
 	ActionListener controller;
+
+	public JTextArea getReceiverField() {
+		return receiverTextArea;
+	}
+
+	public JTextArea getSubjectField() {
+		return subjectTextArea;
+	}
+
+	public JFrame getNewMailFrameView() {
+		return newMailFrame;
+	}
+
+	public JFrame getReadMailFrame() {
+		return readMailFrame;
+	}
 
 	ClientView() {
 		System.out.println("Client View Created Successfully");
@@ -124,12 +142,7 @@ class ClientView implements java.util.Observer, Serializable {
 
 	public void update(Observable obs, Object obj) {
 		System.out.println("View : Observable is " + obs.getClass() + ",object passed is " + obj + "");
-		// String emailAccount = ((String)obj).toString(); //obj is an Object,
-		// need to cast to an Integer
-		if (!emailAccount.equals("")) {
-			return;
-		}
-		emailAccount = obj + "";
+
 	}
 
 	/*
@@ -333,39 +346,17 @@ class ClientView implements java.util.Observer, Serializable {
 		frame.setTitle(title);
 	}
 
-	public ArrayList<Email> createMailFromGUI() {
-
-		if (receiverTextArea.getText().equals("") || receiverTextArea.getText().equals("Add Receiver")) {
-			return null;
-			
-		}
-		if (subjectTextArea.getText().equals("") || subjectTextArea.getText().equals("Add Subject")) {
-			JOptionPane.showMessageDialog(null, "Please submit a subject");		
-			subjectTextArea.grabFocus();
-			return null;
-		}
-
-		String[] listOfReceiver = getListOfReceiver();
-		ArrayList<Email> newMailList = new ArrayList<Email>();
-		for(int i = 0;i< listOfReceiver.length;i++)
-		{
-			Email newMail = new Email (emailAccount,listOfReceiver[i],subjectTextArea.getText(),
-				messageTextArea.getText());
-			newMailList.add(newMail);
-		}
-		return newMailList;
+	public String getReceiverData() {
+		return receiverTextArea.getText();
 	}
 
-	public String[] getListOfReceiver() {
-		if (receiverTextArea.getText().equals("") || receiverTextArea.getText().equals("Add Receiver")) {
-			return null;
-		}
-
-		String receiversString = receiverTextArea.getText();
-		String[] array = receiversString.split(",");
-		/*for (int i = 0; i < array.length; i++) {
-			System.out.println(array[i]);
-		}*/
-		return array;
+	public String getSubjectData() {
+		return subjectTextArea.getText();
 	}
+
+	public String getMessageData() {
+		return messageTextArea.getText();
+
+	}
+
 }

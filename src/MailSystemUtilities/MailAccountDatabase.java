@@ -17,6 +17,10 @@ public class MailAccountDatabase {
 		}
 		return instance;
 	}
+	String[] arr1={"davide.brunetti@edu.unito.it"};
+	String[] arr2={"cristiano.soleti@edu.unito.it"};
+	String[] arr3={"elio.cometto@edu.unito.it"};
+	String[] arr4={"cristiano.soleti@edu.unito.it"};
 
 	protected MailAccountDatabase()
 	{
@@ -26,10 +30,10 @@ public class MailAccountDatabase {
 		MailAccount a4 = new MailAccount("1");
 		MailAccount a5 = new MailAccount("2");
 
-		a4.messageList.add(new Email("cristiano.soleti@edu.unito.it","davide.brunetti@edu.unito.it","Give me food","Please I need food."));
-		a4.messageList.add(new Email("davide.brunetti@edu.unito.it","cristiano.soleti@edu.unito.it","Wrong receiver","I'm not your ma."));
-		a4.messageList.add(new Email("cristiano.soleti@edu.unito.it","elio.cometto@edu.unito.it","I love you","Please send me some food"));
-		a4.messageList.add(new Email("elio.cometto@edu.unito.it","cristiano.soleti@edu.unito.it","Stop boring","You are annoying"));
+		a4.messageList.add(new Email("cristiano.soleti@edu.unito.it","davide.brunetti@edu.unito.it","Give me food","Please I need food.",arr1));
+		a4.messageList.add(new Email("davide.brunetti@edu.unito.it","cristiano.soleti@edu.unito.it","Wrong receiver","I'm not your ma.",arr2));
+		a4.messageList.add(new Email("cristiano.soleti@edu.unito.it","elio.cometto@edu.unito.it","I love you","Please send me some food",arr3));
+		a4.messageList.add(new Email("elio.cometto@edu.unito.it","cristiano.soleti@edu.unito.it","Stop boring","You are annoying",arr4));
 
 		accountList.add(a1);
 		accountList.add(a2);

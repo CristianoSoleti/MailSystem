@@ -19,6 +19,7 @@ public class ServerApp {
 	}
 	public static void main( String[] args ) throws RemoteException{
 		
+		@SuppressWarnings("unused")
 		ServerApp myserver = new ServerApp();
 		
 	}
