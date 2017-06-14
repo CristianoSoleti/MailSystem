@@ -15,18 +15,11 @@ public class ServerController {
 
 	static ServerModel model;
 	static ServerView view;
-	private static ServerController instance = null;
 
-	protected ServerController() {
+	public ServerController() {
 		setUpRMI();
 	}
 
-	public static ServerController getInstance() throws RemoteException {
-		if (instance == null) {
-			instance = new ServerController();
-		}
-		return instance;
-	}
 	public void setUpRMI() {
 		runRMIRegistry();
 		try {
@@ -97,6 +90,7 @@ public class ServerController {
 
 	public static void logActions(String s) {
 		view.getLogArea().append(s + "\n");
+
 	}
 
 }

@@ -30,14 +30,14 @@ class ClientView implements java.util.Observer, Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	Font inBoxMailFont = new Font("Arial", Font.PLAIN, 14);
+	private Font inBoxMailFont = new Font("Arial", Font.PLAIN, 14);
 
-	Font headerFont = new Font("Futura", Font.BOLD, 18);
-	Font receiverFontFocus = new Font("Futura", Font.BOLD, 18);
-	Font receiverFontNoFocus = new Font("Futura", Font.ITALIC, 18);
+	private Font headerFont = new Font("Futura", Font.BOLD, 18);
+	private Font receiverFontFocus = new Font("Futura", Font.BOLD, 18);
+	private Font receiverFontNoFocus = new Font("Futura", Font.ITALIC, 18);
 
 	// Base Client GUI
-	public JFrame frame = new JFrame();
+	private JFrame frame = new JFrame();
 	private JTable table = new JTable();
 	private JButton newMailBtn = new JButton("Create");
 
